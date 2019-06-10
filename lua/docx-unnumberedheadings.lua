@@ -1,10 +1,10 @@
 --[[
-UnnumberedHeadings
+# UnnumberedHeadings
 
-* Only for docx output
-
+## Function
 Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
-* works with docx output only
+
+* Works with docx output only
 * Level 5 header is unnumbered regardless to the class
 * "Heading Unnumbered x" must be prepared in template
 
@@ -17,40 +17,41 @@ Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
 | 5     |           | Heading 5             |
 ]]
 
-package.searchpath("pandocker", package.path)
-
 local debug = require("pandocker.debugger").debug
-local metafile = [[
----
-heading-unnumbered:
-  1: Heading Unnumbered 1
-  2: Heading Unnumbered 2
-  3: Heading Unnumbered 3
-  4: Heading Unnumbered 4
----
-]]
-local default_meta = pandoc.read(metafile, "markdown").meta["heading-unnumbered"]
 
-local vars = {}
+local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
+local _meta = {}
 
 function get_vars (meta)
-    local _meta = meta["heading-unnumbered"]
-    for k, v in pairs(default_meta) do
-        if _meta[k] == nil then
-            _meta[k] = v
-            debug(pandoc.utils.stringify(meta["heading-unnumbered"][k]))
+    if FORMAT == "docx" then
+        _meta = meta["heading-unnumbered"]
+        if _meta ~= nil then
+            for k, v in pairs(default_meta) do
+                if _meta[k] == nil then
+                    _meta[k] = v
+                    debug("metadata 'heading-unnumbered." .. k .. "' was not found in source, applying default '" ..
+                            pandoc.utils.stringify(meta["heading-unnumbered"][k]) .. "'.")
+                end
+            end
+        else
+            _meta = default_meta
+            debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
     end
 end
 
---[[
-function replace (el)
-    if vars[el.text] then
-        return pandoc.Span(vars[el.text])
-    else
-        return el
-    end
-end
-]]
+function replce(el)
+    if FORMAT == "docx" and el.level <= 4 and el.classes:find "unnumbered" then
+        local style = _meta[tostring(el.level)]
+        el.attributes["custom-class"] = style
+        local content = pandoc.Para(el.content)
+        local attr = pandoc.Attr(el.identifier, el.classes, el.attributes)
 
-return { { Meta = get_vars }, { Str = replace } }
+        --debug(pandoc.utils.stringify(content))
+        --debug(pandoc.utils.stringify(div))
+        return pandoc.Div(content, attr)
+    end
+    --debug(el.level .. tostring(el.classes[1]))
+end
+
+return { { Meta = get_vars }, { Header = replce } }
