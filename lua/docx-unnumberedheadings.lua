@@ -40,7 +40,7 @@ function get_vars (meta)
     end
 end
 
-function replce(el)
+function replace(el)
     if FORMAT == "docx" and el.level <= 4 and el.classes:find "unnumbered" then
         local style = _meta[tostring(el.level)]
         el.attributes["custom-class"] = style
@@ -54,4 +54,4 @@ function replce(el)
     --debug(el.level .. tostring(el.classes[1]))
 end
 
-return { { Meta = get_vars }, { Header = replce } }
+return { { Meta = get_vars }, { Header = replace } }
