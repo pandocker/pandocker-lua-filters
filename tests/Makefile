@@ -20,4 +20,9 @@ PROJECT= `pwd`
 # COREPROPFLAGS := --table "Normal Table=Centered"
 # COREPROPFLAGS += --paragraph "Normal=Body Text"
 ##
+LUA_FILTER_BASE = /usr/local/share/lua/5.3/pandocker
+PANFLAGS =
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
+PANFLAGS += --lua-filter=../lua/docx-unnumberedheadings.lua
+
 include $(MISC)/Makefile

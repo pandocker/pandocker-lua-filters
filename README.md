@@ -4,6 +4,12 @@ Lua filters for pandoc
 Experimental set of pandoc filters to output DOCX file
 
 ## General use
+### Fills required metadata if not prepared
+
+Use default metadata field if it hasn't been defined yet.
+
+[**`default_loader.lua`**](lua/default_loader.lua)
+
 ### Text file listing
 
 [**`listingtable.lua`**](lua/listingtable.lua)
