@@ -1,0 +1,55 @@
+---
+title: 本のタイトル
+abstract: 本の概要
+circle: サークル名
+author: 本の作者
+comiket: コミケ
+year: 出版年
+publisher: 印刷会社で印刷製本
+docrevision: "1.0"
+front: images/front-image.png
+verbcolored: false
+rmnote: false
+
+svgbob:
+  font-family: "Source Code Pro"
+  font-size: 14
+  scale: 1
+  strike-width: 2
+
+heading-unnumbered:
+  1: "Heading Unnumbered 1"
+  2: "Heading Unnumbered 2"
+  3: "Heading Unnumbered 3"
+  4: "Heading Unnumbered 4"
+
+bullet-style:
+  1: "Bullet List 1"
+  2: "Bullet List 2"
+
+image-div-style: "Image Caption\\"
+
+docx_coreprop:
+  author: "K4ZUKI" # str
+  category: "Category" # str
+  comments: "Comment" # str
+  keywords: "Keyword1 Keyword2" # str
+  last_modified_by: "K4ZUKI" # str
+  last_printed: "31-Dec-2018" # datetime DD-MMM-YYYY
+  modified: "31-Dec-2018" # datetime DD-MMM-YYYY
+  revision: 1123 # int < 32768
+  subject: "SubjecT" # str
+  title: "Title" # str
+
+  #  created: "31-Dec-2018" # datetime DD-MMM-YYYY set externally
+  content_status: "Status" # ignored?
+  identifier: "ID" # ignored?
+  language: "Japanese" # ignored?
+  version: "Version" # ignored?
+
+  table:
+    "Normal Table": "Centered"
+  paragraph:
+    "Normal": "Body Text"
+    "First Paragraph": "Body Text"
+...
