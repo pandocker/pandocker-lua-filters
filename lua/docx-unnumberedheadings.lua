@@ -42,7 +42,7 @@ end
 
 function replace(el)
     if FORMAT == "docx" and el.level <= 4 and el.classes:includes "unnumbered" then
-        local style = _meta[tostring(el.level)]
+        local style = pandoc.utils.stringify(_meta[tostring(el.level)])
         el.attributes["custom-style"] = style
         local content = pandoc.Para(el.content)
         local attr = pandoc.Attr(el.identifier, el.classes, el.attributes)
