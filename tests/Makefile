@@ -23,6 +23,7 @@ PROJECT= `pwd`
 LUA_FILTER_BASE = /usr/local/share/lua/5.3/pandocker
 PANFLAGS =
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
-PANFLAGS += --lua-filter=../lua/docx-unnumberedheadings.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
+PANFLAGS += --lua-filter=../lua/listingtable.lua
 
 include $(MISC)/Makefile
