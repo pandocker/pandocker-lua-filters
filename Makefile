@@ -15,6 +15,10 @@ clean:
 	cd tests; \
 	make clean
 
+tex:
+	cd tests; \
+	make tex
+
 docx:
 	cd tests; \
 	make docx
