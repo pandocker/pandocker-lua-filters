@@ -13,41 +13,68 @@ Link (content, target[, title[, attr] ])
 local debug = require("pandocker.debugger").debug
 local stringify = require("pandoc.utils").stringify
 
-function Link(el)
-    debug(FORMAT)
-    debug(stringify(el.content))
-    debug(stringify(el.target))
-    debug(stringify(el.identifier))
+function Para(el)
+    if #(el.content) == 1 then
+        sub_el = el.content[1]
+        if sub_el.tag == "Link" then
+            --debug("Para content is a Link")
+            local newp = listingtable(sub_el)
+            return newp
+        end
+    end
+end
+
+function listingtable(el)
+    --[[
+        debug(FORMAT)
+        debug(stringify(el.content))
+        debug(stringify(el.target))
+        debug(stringify(el.identifier))
+    ]]
+
     if el.classes:includes "listingtable" then
         debug("link in 'listingtable' class")
         if stringify(el.content) == "" then
             el.content = el.target
         end
-        file = io.open(stringify(el.target), "r")
-        if file == nil then
-            debug("failed to open " .. el.target)
+        local listing_file = io.open(stringify(el.target), "r")
+        local data = ""
+        if listing_file == nil then
+            debug("Failed to open " .. el.target)
+            return
         else
-            data = file.read()
-            file:close()
+            data = listing_file:read("*a")
+            listing_file:close()
         end
         local caption = pandoc.Str(stringify(el.content))
-        debug(stringify(caption))
         local file_type = el.attributes["type"] or "plain"
-        local linefrom = el.attributes["from"] or 0
-        local lineto = el.attributes["to"] or 0
+
+        local linefrom = el.attributes["from"] or 1
+        local lineto = el.attributes["to"] or -1
+        if tonumber(lineto) > #data then
+            lineto = #data
+        end
+
         local startFrom = el.attributes["startFrom"] or 1
         local numbers = el.attributes["numbers"] or "left"
-        debug(file_type)
-        debug(linefrom)
-        debug(lineto)
-        debug(startFrom)
-        debug(numbers)
-        local p = pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption })
-        debug(stringify(p))
-        return p
+        local raw_code = pandoc.CodeBlock(data)
+
+        --[[
+                debug(stringify(caption))
+                debug(file_type)
+                debug(linefrom)
+                debug(lineto)
+                debug(startFrom)
+                debug(numbers)
+        ]]
+
+        local para = { pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }),
+                       raw_code }
+        --debug(stringify(p))
+        return para
     end
     --[[
-        for _, v in pairs(el.classes) do
+        for v in ipairs(el.classes) do
             debug(v)
         end
         for k, v in pairs(el.attributes) do
