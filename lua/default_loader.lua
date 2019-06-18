@@ -1,13 +1,15 @@
 local debug = require("pandocker.debugger").debug
 --[[
 HIGHLY INSPIRED FROM https://pandoc.org/lua-filters.html#default-metadata-file
+AND FROM https://stackoverflow.com/a/17387077/6592473?stw=2
 ]]
--- read metadata file into string
-local metafile = io.open('/usr/local/share/lua/5.3/pandocker/metadata-file.yaml', 'r')
+-- read metadata file (placed same directory as this file) into string
+
+local pwd, _ = PANDOC_SCRIPT_FILE:match('(.*/)(.*)')
+local metafile = io.open(pwd .. 'metadata-file.yaml', 'r')
 local content = metafile:read("*a")
 metafile:close()
 -- get metadata
-
 local default_meta = pandoc.read(content, "markdown").meta
 --debug(pandoc.utils.stringify(default_meta))
 return default_meta
