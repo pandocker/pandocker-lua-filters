@@ -4,7 +4,7 @@ HIGHLY INSPIRED FROM https://pandoc.org/lua-filters.html#default-metadata-file
 ]]
 -- read metadata file (placed same directory as this file) into string
 
-local pwd, _ = PANDOC_SCRIPT_FILE:match('(.*/)(.*)')
+local pwd, _ = require("pandocker.utils").basename(PANDOC_SCRIPT_FILE)
 local metafile = io.open(pwd .. 'metadata-file.yaml', 'r')
 local content = metafile:read("*a")
 metafile:close()
