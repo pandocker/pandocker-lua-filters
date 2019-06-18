@@ -18,7 +18,18 @@ local function basename(path)
     return path:match('(.*/)(.*)')
 end
 
+-- Return true if file exists and is readable.
+-- from http://lua-users.org/wiki/FileInputOutput
+local function file_exists(path)
+    local file = io.open(path, "rb")
+    if file then
+        file:close()
+    end
+    return file ~= nil
+end
+
 return {
     debug = debug,
     basename = basename,
+    file_exists = file_exists,
 }
