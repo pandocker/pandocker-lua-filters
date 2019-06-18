@@ -1,7 +1,6 @@
-local debug = require("pandocker.debugger").debug
+local debug = require("pandocker.utils").debug
 --[[
 HIGHLY INSPIRED FROM https://pandoc.org/lua-filters.html#default-metadata-file
-AND FROM https://stackoverflow.com/a/17387077/6592473?stw=2
 ]]
 -- read metadata file (placed same directory as this file) into string
 

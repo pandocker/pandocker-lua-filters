@@ -17,7 +17,7 @@ Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
 | 5     |           | Heading 5             |
 ]]
 
-local debug = require("pandocker.debugger").debug
+local debug = require("pandocker.utils").debug
 
 local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
 local _meta = {}

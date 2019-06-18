@@ -1,1 +1,1 @@
-local debug = require("pandocker.debugger").debug
+local debug = require("pandocker.utils").debug

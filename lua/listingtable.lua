@@ -10,7 +10,7 @@ Link (content, target[, title[, attr] ])
                   .listingtable     type=plain numbers=left from=5 to=10
 ]]
 
-local debug = require("pandocker.debugger").debug
+local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 
 function Para(el)
