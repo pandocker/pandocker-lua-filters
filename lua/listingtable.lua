@@ -37,27 +37,55 @@ function listingtable(el)
         if stringify(el.content) == "" then
             el.content = el.target
         end
-        local listing_file = io.open(stringify(el.target), "r")
-        local data = ""
-        if listing_file == nil then
-            debug("Failed to open " .. el.target)
-            return
+        local listing_file = stringify(el.target)
+        local lines = {}
+        -- test if file exists
+        if require("pandocker.utils").file_exists(listing_file) then
+
+            --convert file contents to list of strings
+            for line in io.lines(listing_file) do
+                lines[#lines + 1] = line
+            end
         else
-            data = listing_file:read("*a")
-            listing_file:close()
+            debug("Failed to open " .. el.target)
+            return nil
         end
         local caption = pandoc.Str(stringify(el.content))
         local file_type = el.attributes["type"] or "plain"
-
-        local linefrom = el.attributes["from"] or 1
-        local lineto = el.attributes["to"] or -1
-        if tonumber(lineto) > #data then
-            lineto = #data
+        local linefrom = tonumber(el.attributes["from"]) or 1
+        if linefrom < 1 then
+            linefrom = 1
         end
 
-        local startFrom = el.attributes["startFrom"] or 1
-        local numbers = el.attributes["numbers"] or "left"
-        local raw_code = pandoc.CodeBlock(data)
+        local lineto = tonumber(el.attributes["to"]) or #lines
+        if tonumber(lineto) > #lines then
+            lineto = #lines
+        end
+        for k, v in pairs(el.attributes) do
+            if v == "type" or v == "from" or v == "to" then
+                table.remove(el.attributes, k)
+            end
+        end
+        local data = table.concat(lines, "\n", linefrom, lineto)
+        --debug(data)
+
+        if el.attributes["startFrom"] == nil then
+            el.attributes["startFrom"] = linefrom
+        end
+        if el.attributes["numbers"] == nil then
+            el.attributes["numbers"] = "left"
+        end
+        local _, basename = require("pandocker.utils").basename(listing_file)
+        local idn = el.identifier
+        if idn == "" then
+            idn = "#lst:" .. string.gsub(basename, "%.", "_")
+        end
+
+        --el.identifier or tostring("#lst:" .. string.gsub(basename, "%.", "_"))
+        --debug(idn)
+        local classes = { file_type, }
+        local attr = pandoc.Attr(idn, el.classes, el.attributes)
+        local raw_code = pandoc.CodeBlock(data, attr)
 
         --[[
                 debug(stringify(caption))
