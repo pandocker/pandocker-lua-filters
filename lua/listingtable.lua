@@ -78,12 +78,12 @@ function listingtable(el)
         local _, basename = require("pandocker.utils").basename(listing_file)
         local idn = el.identifier
         if idn == "" then
-            idn = "#lst:" .. string.gsub(basename, "%.", "_")
+            idn = "lst:" .. string.gsub(basename, "%.", "_")
         end
 
         --el.identifier or tostring("#lst:" .. string.gsub(basename, "%.", "_"))
         --debug(idn)
-        local classes = { file_type, }
+        el.classes:extend { file_type, "numberLines" }
         local attr = pandoc.Attr(idn, el.classes, el.attributes)
         local raw_code = pandoc.CodeBlock(data, attr)
 
