@@ -16,8 +16,7 @@ listings: true
 :::
 #### Level4 unnumbered {-}
 
-#include "section1.md"
-#include "foo.txt"
+# #include "section1.md"
 
 [Title](markdown/config.yaml){.listingtable numbers=right from=2 to=5 #lst:lst}
 
