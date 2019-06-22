@@ -53,3 +53,26 @@ Use default metadata field if it hasn't been defined yet.
 ```markdown
 ![Centered image](https://github.com/pandocker/pandoc-docx-utils-py/raw/master/qr.png){width=100mm #fig:centered}
 ```
+
+## Want new feature?
+
+Feature request (via issues) and PRs are welcome. Post questions in issues with `[Q]` in issue title.
+
+### DIY
+
+As lua filters only requires pandoc itself, it is relatively easy
+to try develop a new filter. I recommend to use `k4zuki/pandocker`
+*docker image* like
+
+- `docker pull k4zuki/pandocker` to get image
+- clone this repo `git clone git@github.com:pandocker/pandocker-lua-filters.git`
+- `cd pandocker-lua-filters`
+- `docker run --rm -it -v/$PWD:/workdir k4zuki/pandocker` to start docker image
+- `make install` to install filters in image. They are installed in `/usr/local/share/lua/5.3/pandocker/`
+- `make reinstall` to *reinstall* so that filters will be updated
+- `make uninstall` to uninstall filters
+- `make html|pdf|docx` to compile test document
+- edit `tests/Makefile` to configure options for pandoc
+
+You dont have to `reinstall` for every source code updates. Instead edit `tests/Makefile`
+to run your new filter from inside repository.
