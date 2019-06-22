@@ -40,7 +40,6 @@ function replace(el)
                     --for ii, vv in ipairs(sub.blocks) do
                     --    print(vv.tag .. "(" .. stringify(vv) .. ")")
                     --end
-                    --print(pandoc.utils.equals(sub.blocks, "List"))
                     return preprocess(sub)
                 end
             end
@@ -65,7 +64,7 @@ function preprocess(doc)
                 --print(#doc.blocks)
                 table.move(sub.blocks, 1, #sub.blocks, i, doc.blocks)
                 --print(#doc.blocks)
-                table.move(bu, 1, #bu, #doc.blocks, doc.blocks)
+                table.move(bu, 1, #bu, #doc.blocks + 1, doc.blocks)
                 --print(#doc.blocks)
             end
         end
