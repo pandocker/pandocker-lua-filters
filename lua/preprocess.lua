@@ -51,7 +51,7 @@ end
 function preprocess(doc)
     local sub
     for i, el in ipairs(doc.blocks) do
-        print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
+        --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Header" then
             sub = replace(el)
             if sub ~= nil then
