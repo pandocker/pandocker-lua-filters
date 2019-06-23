@@ -61,30 +61,30 @@ function listingtable(el)
         if tonumber(lineto) > #lines then
             lineto = #lines
         end
+        local attributes = {}
         for k, v in pairs(el.attributes) do
-            if v == "type" or v == "from" or v == "to" then
-                table.remove(el.attributes, k)
+            if k ~= "type" and k ~= "from" and k ~= "to" then
+                attributes[k] = v
             end
         end
-        local data = table.concat(lines, "\n", linefrom, lineto)
-        --debug(data)
-
         if el.attributes["startFrom"] == nil then
-            el.attributes["startFrom"] = linefrom
+            attributes["startFrom"] = linefrom
         end
         if el.attributes["numbers"] == nil then
-            el.attributes["numbers"] = "left"
+            attributes["numbers"] = "left"
         end
+
+        local data = table.concat(lines, "\n", linefrom, lineto)
+        --debug(data)
         local _, basename = require("pandocker.utils").basename(listing_file)
         local idn = el.identifier
         if idn == "" then
             idn = "lst:" .. string.gsub(basename, "%.", "_")
         end
-
-        --el.identifier or tostring("#lst:" .. string.gsub(basename, "%.", "_"))
         --debug(idn)
+
         el.classes:extend { file_type, "numberLines" }
-        local attr = pandoc.Attr(idn, el.classes, el.attributes)
+        local attr = pandoc.Attr(idn, el.classes, attributes)
         local raw_code = pandoc.CodeBlock(data, attr)
 
         --[[
@@ -98,7 +98,7 @@ function listingtable(el)
 
         local para = { pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }),
                        raw_code }
-        --debug(stringify(p))
+        --debug(stringify(para))
         return para
     end
     --[[
