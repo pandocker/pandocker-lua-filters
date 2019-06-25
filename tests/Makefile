@@ -25,9 +25,11 @@ PANFLAGS =
 PANFLAGS += $(MISC)/$(CONFIG)
 PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += --lua-filter=../lua/preprocess.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --filter=pandoc-crossref
+#PFLAGS += $(PANFLAGS)
+#PANFLAGS = $(PFLAGS)
 
 include $(MISC)/Makefile

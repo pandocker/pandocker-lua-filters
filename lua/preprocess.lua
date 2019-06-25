@@ -40,7 +40,7 @@ function replace(el)
                     --for ii, vv in ipairs(sub.blocks) do
                     --    print(vv.tag .. "(" .. stringify(vv) .. ")")
                     --end
-                    return preprocess(sub)
+                    return sub
                 end
             end
             --print(stringify(rep[3].content))
@@ -48,24 +48,40 @@ function replace(el)
     end
 end
 
+function nop()
+end
+
 function preprocess(doc)
-    local sub
+    local sub = {}
+    local head = {}
+    local tail = {}
     for i, el in ipairs(doc.blocks) do
-        --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
+        print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Header" then
             sub = replace(el)
+            --print(tostring(sub))
             if sub ~= nil then
-                local bu = {}
-                for j = i + 1, #doc.blocks do
-                    --print(i, j)
-                    bu[#bu + 1] = doc.blocks[j]
-                    j = j + 1
+                --sub = preprocess(sub)
+                --print(#sub.blocks)
+                --print("\n--- counter reset?")
+                table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before #include
+                for ii, vv in ipairs(head) do
+                    print("hh" .. ii .. " " .. vv.tag .. "(" .. stringify(vv) .. ")")
                 end
-                --print(#doc.blocks)
-                table.move(sub.blocks, 1, #sub.blocks, i, doc.blocks)
-                --print(#doc.blocks)
-                table.move(bu, 1, #bu, #doc.blocks + 1, doc.blocks)
-                --print(#doc.blocks)
+                table.move(doc.blocks, i + 1, #doc.blocks, 1, tail) -- tail has after #include
+                for ii, vv in ipairs(sub.blocks) do
+                    print("ss" .. ii .. " " .. vv.tag .. "(" .. stringify(vv) .. ")")
+                end
+                for ii, vv in ipairs(tail) do
+                    print("tt" .. ii .. " " .. vv.tag .. "(" .. stringify(vv) .. ")")
+                end
+                table.move(sub.blocks, 1, #sub.blocks, #head + 1, head) -- concat head and sub.blocks -> head
+                table.move(tail, 1, #tail, #head + 1, head) -- concat head and tail
+                for ii, vv in ipairs(head) do
+                    print("    " .. ii .. " " .. vv.tag .. "(" .. stringify(vv) .. ")")
+                end
+                doc.blocks = head
+                return preprocess(doc)
             end
         end
     end

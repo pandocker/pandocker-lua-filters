@@ -1,3 +1,4 @@
+<!--
 ---
 #heading-unnumbered:
 #  2: "Heading Unnumbered 1.1"
@@ -6,22 +7,27 @@ listingTitle: "List"
 listings: true
 
 ...
+-->
 
-# Level1 unnumbered {-}
-## Level2 unnumbered {-}
 # Level1
 ## Level2
+# Level1 unnumbered {-}
+## Level2 unnumbered {-}
+# #include "section2.md"
+
 :::{custom-style="Heading Unnumbered 3"}
-### Level3 *unnumbered*
+Level3 *unnumbered*
 :::
 #### Level4 unnumbered {-}
 
 # #include "section1.md"
 
-[Title](markdown/config.yaml){.listingtable numbers=right from=2 to=5 #lst:lst}
+[Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
 
-[](markdown/config.yaml){.listingtable numbers=right type=yaml from=2 to=10 }
+[](markdown/config.yaml){.listingtable type=yaml from=2 to=10 }
 
 <!--[This failes to list](markdown/config){.listingtable numbers=right type=python from=2 to=5 #lst:list}-->
 
 ##### Level5
+<!--# #include "section2.md"-->
+
