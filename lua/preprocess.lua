@@ -23,7 +23,7 @@ function store_meta (meta)
     ]]
 end
 
-function replace(el)
+local function replace(el)
     local rep = el.content
     local sub
     if #rep == 3 then
@@ -48,7 +48,7 @@ function replace(el)
     end
 end
 
-function dump(tt, mm)
+local function dump(tt, mm)
     for ii, vv in ipairs(tt) do
         print(mm .. ii .. " " .. tostring(vv["tag"]) .. "(" .. stringify(vv) .. ")")
     end
