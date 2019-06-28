@@ -1,12 +1,14 @@
 --[[
 # preprocess.lua
+
 Finds level-1 heading starting with `#include` and "filename"
 and tries to include contents of filename into AST tree
 
 ## Syntax
 
+```markdown
 # #include "section1.md"
-
+```
 ]]
 
 local stringify = require("pandoc.utils").stringify

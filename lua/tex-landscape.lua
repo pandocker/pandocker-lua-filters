@@ -1,3 +1,18 @@
+--[[
+# tex-landscape.lua
+
+Finds `LANDSCAPE` class Div and inserts LaTeX RawBlock-s
+which sets contents of Div in landscape geometry.
+
+## Syntax
+
+```markdown
+::: LANDSCAPE :::
+# #include "section1.md"
+:::::::::::::::::
+```
+]]
+
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local default_meta = require("pandocker.default_loader")["lgeometry"]

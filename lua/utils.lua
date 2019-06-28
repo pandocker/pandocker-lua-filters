@@ -1,3 +1,10 @@
+--[[
+# utils.lua
+
+Utility functions
+]]
+
+
 local function debug(string)
     io.stderr:write(string .. "\n")
 end

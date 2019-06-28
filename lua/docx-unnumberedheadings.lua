@@ -2,6 +2,7 @@
 # UnnumberedHeadings
 
 ## Function
+
 Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
 
 * Works with docx output only

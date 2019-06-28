@@ -1,13 +1,30 @@
 --[[
-Finds Link in listingtable class and get content of the file into a CodeBlock
+# listingtable.lua
+
+Finds Link in `listingtable` class and get the file content into a CodeBlock
 Guesses included file type and adds to classes
 Cuts into subset if corresponding options are set
 
-Link (content, target[, title[, attr] ])
-[content](target){.class-1 .class-2 attr=alpha attr=beta #lst:list}
-                  |               | | k    v     k   v | |
-                  |  classes      | |    attributes    | identifier
-                  .listingtable     type=plain numbers=left from=5 to=10
+## Syntax
+
+```markdown
+[Caption](/path/to/file){.listingtable <attributes>}
+```
+
+### Attributes
+
+- `from `
+- `to`
+- `type`
+- `numbers`
+
+## Note
+
+| Link (content, target[, title[, attr] ])
+| [content](target){.class-1 .class-2 attr=alpha attr=beta #lst:list}
+|                   |               | | k    v     k   v | |
+|                   |  classes      | |    attributes    | identifier
+|                   .listingtable     type=plain numbers=left from=5 to=10
 ]]
 
 local debug = require("pandocker.utils").debug
