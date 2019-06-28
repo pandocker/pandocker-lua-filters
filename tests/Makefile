@@ -1,7 +1,8 @@
 ifeq ($(OS),Windows_NT)
 HOME = C:/Users/$(USERNAME)
 endif
-PANSTYLES= /usr/local/var
+PIPBASE= $(shell get-pip-base)
+PANSTYLES= $(PIPBASE)/var
 MISC= $(PANSTYLES)/pandoc_misc
 include $(MISC)/Makefile.in
 PROJECT= `pwd`
@@ -20,12 +21,13 @@ PROJECT= `pwd`
 # COREPROPFLAGS := --table "Normal Table=Centered"
 # COREPROPFLAGS += --paragraph "Normal=Body Text"
 ##
-LUA_FILTER_BASE = /usr/local/share/lua/5.3/pandocker
+LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
 PANFLAGS =
 PANFLAGS += $(MISC)/$(CONFIG)
 PANFLAGS += $(MDDIR)/$(CONFIG)
-PANFLAGS += --lua-filter=../lua/preprocess.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
+PANFLAGS += --lua-filter=../lua/tex-landscape.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --filter=pandoc-crossref

@@ -25,25 +25,36 @@ local function dump(tt, mm)
     end
 end
 
-function get_vars (meta)
-    if FORMAT == "latex" then
-        _meta = meta["lgeometry"]
-        if _meta == nil then
-            _meta = default_meta
-            debug("metadata 'lgeometry' was not found in source, applying defaults.")
+local function get_vars (meta)
+    _meta = meta["lgeometry"]
+    if _meta == nil then
+        _meta = default_meta
+        debug("metadata 'lgeometry' was not found in source, applying defaults.")
+    end
+    start_landscape = pandoc.RawBlock("latex", "\\newgeometry{" .. stringify(_meta) .. "}\\begin{landscape}")
+end
+
+function landscape(doc)
+    local head = {}
+    local tail = { stop_landscape }
+    for i, el in ipairs(doc.blocks) do
+        --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
+        if el.tag == "Div" and el.classes:find("LANDSCAPE") then
+            debug("Div in 'LANDSCAPE' class found")
+            table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before #include
+            table.insert(head, start_landscape)
+            --dump(head, "hh")
+            --dump(el.content, "ss")
+            table.move(doc.blocks, i + 1, #doc.blocks, 2, tail) -- tail has after #include
+            --dump(tail, "tt")
+            table.move(el.content, 1, #el.content, #head + 1, head) -- concat head and sub.blocks -> head
+            table.move(tail, 1, #tail, #head + 1, head) -- concat head and tail
+            --dump(head, "    ")
+            doc.blocks = head
         end
-        start_landscape = pandoc.RawBlock("latex", "\\newgeometry{" .. stringify(_meta) .. "}\\begin{landscape}")
     end
+    --dump(doc.blocks, "    ")
+    return doc
 end
 
-function landscape(el)
-    if el.classes:find("LANDSCAPE") then
-        debug("Div in 'LANDSCAPE' class found")
-        table.insert(el.content, 1, start_landscape)
-        table.insert(el.content, stop_landscape)
-        --dump(el.content, "  ")
-        return el
-    end
-
-end
-return { { Meta = get_vars }, { Div = landscape } }
+return { { Meta = get_vars }, { Pandoc = landscape } }
