@@ -165,7 +165,7 @@ setup(
     data_files=[('share/lua/5.3/pandocker', ['lua/utils.lua',
                                              'lua/default_loader.lua',
                                              'lua/docx-unnumberedheadings.lua',
-                                             'lua/docx-pagebrea-toc.lua',
+                                             'lua/docx-pagebreak-toc.lua',
                                              'lua/listingtable.lua',
                                              'lua/preprocess.lua',
                                              'lua/tex-landscape.lua',
