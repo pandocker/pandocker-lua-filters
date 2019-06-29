@@ -1,3 +1,9 @@
+all: initdir html
+
+initdir:
+	cd tests; \
+	make initdir
+
 html:
 	cd tests; \
 	make html
