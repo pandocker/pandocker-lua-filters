@@ -9,6 +9,8 @@ listings: true
 ...
 -->
 
+\toc
+
 # Level1
 ## Level2
 # Level1 unnumbered {-}
@@ -18,11 +20,14 @@ listings: true
 :::{custom-style="Heading Unnumbered 3"}
 Level3 *unnumbered*
 :::
+
 #### Level4 unnumbered {-}
 
 # #include "section1.md"
 
 [Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
+
+\newpage
 
 [](markdown/config.yaml){.listingtable type=yaml from=2 to=10 }
 

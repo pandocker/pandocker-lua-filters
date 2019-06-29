@@ -25,11 +25,12 @@ LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
 PANFLAGS =
 PANFLAGS += $(MISC)/$(CONFIG)
 PANFLAGS += $(MDDIR)/$(CONFIG)
-#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
-PANFLAGS += --lua-filter=../lua/tex-landscape.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-landscape.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
-#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
-#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
+PANFLAGS += --lua-filter=../lua/docx-pagebreak.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)
