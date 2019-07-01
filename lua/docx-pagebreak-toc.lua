@@ -41,6 +41,8 @@ function toc(el)
             el.format = "openxml"
             return el
         end
+    elseif FORMAT == "latex" then
+        return {}
     end
 end
 
