@@ -33,6 +33,8 @@ Level3 *unnumbered*
 
 <!--[This failes to list](markdown/config){.listingtable numbers=right type=python from=2 to=5 #lst:list}-->
 
+![bitfield](images/bitfield.svg)
+
 ::: LANDSCAPE :::
 ##### Level5
 # #include "section2.md"
