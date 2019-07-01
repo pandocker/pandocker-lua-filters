@@ -1,4 +1,4 @@
-all: initdir html
+all: html
 
 initdir:
 	cd tests; \
