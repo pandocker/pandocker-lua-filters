@@ -38,8 +38,9 @@ function convert_from_svg(el)
             local fullpath = string.format("%s/svg/%s.%s", abspath, hash, ext)
             if file_exists(fullinputpath) then
                 local output = pandoc.pipe("rsvg-convert", { fullinputpath, "-f", ext, "-o", fullpath }, "")
-                print(string.format("[ lua ] convert a svg file to svg/%s.png", hash))
+                print(string.format("[ lua ] convert a svg file to svg/%s.%s", hash, ext))
                 el.src = fullpath
+                return el
             end
             --print(abspath, path, source_file, basename, hash, ext, fullpath)
         end
