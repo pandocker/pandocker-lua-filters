@@ -14,8 +14,8 @@ local stringify = require("pandoc.utils").stringify
 local file_exists = require("pandocker.utils").file_exists
 
 local get_ext = {
-    --["html"] = "svg",
-    --["html5"] = "svg",
+    ["html"] = "svg",
+    ["html5"] = "svg",
     ["latex"] = "pdf",
     ["docx"] = "png",
 }
