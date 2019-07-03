@@ -9,7 +9,7 @@ html:
 	make html
 
 install:
-	pip3 install .
+	pip3 install -U .
 
 uninstall:
 	pip3 uninstall -y pandocker-lua-filters

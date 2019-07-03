@@ -27,6 +27,8 @@ Level3 *unnumbered*
 
 [Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
 
+[Wavedrom(BitField)](data/json.json){.wavedrom}
+
 \newpage
 
 [](markdown/config.yaml){.listingtable type=yaml from=2 to=10 }
