@@ -172,7 +172,9 @@ setup(
                                              'lua/preprocess.lua',
                                              'lua/svgconvert.lua',
                                              'lua/tex-landscape.lua',
-                                             'lua/metadata-file.yaml', ]),
+                                             'lua/metadata-file.yaml',
+                                             'lua/wavedrom.yaml',
+                                             ]),
                 ],  # Optional
 
     # To provide executable scripts, use entry points in preference to the

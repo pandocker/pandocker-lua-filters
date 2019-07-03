@@ -31,6 +31,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-pagebreak-toc.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
+PANFLAGS += ../lua/wavedrom.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/svgconvert.lua
 PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
