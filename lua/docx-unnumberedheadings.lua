@@ -22,6 +22,7 @@ local debug = require("pandocker.utils").debug
 
 local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
 local _meta = {}
+local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 
 function get_vars (meta)
     if FORMAT == "docx" then
@@ -30,13 +31,14 @@ function get_vars (meta)
             for k, v in pairs(default_meta) do
                 if _meta[k] == nil then
                     _meta[k] = v
-                    debug("metadata 'heading-unnumbered." .. k .. "' was not found in source, applying default '" ..
-                            pandoc.utils.stringify(meta["heading-unnumbered"][k]) .. "'.")
+                    local d = pandoc.utils.stringify(meta["heading-unnumbered"][k])
+                    debug(string.format(NOT_FOUND, "heading-unnumbered." .. k, d))
                 end
             end
         else
             _meta = default_meta
-            debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
+            debug(string.format(NOT_FOUND, "heading-unnumbered", ""))
+            --debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
     end
 end
