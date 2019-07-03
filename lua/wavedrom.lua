@@ -20,23 +20,10 @@ local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local file_exists = require("pandocker.utils").file_exists
 
---[[
-function Para(el)
-    if #(el.content) == 1 then
-        sub_el = el.content[1]
-        if sub_el.tag == "Link" then
-            --debug("Para content is a Link")
-            local newp = wavedrom(sub_el)
-            return newp
-        end
-    end
-end
-]]
-
 function Link(el)
     PANDOC_VERSION:must_be_at_least '2.7.3'
     if el.classes:includes "wavedrom" then
-        debug("Link in 'wavedrom' class")
+        --debug("Link in 'wavedrom' class")
         if stringify(el.content) == "" then
             el.content = el.target
         end
@@ -47,7 +34,6 @@ function Link(el)
                 table.insert(classes, v)
             end
         end
-        local attr = pandoc.Attr(idn, classes, el.attributes)
 
         local source_file = stringify(el.target)
         if file_exists(source_file) then
@@ -55,6 +41,7 @@ function Link(el)
             if idn == "" then
                 idn = "fig:" .. string.gsub(basename, "%.", "_")
             end
+            local attr = pandoc.Attr(idn, classes, el.attributes)
             local content = io.open(source_file, "rb"):read("a")
             local hash = pandoc.utils.sha1(content)
             local abspath = require("pandoc.system").get_current_directory()
