@@ -35,7 +35,7 @@ Level3 *unnumbered*
 
 <!--[This failes to list](markdown/config){.listingtable numbers=right type=python from=2 to=5 #lst:list}-->
 
-![bitfield](images/bitfield.svg)
+![dummy](images/dummy.png)
 
 ::: LANDSCAPE :::
 ##### Level5

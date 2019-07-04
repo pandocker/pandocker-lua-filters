@@ -30,9 +30,9 @@ function convert_from_svg(el)
     local source_file = stringify(el.src)
     --debug(source_file)
     if ext ~= "svg" then
-        if file_exists(source_file) then
-            local content = io.open(source_file, "rb"):read("a")
-            local path, basename = require("pandocker.utils").basename(source_file)
+        local source_base, source_ext = source_file:match('(.*)%.(.*)')
+        if file_exists(source_file) and source_ext == "svg" then
+            local _, basename = require("pandocker.utils").basename(source_base)
             local abspath = require("pandoc.system").get_current_directory()
             local fullpath = string.format("%s/svg/%s.%s", abspath, basename, ext)
             local output = pandoc.pipe("rsvg-convert", { source_file, "-f", ext, "-o", fullpath }, "")
@@ -41,7 +41,7 @@ function convert_from_svg(el)
             --debug(abspath, path, source_file, basename, ext, fullpath)
             return el
         else
-            debug(string.format("%s does not exist", source_file))
+            debug(string.format("%s is not found or not svg", source_file))
         end
     end
 end
