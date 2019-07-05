@@ -22,8 +22,8 @@ local raw_toc = [[
 ]]
 
 function toc(el)
-    if FORMAT == "docx" then
-        if el.text == "\\toc" then
+    if el.text == "\\toc" then
+        if FORMAT == "docx" then
             debug("Table of Contents")
             el.text = raw_toc
             el.format = "openxml"
@@ -31,19 +31,23 @@ function toc(el)
                                        pandoc.Str("of"), pandoc.Space(), pandoc.Str("Contents") })
             local div = pandoc.Div({ para, el })
             div["attr"]["attributes"]["custom-style"] = "TOC Heading"
-            --for k, v in pairs(div["attr"]) do
-            --    debug(stringify(k))
-            --end
             return div
-        elseif el.text == "\\newpage" then
+        elseif FORMAT ~= "latex" then
+            --debug("\\toc, not docx nor latex")
+            return {}
+        end
+    elseif el.text == "\\newpage" then
+        if FORMAT == "docx" then
             debug("Pagebreak")
             el.text = "<w:p><w:r><w:br w:type=\"page\" /></w:r></w:p>"
             el.format = "openxml"
             return el
+        elseif FORMAT ~= "latex" then
+            --debug("\\newpage, not docx nor latex")
+            return {}
         end
-    elseif FORMAT == "latex" then
-        return {}
     end
+    --elseif FORMAT == "latex" then
 end
 
 return { { RawBlock = toc } }
