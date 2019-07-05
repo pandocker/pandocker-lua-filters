@@ -20,7 +20,7 @@ local function get_vars (mt)
         meta = default_meta
         debug(string.format(NOT_FOUND, "rmnote", ""))
     end
-    print(type(meta))
+    --debug(type(meta))
 end
 
 function landscape(doc)
