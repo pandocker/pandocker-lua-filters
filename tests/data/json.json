@@ -1,0 +1,31 @@
+{
+  "reg": [
+    {
+      "bits": 5,
+      "attr": [
+        "001",
+        "110"
+      ]
+    },
+    {
+      "bits": 1,
+      "attr": "RW",
+      "name": "IPO"
+    },
+    {
+      "bits": 1,
+      "attr": "RW",
+      "name": "BRK"
+    },
+    {
+      "bits": 1,
+      "name": "CPK"
+    }
+  ],
+  "options": {
+    "bits": 8,
+    "fontfamily": "Source Code Pro",
+    "lanes": 1,
+    "fontweight": "bold"
+  }
+}
