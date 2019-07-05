@@ -170,6 +170,7 @@ setup(
                                              'lua/docx-pagebreak-toc.lua',
                                              'lua/listingtable.lua',
                                              'lua/preprocess.lua',
+                                             'lua/removable-note.lua',
                                              'lua/svgconvert.lua',
                                              'lua/tex-landscape.lua',
                                              'lua/wavedrom.lua',
