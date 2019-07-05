@@ -28,7 +28,7 @@ PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-landscape.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
-PANFLAGS += --lua-filter=../lua/removable-note.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/removable-note.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-pagebreak-toc.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
