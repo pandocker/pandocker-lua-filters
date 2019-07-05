@@ -17,20 +17,7 @@ local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local default_meta = require("pandocker.default_loader")["lgeometry"]
 local _meta = {}
---[[
-\newcommand{\Startlandscape}{\newgeometry{$lgeometry$}\begin{landscape}}
-\newcommand{\Stoplandscape}{\end{landscape}\restoregeometry}
-
-def action(self, elem, doc):
-    if isinstance(elem, pf.Div) and "LANDSCAPE" in elem.classes:
-        if doc.format in ["latex"]:
-            pf.debug("LANDSCAPE")
-            elem.content.insert(0, pf.RawBlock("\\Startlandscape", format="latex"))
-            elem.content.append(pf.RawBlock("\\Stoplandscape", format="latex"))
-            # pf.debug(elem)
-        ret = elem
-        return ret
-]]
+local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local start_landscape = ""
 local stop_landscape = pandoc.RawBlock("latex", "\\end{landscape}\\restoregeometry")
 
@@ -44,7 +31,7 @@ local function get_vars (meta)
     _meta = meta["lgeometry"]
     if _meta == nil then
         _meta = default_meta
-        debug("metadata 'lgeometry' was not found in source, applying defaults.")
+        debug(string.format(NOT_FOUND, "lgeometry", ""))
     end
     start_landscape = pandoc.RawBlock("latex", "\\newgeometry{" .. stringify(_meta) .. "}\\begin{landscape}")
 end
