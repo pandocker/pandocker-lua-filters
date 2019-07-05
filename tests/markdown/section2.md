@@ -8,4 +8,8 @@ Table: table
 |:-----|:---|:------|
 |      | a  | table |
 
+::: rmnote :::
+Remove this block
+:::
+
 \^\^\^ section2.md \^\^\^
