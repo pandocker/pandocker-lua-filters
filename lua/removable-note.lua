@@ -20,29 +20,18 @@ local function get_vars (mt)
         meta = default_meta
         debug(string.format(NOT_FOUND, "rmnote", ""))
     end
+    print(type(meta))
 end
 
 function landscape(doc)
-    local head = {}
-    local tail = {  }
     for i, el in ipairs(doc.blocks) do
         --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Div" and el.classes:find("rmnote") then
             debug("Div in 'rmnote' class found")
-            if meta then
-                debug("remove")
-                el.content = { pandoc.Null() }
+            if meta ~= nil then
+                --debug("remove")
+                table.remove(doc.blocks, i)
             end
-            table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before #include
-            table.insert(head, start_landscape)
-            dump(head, "hh")
-            dump(el.content, "ss")
-            table.move(doc.blocks, i + 1, #doc.blocks, 1, tail) -- tail has after #include
-            dump(tail, "tt")
-            table.move(el.content, 1, #el.content, #head + 1, head) -- concat head and el.content -> head
-            table.move(tail, 1, #tail, #head + 1, head) -- concat head and tail
-            dump(head, "    ")
-            doc.blocks = head
         end
     end
     --dump(doc.blocks, "    ")
