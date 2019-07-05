@@ -21,22 +21,22 @@ Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
 local debug = require("pandocker.utils").debug
 
 local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
-local _meta = {}
+local meta = {}
 local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 
-function get_vars (meta)
+function get_vars (mt)
     if FORMAT == "docx" then
-        _meta = meta["heading-unnumbered"]
-        if _meta ~= nil then
+        meta = mt["heading-unnumbered"]
+        if meta ~= nil then
             for k, v in pairs(default_meta) do
-                if _meta[k] == nil then
-                    _meta[k] = v
-                    local d = pandoc.utils.stringify(meta["heading-unnumbered"][k])
+                if meta[k] == nil then
+                    meta[k] = v
+                    local d = pandoc.utils.stringify(mt["heading-unnumbered"][k])
                     debug(string.format(NOT_FOUND, "heading-unnumbered." .. k, d))
                 end
             end
         else
-            _meta = default_meta
+            meta = default_meta
             debug(string.format(NOT_FOUND, "heading-unnumbered", ""))
             --debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
@@ -45,7 +45,7 @@ end
 
 function replace(el)
     if FORMAT == "docx" and el.level <= 4 and el.classes:includes "unnumbered" then
-        local style = pandoc.utils.stringify(_meta[tostring(el.level)])
+        local style = pandoc.utils.stringify(meta[tostring(el.level)])
         el.attributes["custom-style"] = style
         local content = pandoc.Para(el.content)
         local attr = pandoc.Attr(el.identifier, el.classes, el.attributes)
