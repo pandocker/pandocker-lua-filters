@@ -30,7 +30,7 @@ function Link(el)
         local idn = el.identifier
         local classes = {}
         for i, v in ipairs(el.classes) do
-            if v ~= "wavedrom" then
+            if v ~= "wavedrom" and v ~= "bitfield" then
                 table.insert(classes, v)
             end
         end
@@ -39,7 +39,7 @@ function Link(el)
         local source_ext = source_file:match('.*%.(.*)')
         if file_exists(source_file) then
             if source_ext ~= "json" then
-                debug("[ lua ] Not JSON")
+                debug("[ lua ] invalid wavedrom file found. must be JSON")
                 return
             end
             local _, basename = require("pandocker.utils").basename(source_file)
