@@ -4,7 +4,9 @@ endif
 PIPBASE= $(shell get-pip-base)
 PANSTYLES= $(PIPBASE)/var
 MISC= $(PANSTYLES)/pandoc_misc
-include $(MISC)/Makefile.in
+MISC_SYS = $(MISC)/system
+MISC_USER = $(MISC)/user
+include $(MISC_SYS)/Makefile.in
 PROJECT= `pwd`
 
 ## userland: uncomment and replace
@@ -23,7 +25,7 @@ PROJECT= `pwd`
 ##
 LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
 PANFLAGS =
-PANFLAGS += $(MISC)/$(CONFIG)
+PANFLAGS += $(MISC_SYS)/$(CONFIG)
 PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/default_loader.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-landscape.lua
@@ -31,6 +33,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/removable-note.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-pagebreak-toc.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
+PANFLAGS += --lua-filter=../lua/docx-extract-bullet-lists.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/svgconvert.lua
@@ -38,4 +41,4 @@ PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)
 
-include $(MISC)/Makefile
+include $(MISC_SYS)/Makefile
