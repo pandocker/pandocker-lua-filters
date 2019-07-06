@@ -26,6 +26,7 @@ heading-unnumbered:
 bullet-style:
   1: "Bullet List 1"
   2: "Bullet List 2"
+  3: "Bullet List 3"
 
 image-div-style: "Image Caption\\"
 

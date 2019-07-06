@@ -32,8 +32,8 @@ function toc(el)
             local div = pandoc.Div({ para, el })
             div["attr"]["attributes"]["custom-style"] = "TOC Heading"
             return div
-        elseif FORMAT ~= "latex" then
-            --debug("\\toc, not docx nor latex")
+        else
+            --debug("\\toc, not docx")
             return {}
         end
     elseif el.text == "\\newpage" then
