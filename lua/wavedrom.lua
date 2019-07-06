@@ -22,7 +22,7 @@ local file_exists = require("pandocker.utils").file_exists
 
 function Link(el)
     PANDOC_VERSION:must_be_at_least '2.7.3'
-    if el.classes:includes "wavedrom" then
+    if el.classes:includes "wavedrom" or el.classes:includes "bitfield" then
         --debug("Link in 'wavedrom' class")
         if stringify(el.content) == "" then
             el.content = el.target
@@ -36,7 +36,12 @@ function Link(el)
         end
 
         local source_file = stringify(el.target)
+        local source_ext = source_file:match('.*%.(.*)')
         if file_exists(source_file) then
+            if source_ext ~= "json" then
+                debug("[ lua ] Not JSON")
+                return
+            end
             local _, basename = require("pandocker.utils").basename(source_file)
             if idn == "" then
                 idn = "fig:" .. string.gsub(basename, "%.", "_")
