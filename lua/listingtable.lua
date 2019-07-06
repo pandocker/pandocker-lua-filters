@@ -50,7 +50,6 @@ function listingtable(el)
     ]]
 
     if el.classes:includes "listingtable" then
-        debug("link in 'listingtable' class")
         if stringify(el.content) == "" then
             el.content = el.target
         end
@@ -63,9 +62,10 @@ function listingtable(el)
             for line in io.lines(listing_file) do
                 lines[#lines + 1] = line
             end
+            debug(string.format("[ lua ] listing %s", listing_file))
         else
             debug("Failed to open " .. el.target)
-            return nil
+            return
         end
         local caption = pandoc.Str(stringify(el.content))
         local file_type = el.attributes["type"] or "plain"

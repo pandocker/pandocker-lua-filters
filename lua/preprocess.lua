@@ -1,13 +1,19 @@
 --[[
 # preprocess.lua
 
-Finds level-1 heading starting with `#include` and "filename"
+Finds heading starting with `#include` and "filename"
 and tries to include contents of filename into AST tree
+
+- Metadata "include" is used as search path list
+- Does not apply to contents of a Div
 
 ## Syntax
 
 ```markdown
 # #include "section1.md"
+          ||           |
+          | `-----------`--- Filename must be quoted
+           `-- White space(s) required here
 ```
 ]]
 

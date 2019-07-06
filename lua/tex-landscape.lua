@@ -42,7 +42,7 @@ function landscape(doc)
     for i, el in ipairs(doc.blocks) do
         --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Div" and el.classes:find("LANDSCAPE") then
-            debug("Div in 'LANDSCAPE' class found")
+            debug("[ lua ] Div in 'LANDSCAPE' class found")
             table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before #include
             table.insert(head, start_landscape)
             --dump(head, "hh")

@@ -41,7 +41,7 @@ function convert_from_svg(el)
             --debug(abspath, path, source_file, basename, ext, fullpath)
             return el
         else
-            debug(string.format("%s is not found or not svg", source_file))
+            debug(string.format("[ lua ] %s is not found or invalid file type", source_file))
         end
     end
 end

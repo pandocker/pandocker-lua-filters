@@ -1,12 +1,25 @@
 --[[
 # removable-note.lua
+
+Finds "rmnote" class Div and removes if metadata "rmnote" is set `true`
+
+## Syntax
+
+```markdown
+::: rmnote :::::::::::
+- All the contents
+- inside this div
+
+is removed when flag is set `true`.
+::::::::::::::::::::::
+```
 ]]
 
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local default_meta = require("pandocker.default_loader")["rmnote"]
 local meta = {}
-local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
+local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 
 local function dump(tt, mm)
     for ii, vv in ipairs(tt) do
@@ -20,16 +33,17 @@ local function get_vars (mt)
         meta = default_meta
         debug(string.format(NOT_FOUND, "rmnote", ""))
     end
-    --debug(type(meta))
+    meta = stringify(meta)
+    --debug(tostring(meta == "true"))
 end
 
-function landscape(doc)
+function remove(doc)
     for i, el in ipairs(doc.blocks) do
         --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Div" and el.classes:find("rmnote") then
-            debug("Div in 'rmnote' class found")
-            if meta ~= nil then
+            if meta == "true" then
                 --debug("remove")
+                debug("[ lua ] Div in 'rmnote' class found and removed")
                 table.remove(doc.blocks, i)
             end
         end
@@ -38,4 +52,4 @@ function landscape(doc)
     return doc
 end
 
-return { { Meta = get_vars }, { Pandoc = landscape } }
+return { { Meta = get_vars }, { Pandoc = remove } }
