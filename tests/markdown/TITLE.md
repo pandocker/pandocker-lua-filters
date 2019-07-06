@@ -1,13 +1,11 @@
-<!--
 ---
-#heading-unnumbered:
-#  2: "Heading Unnumbered 1.1"
+heading-unnumbered:
+  2: "Heading Unnumbered 1.1"
 codeBlockCaptions: true
 listingTitle: "List"
 listings: true
-rmnote:
+#rmnote: true
 ...
--->
 
 \toc
 
@@ -20,6 +18,8 @@ rmnote:
 :::{custom-style="Heading Unnumbered 3"}
 Level3 *unnumbered*
 :::
+
+[bit.yaml](data/bit.yaml){.bitfield}
 
 #### Level4 unnumbered {-}
 
