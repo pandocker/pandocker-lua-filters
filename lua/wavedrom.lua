@@ -19,6 +19,9 @@
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local file_exists = require("pandocker.utils").file_exists
+local get_current_directory = require("pandoc.system").get_current_directory
+local INVALID_FILETYPE = "[ lua ] invalid wavedrom file found. must be JSON"
+local MESSAGE = "[ lua ] convert wavedrom to svg/%s.svg"
 
 function Link(el)
     PANDOC_VERSION:must_be_at_least '2.7.3'
@@ -39,7 +42,7 @@ function Link(el)
         local source_ext = source_file:match('.*%.(.*)')
         if file_exists(source_file) then
             if source_ext ~= "json" then
-                debug("[ lua ] invalid wavedrom file found. must be JSON")
+                debug(INVALID_FILETYPE)
                 return
             end
             local _, basename = require("pandocker.utils").basename(source_file)
@@ -49,12 +52,12 @@ function Link(el)
             local attr = pandoc.Attr(idn, classes, el.attributes)
             local content = io.open(source_file, "rb"):read("a")
             local hash = pandoc.utils.sha1(content)
-            local abspath = require("pandoc.system").get_current_directory()
+            local abspath = get_current_directory()
             local fullinputpath = string.format("%s/%s", abspath, source_file)
             local fullpath = string.format("%s/svg/%s.svg", abspath, hash)
             --print(fullinputpath, hash, fullpath)
-            local output = pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "")
-            debug(string.format("[ lua ] convert wavedrom to svg/%s.svg", hash))
+            pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "")
+            debug(string.format(MESSAGE, hash))
             local img = pandoc.Image({}, fullpath, "", attr)
             return img
         end

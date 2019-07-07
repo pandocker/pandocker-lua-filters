@@ -31,7 +31,7 @@ local function get_vars (mt)
     meta = mt["rmnote"]
     if meta == nil then
         meta = default_meta
-        debug(string.format(NOT_FOUND, "rmnote", ""))
+        debug(string.format(NOT_FOUND, "rmnote", stringify(default_meta)))
     end
     meta = stringify(meta)
     --debug(tostring(meta == "true"))

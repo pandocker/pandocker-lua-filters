@@ -92,5 +92,4 @@ function preprocess(doc)
 end
 
 return { { Meta = store_meta }, { Pandoc = preprocess }
-    --, { Header = replace }
 }

@@ -18,6 +18,7 @@ local stringify = require("pandoc.utils").stringify
 local default_meta = require("pandocker.default_loader")["lgeometry"]
 local _meta = {}
 local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
+local MESSAGE = "[ lua ] Div in 'LANDSCAPE' class found"
 local start_landscape = ""
 local stop_landscape = pandoc.RawBlock("latex", "\\end{landscape}\\restoregeometry")
 
@@ -42,7 +43,7 @@ function landscape(doc)
     for i, el in ipairs(doc.blocks) do
         --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Div" and el.classes:find("LANDSCAPE") then
-            debug("[ lua ] Div in 'LANDSCAPE' class found")
+            debug(MESSAGE)
             table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before #include
             table.insert(head, start_landscape)
             --dump(head, "hh")
