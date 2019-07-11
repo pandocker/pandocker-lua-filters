@@ -36,6 +36,7 @@ PANFLAGS += --lua-filter=../lua/docx-extract-bullet-lists.lua
 PANFLAGS += --lua-filter=../lua/listingtable.lua
 PANFLAGS += --lua-filter=../lua/wavedrom.lua
 PANFLAGS += --lua-filter=../lua/svgconvert.lua
+PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
 PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)

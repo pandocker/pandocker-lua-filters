@@ -10,6 +10,7 @@ docrevision: "1.0"
 front: images/front-image.png
 verbcolored: false
 rmnote: false
+tex-rowcolors: "\\\\rowcolors{3}{white!100!white}{table-gray!100!white!100}"
 
 svgbob:
   font-family: "Source Code Pro"
