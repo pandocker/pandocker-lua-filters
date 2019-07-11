@@ -16,7 +16,7 @@ which sets contents of Div in landscape geometry.
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local default_meta = require("pandocker.default_loader")["lgeometry"]
-local _meta = {}
+local meta = {}
 local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local MESSAGE = "[ lua ] Div in 'LANDSCAPE' class found"
 local start_landscape = ""
@@ -28,13 +28,13 @@ local function dump(tt, mm)
     end
 end
 
-local function get_vars (meta)
-    _meta = meta["lgeometry"]
-    if _meta == nil then
-        _meta = default_meta
+local function get_vars (mt)
+    meta = mt["lgeometry"]
+    if meta == nil then
+        meta = default_meta
         debug(string.format(NOT_FOUND, "lgeometry", ""))
     end
-    start_landscape = pandoc.RawBlock("latex", "\\newgeometry{" .. stringify(_meta) .. "}\\begin{landscape}")
+    start_landscape = pandoc.RawBlock("latex", "\\newgeometry{" .. stringify(meta) .. "}\\begin{landscape}")
 end
 
 local function landscape(el)
