@@ -10,6 +10,8 @@
 |             |  (preserve)   | |    (preserve)    | | (preserve)
 ]]
 
+PANDOC_VERSION:must_be_at_least '2.7.3'
+
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 local file_exists = require("pandocker.utils").file_exists
@@ -25,7 +27,6 @@ local get_ext = {
 }
 
 function convert_from_svg(el)
-    PANDOC_VERSION:must_be_at_least '2.7.3'
     --for k, v in pairs(el) do
     --    print(stringify(k), stringify(v))
     --end

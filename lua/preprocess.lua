@@ -22,13 +22,17 @@ local file_exists = require("pandocker.utils").file_exists
 local List = require("pandoc.List")
 local search_paths = {}
 
+local function dump(tt, mm)
+    if mm == nil then
+        mm = ""
+    end
+    for ii, vv in ipairs(tt) do
+        print(mm, ii .. " " .. tostring(vv["tag"]) .. "(" .. stringify(vv) .. ")")
+    end
+end
+
 function store_meta (meta)
     search_paths = meta["include"]
-    --[[
-        for _, v in ipairs(_meta) do
-            print(stringify(v))
-        end
-    ]]
 end
 
 local function replace(el)
@@ -45,20 +49,12 @@ local function replace(el)
                     f = io.open(included, "r")
                     sub = pandoc.read(f:read("*a"), "markdown")
                     f:close()
-                    --for ii, vv in ipairs(sub.blocks) do
-                    --    print(vv.tag .. "(" .. stringify(vv) .. ")")
-                    --end
+                    --dump(sub.blocks)
                     return sub
                 end
             end
             --print(stringify(rep[3].content))
         end
-    end
-end
-
-local function dump(tt, mm)
-    for ii, vv in ipairs(tt) do
-        print(mm .. ii .. " " .. tostring(vv["tag"]) .. "(" .. stringify(vv) .. ")")
     end
 end
 

@@ -15,6 +15,7 @@
 |             |  (preserve)   | |    (preserve)    | | (preserve)
 
 ]]
+PANDOC_VERSION:must_be_at_least '2.7.3'
 
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
@@ -24,7 +25,6 @@ local INVALID_FILETYPE = "[ lua ] invalid wavedrom file found. must be JSON"
 local MESSAGE = "[ lua ] convert wavedrom to svg/%s.svg"
 
 function Link(el)
-    PANDOC_VERSION:must_be_at_least '2.7.3'
     if el.classes:includes "wavedrom" or el.classes:includes "bitfield" then
         --debug("Link in 'wavedrom' class")
         if stringify(el.content) == "" then
