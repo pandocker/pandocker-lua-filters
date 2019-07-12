@@ -15,9 +15,18 @@ listings: true
 ## Level2 unnumbered {-}
 # #include "section2.md"
 
-:::{custom-style="Heading Unnumbered 3"}
+::::::{custom-style="Heading Unnumbered 3"}
 Level3 *unnumbered*
+::::::
+
+:::::{custom-style="Bullet List 1"}
+Bullet List 1
+
+:::{custom-style="Bullet List 2"}
+Bullet List 2
 :::
+:::::
+[@lst:lst]
 
 [bit.yaml](data/bit.yaml){.bitfield}
 

@@ -3,6 +3,12 @@ vvv section1.md start vvv
 ### This section is what is included
 
 - list
+  - list depth-2
+    - list depth-3
+      - list depth-4
+    - list depth-3
+  - list depth-2
+    - list depth-3
 
 ## #include "section2.md"
 
