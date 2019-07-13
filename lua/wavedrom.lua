@@ -23,7 +23,7 @@ local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
-local INVALID_FILETYPE = "[ lua ] invalid wavedrom file format. must be JSON"
+local INVALID_FILETYPE = "[ lua ] %s: invalid file format for wavedrom. must be JSON"
 local MESSAGE = "[ lua ] convert wavedrom to svg/%s.svg"
 local NOT_FOUND = "[ lua ] %s: file not found"
 
@@ -45,7 +45,7 @@ function Link(el)
         local source_ext = source_file:match('.*%.(.*)')
         if file_exists(source_file) then
             if source_ext ~= "json" then
-                debug(INVALID_FILETYPE)
+                debug(string.format(INVALID_FILETYPE, source_file))
                 return
             end
             local _, basename = require("pandocker.utils").basename(source_file)
