@@ -28,6 +28,12 @@ Experimental set of pandoc filters to output DOCX file
 
 [**`wavedrom.lua`**](lua/wavedrom.lua)
 
+<!--
+#### convert CSV into table
+
+[**`csv2table.lua`**](lua/csv2table.lua)
+-->
+
 ## *LaTeX* output only
 #### Landscape pages
 
