@@ -15,11 +15,13 @@ is removed when flag is set `true`.
 ```
 ]]
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
+
+local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["rmnote"]
+
 local meta = {}
-local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
+local METADATA_NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 
 local function dump(tt, mm)
     for ii, vv in ipairs(tt) do
@@ -31,7 +33,7 @@ local function get_vars (mt)
     meta = mt["rmnote"]
     if meta == nil then
         meta = default_meta
-        debug(string.format(NOT_FOUND, "rmnote", stringify(default_meta)))
+        debug(string.format(METADATA_NOT_FOUND, "rmnote", stringify(default_meta)))
     end
     meta = stringify(meta)
     --debug(tostring(meta == "true"))
