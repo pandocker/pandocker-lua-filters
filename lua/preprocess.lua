@@ -18,9 +18,12 @@ and tries to include contents of filename into AST tree
 ]]
 
 local stringify = require("pandoc.utils").stringify
+
+local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
-local List = require("pandoc.List")
+
 local search_paths = {}
+local FILE_NOT_FOUND = "[ lua ] %s: file not found in search paths"
 
 local function dump(tt, mm)
     if mm == nil then
@@ -53,6 +56,7 @@ local function replace(el)
                     return sub
                 end
             end
+            debug(string.format(FILE_NOT_FOUND, stringify(rep[3].content)))
             --print(stringify(rep[3].content))
         end
     end
