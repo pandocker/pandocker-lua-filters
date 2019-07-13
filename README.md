@@ -3,6 +3,10 @@ Lua filters for pandoc
 
 Experimental set of pandoc filters to output DOCX file
 
+## Install
+
+`pip install git+https://github.com/pandocker/pandocker-lua-filters.git`
+
 ## General use
 #### Concatenate text files
 
@@ -16,6 +20,10 @@ Experimental set of pandoc filters to output DOCX file
 
 [**`removable-note.lua`**](lua/removable-note.lua)
 
+#### Convert SVG images to other formats
+
+[**`svgconvert.lua`**](lua/svgconvert.lua)
+
 #### Wavedrom / Bit-Field
 
 [**`wavedrom.lua`**](lua/wavedrom.lua)
@@ -24,6 +32,10 @@ Experimental set of pandoc filters to output DOCX file
 #### Landscape pages
 
 [**`tex-landscape.lua`**](lua/tex-landscape.lua)
+
+#### Reset table coloring
+
+[**`tex-rowcolors-reset`**](lua/tex-rowcolors-reset.lua)
 
 ## *Docx* output only
 #### unnumbered headings
