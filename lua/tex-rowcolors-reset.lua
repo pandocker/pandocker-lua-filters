@@ -4,12 +4,13 @@
 Finds table and inserts tex command to reset row rule
 ]]
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
+
+local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["tex-rowcolors"]
-local MESSAGE = "[ lua ] Table found"
+
+local METADATA_NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default."
 local meta = {}
-local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 local reset_colors = {}
 
 local function dump(tt, mm)
@@ -23,16 +24,13 @@ if FORMAT == "latex" then
         meta = mt["tex-rowcolors"]
         if meta == nil then
             meta = default_meta
-            debug(string.format(NOT_FOUND, "tex-rowcolors", ""))
+            debug(string.format(METADATA_NOT_FOUND, "tex-rowcolors", ""))
         end
         reset_colors = pandoc.RawBlock("latex", stringify(meta))
     end
 
     local function reset_table_color(el)
-        if FORMAT == "latex" then
-            return { reset_colors, el }
-        end
-
+        return { reset_colors, el }
     end
 
     return { { Meta = get_vars }, { Table = reset_table_color } }
