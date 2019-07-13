@@ -24,8 +24,8 @@ local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
 local meta = {}
 local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 
-function get_vars (mt)
-    if FORMAT == "docx" then
+if FORMAT == "docx" then
+    local function get_vars (mt)
         meta = mt["heading-unnumbered"]
         if meta ~= nil then
             for k, v in pairs(default_meta) do
@@ -41,20 +41,20 @@ function get_vars (mt)
             --debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
     end
-end
 
-function replace(el)
-    if FORMAT == "docx" and el.level <= 4 and el.classes:includes "unnumbered" then
-        local style = pandoc.utils.stringify(meta[tostring(el.level)])
-        el.attributes["custom-style"] = style
-        local content = pandoc.Para(el.content)
-        local attr = pandoc.Attr(el.identifier, el.classes, el.attributes)
+    local function replace(el)
+        if FORMAT == "docx" and el.level <= 4 and el.classes:includes "unnumbered" then
+            local style = pandoc.utils.stringify(meta[tostring(el.level)])
+            el.attributes["custom-style"] = style
+            local content = pandoc.Para(el.content)
+            local attr = pandoc.Attr(el.identifier, el.classes, el.attributes)
 
-        --debug(pandoc.utils.stringify(content))
-        --debug(pandoc.utils.stringify(div))
-        return pandoc.Div(content, attr)
+            --debug(pandoc.utils.stringify(content))
+            --debug(pandoc.utils.stringify(div))
+            return pandoc.Div(content, attr)
+        end
+        --debug(el.level .. tostring(el.classes[1]))
     end
-    --debug(el.level .. tostring(el.classes[1]))
-end
 
-return { { Meta = get_vars }, { Header = replace } }
+    return { { Meta = get_vars }, { Header = replace } }
+end

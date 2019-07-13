@@ -30,18 +30,7 @@ Cuts into subset if corresponding options are set
 local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 
-function Para(el)
-    if #(el.content) == 1 then
-        sub_el = el.content[1]
-        if sub_el.tag == "Link" then
-            --debug("Para content is a Link")
-            local newp = listingtable(sub_el)
-            return newp
-        end
-    end
-end
-
-function listingtable(el)
+local function listingtable(el)
     --[[
         debug(FORMAT)
         debug(stringify(el.content))
@@ -128,4 +117,15 @@ function listingtable(el)
         end
     ]]
 
+end
+
+function Para(el)
+    if #(el.content) == 1 then
+        sub_el = el.content[1]
+        if sub_el.tag == "Link" then
+            --debug("Para content is a Link")
+            local newp = listingtable(sub_el)
+            return newp
+        end
+    end
 end

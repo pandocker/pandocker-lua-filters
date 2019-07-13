@@ -58,7 +58,7 @@ local function replace(el)
     end
 end
 
-function preprocess(doc)
+local function preprocess(doc)
     local sub = {}
     local head = {}
     local tail = {}

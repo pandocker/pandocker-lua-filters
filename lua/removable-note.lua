@@ -37,7 +37,7 @@ local function get_vars (mt)
     --debug(tostring(meta == "true"))
 end
 
-function remove(doc)
+local function remove(doc)
     for i, el in ipairs(doc.blocks) do
         --print(i .. " " .. el.tag .. "(" .. stringify(el) .. ")")
         if el.tag == "Div" and el.classes:find("rmnote") then

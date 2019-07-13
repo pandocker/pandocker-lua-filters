@@ -18,20 +18,22 @@ local function dump(tt, mm)
     end
 end
 
-local function get_vars (mt)
-    meta = mt["tex-rowcolors"]
-    if meta == nil then
-        meta = default_meta
-        debug(string.format(NOT_FOUND, "tex-rowcolors", ""))
-    end
-    reset_colors = pandoc.RawBlock("latex", stringify(meta))
-end
-
-local function reset_table_color(el)
-    if FORMAT == "latex" then
-        return { reset_colors, el }
+if FORMAT == "latex" then
+    local function get_vars (mt)
+        meta = mt["tex-rowcolors"]
+        if meta == nil then
+            meta = default_meta
+            debug(string.format(NOT_FOUND, "tex-rowcolors", ""))
+        end
+        reset_colors = pandoc.RawBlock("latex", stringify(meta))
     end
 
-end
+    local function reset_table_color(el)
+        if FORMAT == "latex" then
+            return { reset_colors, el }
+        end
 
-return { { Meta = get_vars }, { Table = reset_table_color } }
+    end
+
+    return { { Meta = get_vars }, { Table = reset_table_color } }
+end
