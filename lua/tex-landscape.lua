@@ -13,12 +13,15 @@ which sets contents of Div in landscape geometry.
 ```
 ]]
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
+
+local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["lgeometry"]
-local meta = {}
+
 local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local MESSAGE = "[ lua ] Div in 'LANDSCAPE' class found"
+
+local meta = {}
 local start_landscape = ""
 local stop_landscape = pandoc.RawBlock("latex", "\\end{landscape}\\restoregeometry")
 

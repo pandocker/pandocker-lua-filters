@@ -10,6 +10,7 @@ local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["tex-rowcolors"]
 
 local METADATA_NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default."
+
 local meta = {}
 local reset_colors = {}
 

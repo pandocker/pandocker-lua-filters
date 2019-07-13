@@ -27,8 +27,9 @@ Cuts into subset if corresponding options are set
 |                   .listingtable     type=plain numbers=left from=5 to=10
 ]]
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
+
+local debug = require("pandocker.utils").debug
 
 local function listingtable(el)
     --[[

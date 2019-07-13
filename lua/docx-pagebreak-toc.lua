@@ -16,10 +16,11 @@ Only works for `docx` format
 ```
 ]]
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
 
-local raw_toc = [[
+local debug = require("pandocker.utils").debug
+
+local RAW_TOC = [[
 <w:sdt>
     <w:sdtContent xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
         <w:p>
@@ -33,12 +34,13 @@ local raw_toc = [[
     </w:sdtContent>
 </w:sdt>
 ]]
+local RAW_PAGEBREAK = "<w:p><w:r><w:br w:type=\"page\" /></w:r></w:p>"
 
 function toc(el)
     if el.text == "\\toc" then
         if FORMAT == "docx" then
             debug("Table of Contents")
-            el.text = raw_toc
+            el.text = RAW_TOC
             el.format = "openxml"
             local para = pandoc.Para({ pandoc.Str("Table"), pandoc.Space(),
                                        pandoc.Str("of"), pandoc.Space(), pandoc.Str("Contents") })
@@ -52,7 +54,7 @@ function toc(el)
     elseif el.text == "\\newpage" then
         if FORMAT == "docx" then
             debug("Pagebreak")
-            el.text = "<w:p><w:r><w:br w:type=\"page\" /></w:r></w:p>"
+            el.text = RAW_PAGEBREAK
             el.format = "openxml"
             return el
         elseif FORMAT ~= "latex" then

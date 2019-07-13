@@ -12,10 +12,12 @@
 
 PANDOC_VERSION:must_be_at_least '2.7.3'
 
-local debug = require("pandocker.utils").debug
 local stringify = require("pandoc.utils").stringify
-local file_exists = require("pandocker.utils").file_exists
 local get_current_directory = require("pandoc.system").get_current_directory
+
+local debug = require("pandocker.utils").debug
+local file_exists = require("pandocker.utils").file_exists
+
 local MESSAGE = "[ lua ] convert a svg file to svg/%s.%s"
 local ERROR_MESSAGE = "[ lua ] %s is not found or invalid file type"
 
