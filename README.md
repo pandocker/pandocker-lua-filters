@@ -1,8 +1,6 @@
 # pandocker-lua-filters
 Lua filters for pandoc
 
-Experimental set of pandoc filters to output DOCX file
-
 ## Install
 
 `pip install git+https://github.com/pandocker/pandocker-lua-filters.git`
@@ -22,14 +20,20 @@ Experimental set of pandoc filters to output DOCX file
 
 #### Convert SVG images to other formats
 
+- requires `rsvg-convert` in `$PATH`
+
 [**`svgconvert.lua`**](lua/svgconvert.lua)
 
 #### Wavedrom / Bit-Field
+
+- requires `wavedrom` python package
 
 [**`wavedrom.lua`**](lua/wavedrom.lua)
 
 <!--
 #### convert CSV into table
+
+- requires `lua-csv` luarocks package
 
 [**`csv2table.lua`**](lua/csv2table.lua)
 -->
@@ -96,10 +100,10 @@ As lua filters only requires pandoc itself, it is relatively easy
 to try develop a new filter. I recommend to use `k4zuki/pandocker`
 *docker image* like
 
-- `docker pull k4zuki/pandocker` to get image
+- `docker pull k4zuki/pandocker-alpine` to get image
 - clone this repo `git clone git@github.com:pandocker/pandocker-lua-filters.git`
 - `cd pandocker-lua-filters`
-- `docker run --rm -it -v/$PWD:/workdir k4zuki/pandocker` to start docker image
+- `docker run --rm -it -v/$PWD:/workdir k4zuki/pandocker-alpine` to start docker image
 - `make install` to install filters in image. They are installed in `/usr/local/share/lua/5.3/pandocker/`
 - `make reinstall` to *reinstall* so that filters will be updated
 - `make uninstall` to uninstall filters
