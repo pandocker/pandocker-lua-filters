@@ -116,7 +116,11 @@ local function tabular(el)
         if el.attributes.width ~= nil then
             local _widths = el.attributes.width:lstrip("[("):rstrip(")]"):split(",")
             for _, v in ipairs(_widths) do
-                widths:append(tonumber(v))
+                v = tonumber(v)
+                if v == nil then
+                    v = 0.0
+                end
+                widths:append(v)
             end
         end
         local rows = List()
