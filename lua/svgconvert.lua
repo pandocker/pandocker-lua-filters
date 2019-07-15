@@ -19,7 +19,7 @@ local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
 local MESSAGE = "[ lua ] convert a svg file to svg/%s.%s"
-local ERROR_MESSAGE = "[ lua ] %s is not found or invalid file type"
+local ERROR_MESSAGE = "[ lua ] %s: file not found"
 
 local get_ext = {
     ["html"] = "svg",
@@ -35,9 +35,9 @@ function convert_from_svg(el)
     local ext = get_ext[FORMAT] or "png"
     local source_file = stringify(el.src)
     --debug(source_file)
-    if ext ~= "svg" then
+    if ext ~= "svg" and source_ext == "svg" then
         local source_base, source_ext = source_file:match('(.*)%.(.*)')
-        if file_exists(source_file) and source_ext == "svg" then
+        if file_exists(source_file) then
             local _, basename = require("pandocker.utils").basename(source_base)
             local abspath = get_current_directory()
             local fullpath = string.format("%s/svg/%s.%s", abspath, basename, ext)
