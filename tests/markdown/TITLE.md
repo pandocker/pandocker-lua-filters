@@ -10,6 +10,11 @@ listings: true
 \toc
 
 # Level1
+
+[Table Caption](data/table.csv){.table subset_from=(1,2) alignment=CCC }
+
+[@tbl:table]
+
 ## Level2
 # Level1 unnumbered {-}
 ## Level2 unnumbered {-}

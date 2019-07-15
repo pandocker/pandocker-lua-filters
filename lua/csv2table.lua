@@ -5,13 +5,28 @@
 local pretty = require("pl.pretty")
 require("pl.stringx").import()
 local List = require("pl.List")
+local tablex = require("pl.tablex")
 local csv = require("csv")
 
 local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
+local MESSAGE = "[ lua ] insert a table from %s"
 local FILE_NOT_FOUND = "[ lua ] %s: file not found"
+
+local function get_tf(item, default)
+    if type(item) == "string" then
+        item = string.upper(item)
+        if tablex.search({ "TRUE", "YES" }, item) then
+            return true
+        else
+            return false
+        end
+    else
+        return default
+    end
+end
 
 local function get_cell(c)
     if type(c) ~= "string" then
@@ -31,22 +46,11 @@ local function get_row(t)
     return row
 end
 
-local function get_table(tb)
-    --tb.name
-    --tb.rows
-    --tb.idn
-    local rows = {}
-    for row in tb.rows do
-        table.insert(rows, get_row(row))
-    end
-    return pandoc.Table(
-            { pandoc.Str(tb.name), pandoc.Space(), pandoc.Str(tb.idn) },
-            ALIGN,
-            { },
-            get_row(HEADER_ROW),
-            rows
-    )
-end
+local ALIGN = { ["D"] = pandoc.AlignDefault,
+                ["L"] = pandoc.AlignLeft,
+                ["C"] = pandoc.AlignCenter,
+                ["R"] = pandoc.AlignRight
+}
 
 local function tabular(el)
     if el.classes:includes "table" then
@@ -57,6 +61,8 @@ local function tabular(el)
         local y_to = -1
         local x_to = -1
         local caption = ""
+        local alignment = List()
+        local header = true
 
         if file_exists(source_file) then
             tab = csv.open(source_file)
@@ -92,40 +98,52 @@ local function tabular(el)
                 y_to = y_from
             end
         end
-        --print(x_from, y_from, x_to, y_to)
-        --local idn = el.identifier
+        if el.attributes.alignment ~= nil then
+            local i = 1
+            local al = ""
+            while i <= #el.attributes.alignment do
+                al = string.sub(el.attributes.alignment, i, i)
+                --print(string.sub(el.attributes.alignment, i, i))
+                alignment:append(ALIGN[al:upper()])
+                i = i + 1
+            end
+
+        end
+        if el.attributes.header ~= nil then
+            header = get_tf(el.attributes.header, true)
+        end
         local rows = List()
         local i = 1
+        local col_max = 1
         for row in tab:lines() do
             if i >= y_from then
                 row = List(row):slice(x_from, x_to)
-                print(#row)
                 --pretty.dump(row)
-                rows:append(row)
+                col_max = math.max(col_max, #row)
+                rows:append(get_row(row))
                 if y_to > 0 and i >= y_to then
                     break
                 end
-                --for _, col in ipairs(row) do
-                --    pretty.dump(col)
-                --end
             end
             i = i + 1
         end
-        --pretty.dump(rows)
-        --_table = {
-        --    ["caption"] = { Inline, },
-        --    ["aligns"] = { Alignment, },
-        --    ["widths"] = { number, },
-        --    ["headers"] = { { { Block, } }, },
-        --    ["rows"] = { { { Block, }, }, }
-        --}
+        if header then
+            header = rows:pop(1)
+        else
+            header = { {} }
+        end
+        --pretty.dump(header)
+        while col_max > #alignment do
+            alignment:append(ALIGN.D)
+        end
+        --pretty.dump(alignment)
+        debug(string.format(MESSAGE, source_file))
         return pandoc.Table(
                 caption,
-                { "AlignDefault" },
+                alignment,
                 {},
-                { { pandoc.Para(pandoc.Str("Header")) } },
-                { { { pandoc.Para(pandoc.Str("Row1")) } } }
-        --rows
+                header,
+                rows
         )
     end
 end
@@ -137,79 +155,3 @@ function link2table(el)
 end
 
 return { { Para = link2table } }
---[[
-{
-    caption = {
-        {
-            text = "data/table.csv"
-        }
-    },
-    aligns = {
-        "AlignDefault"
-    },
-    widths = {
-        1.0
-    },
-    headers = {
-        {
-            {
-                content = {
-                    {
-                        text = "Header"
-                    }
-                }
-            }
-        }
-    },
-    rows = {
-        {
-            {
-                {
-                    content = {
-                        {
-                            text = "Row1"
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-{
-    caption = {
-        {
-            text = "table"
-        }
-    },
-    aligns = {
-        "AlignLeft"
-    },
-    widths = {
-        0.0
-    },
-    headers = {
-        {
-            {
-                content = {
-                    {
-                        text = "Header"
-                    }
-                }
-            }
-        }
-    },
-    rows = {
-        {
-            {
-                {
-                    content = {
-                        {
-                            text = "Row1"
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-]]
