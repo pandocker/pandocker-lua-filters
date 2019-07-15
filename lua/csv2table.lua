@@ -13,19 +13,6 @@ local file_exists = require("pandocker.utils").file_exists
 
 local FILE_NOT_FOUND = "[ lua ] %s: file not found"
 
---local data = [[
---,,,"\
---"
---
---,,a,,"c\
---d",,
---,e,f,
---]]
---local f = csv.openstring(data)
---for fields in f:lines() do
---    pretty.dump(fields)
---end
-
 local function get_cell(c)
     if type(c) ~= "string" then
         c = tostring(c)
@@ -69,6 +56,7 @@ local function tabular(el)
         local x_from = 1
         local y_to = -1
         local x_to = -1
+        local caption = ""
 
         if file_exists(source_file) then
             tab = csv.open(source_file)
@@ -78,7 +66,15 @@ local function tabular(el)
             return
         end
         if stringify(el.content) == "" then
-            el.content = el.target
+            caption = { pandoc.Str(el.target) }
+        else
+            caption = el.content
+        end
+        --pretty.dump(caption)
+        if el.identifier ~= "" then
+            caption = List(caption)
+            caption:append(pandoc.Space())
+            caption:append(pandoc.Str("{#" .. el.identifier .. "}"))
         end
         if el.attributes.subset_from ~= nil then
             local subset_from = el.attributes.subset_from:lstrip("[("):rstrip(")]"):split(",")
@@ -89,39 +85,131 @@ local function tabular(el)
             local subset_to = el.attributes.subset_to:lstrip("[("):rstrip(")]"):split(",")
             y_to = tonumber(subset_to[1])
             x_to = tonumber(subset_to[2])
-        end
-        if x_to < x_from then
-            x_to = x_from
-        end
-        if y_to < y_from then
-            y_to = y_from
+            if x_to < x_from then
+                x_to = x_from
+            end
+            if y_to < y_from then
+                y_to = y_from
+            end
         end
         --print(x_from, y_from, x_to, y_to)
         --local idn = el.identifier
         local rows = List()
         local i = 1
         for row in tab:lines() do
-            if i >= y_from and i <= y_to then
+            if i >= y_from then
                 row = List(row):slice(x_from, x_to)
+                print(#row)
                 --pretty.dump(row)
-                rows:append(get_row(row))
+                rows:append(row)
+                if y_to > 0 and i >= y_to then
+                    break
+                end
                 --for _, col in ipairs(row) do
                 --    pretty.dump(col)
                 --end
             end
             i = i + 1
         end
-        t = pandoc.Table(
-                { pandoc.Str("Title"), pandoc.Space(), pandoc.Str("{#" .. el.identifier .. "}") },
-                { pandoc.AlignDefault },
-                { },
-                { pandoc.Str("Header") },
-                { { pandoc.Str("Row1") } }
+        --pretty.dump(rows)
+        --_table = {
+        --    ["caption"] = { Inline, },
+        --    ["aligns"] = { Alignment, },
+        --    ["widths"] = { number, },
+        --    ["headers"] = { { { Block, } }, },
+        --    ["rows"] = { { { Block, }, }, }
+        --}
+        return pandoc.Table(
+                caption,
+                { "AlignDefault" },
+                {},
+                { { pandoc.Para(pandoc.Str("Header")) } },
+                { { { pandoc.Para(pandoc.Str("Row1")) } } }
         --rows
         )
-        pretty.dump(t)
-        return t
     end
 end
 
-return { { Link = tabular } }
+function link2table(el)
+    if #el.content == 1 and el.content[1].tag == "Link" then
+        return tabular(el.content[1])
+    end
+end
+
+return { { Para = link2table } }
+--[[
+{
+    caption = {
+        {
+            text = "data/table.csv"
+        }
+    },
+    aligns = {
+        "AlignDefault"
+    },
+    widths = {
+        1.0
+    },
+    headers = {
+        {
+            {
+                content = {
+                    {
+                        text = "Header"
+                    }
+                }
+            }
+        }
+    },
+    rows = {
+        {
+            {
+                {
+                    content = {
+                        {
+                            text = "Row1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+{
+    caption = {
+        {
+            text = "table"
+        }
+    },
+    aligns = {
+        "AlignLeft"
+    },
+    widths = {
+        0.0
+    },
+    headers = {
+        {
+            {
+                content = {
+                    {
+                        text = "Header"
+                    }
+                }
+            }
+        }
+    },
+    rows = {
+        {
+            {
+                {
+                    content = {
+                        {
+                            text = "Row1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+]]
