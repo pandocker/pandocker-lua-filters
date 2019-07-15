@@ -63,6 +63,7 @@ local function tabular(el)
         local caption = ""
         local alignment = List()
         local header = true
+        local widths = List()
 
         if file_exists(source_file) then
             tab = csv.open(source_file)
@@ -112,6 +113,12 @@ local function tabular(el)
         if el.attributes.header ~= nil then
             header = get_tf(el.attributes.header, true)
         end
+        if el.attributes.width ~= nil then
+            local _widths = el.attributes.subset_from:lstrip("[("):rstrip(")]"):split(",")
+            for _, v in ipairs(_widths) do
+                widths:append(tonumber(v))
+            end
+        end
         local rows = List()
         local i = 1
         local col_max = 1
@@ -136,12 +143,15 @@ local function tabular(el)
         while col_max > #alignment do
             alignment:append(ALIGN.D)
         end
+        while col_max > #widths do
+            widths:append(0.0)
+        end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))
         return pandoc.Table(
                 caption,
                 alignment,
-                {},
+                widths,
                 header,
                 rows
         )
