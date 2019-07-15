@@ -30,13 +30,11 @@ Lua filters for pandoc
 
 [**`wavedrom.lua`**](lua/wavedrom.lua)
 
-<!--
 #### convert CSV into table
 
 - requires `lua-csv` luarocks package
 
 [**`csv2table.lua`**](lua/csv2table.lua)
--->
 
 ## *LaTeX* output only
 #### Landscape pages
