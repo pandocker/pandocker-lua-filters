@@ -164,7 +164,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[('share/lua/5.3/pandocker', ['lua/utils.lua',
+    data_files=[('share/lua/5.3/pandocker', ['lua/csv2table.lua',
                                              'lua/default_loader.lua',
                                              'lua/docx-unnumberedheadings.lua',
                                              'lua/docx-pagebreak-toc.lua',
@@ -173,6 +173,7 @@ setup(
                                              'lua/removable-note.lua',
                                              'lua/svgconvert.lua',
                                              'lua/tex-landscape.lua',
+                                             'lua/utils.lua',
                                              'lua/wavedrom.lua',
 
                                              'lua/metadata-file.yaml',
