@@ -32,7 +32,7 @@ Lua filters for pandoc
 
 #### convert CSV into table
 
-- requires `lua-csv` luarocks package
+- requires `csv` luarocks package
 
 [**`csv2table.lua`**](lua/csv2table.lua)
 
