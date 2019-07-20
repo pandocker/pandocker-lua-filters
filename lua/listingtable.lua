@@ -74,12 +74,8 @@ local function listingtable(el)
                 attributes[k] = v
             end
         end
-        if el.attributes["startFrom"] == nil then
-            attributes["startFrom"] = linefrom
-        end
-        if el.attributes["numbers"] == nil then
-            attributes["numbers"] = "left"
-        end
+        attributes["startFrom"] = el.attributes["startFrom"] or linefrom
+        attributes["numbers"] = el.attributes["numbers"] or "left"
 
         local data = table.concat(lines, "\n", linefrom, lineto)
         --debug(data)
@@ -122,11 +118,10 @@ end
 
 function Para(el)
     if #(el.content) == 1 then
-        sub_el = el.content[1]
-        if sub_el.tag == "Link" then
+        el = el.content[1]
+        if el.tag == "Link" then
             --debug("Para content is a Link")
-            local newp = listingtable(sub_el)
-            return newp
+            return listingtable(el)
         end
     end
 end
