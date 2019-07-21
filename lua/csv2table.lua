@@ -110,9 +110,7 @@ local function tabular(el)
             end
 
         end
-        if el.attributes.header ~= nil then
-            header = get_tf(el.attributes.header, true)
-        end
+        header = get_tf(el.attributes.header, true)
         if el.attributes.width ~= nil then
             local _widths = el.attributes.width:lstrip("[("):rstrip(")]"):split(",")
             for _, v in ipairs(_widths) do
