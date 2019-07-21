@@ -173,6 +173,7 @@ setup(
                                              'lua/removable-note.lua',
                                              'lua/svgconvert.lua',
                                              'lua/tex-landscape.lua',
+                                             'lua/tex-rowcolors-reset.lua',
                                              'lua/utils.lua',
                                              'lua/wavedrom.lua',
 
