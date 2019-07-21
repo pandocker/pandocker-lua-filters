@@ -11,7 +11,7 @@ listings: true
 
 # Level1
 
-[Table Caption](data/table.csv){.table subset_from=(1,2) alignment=CCC }
+[Table Caption](data/table.csv){.table subset_from=(1,2) alignment=CCC width=[1]}
 
 [@tbl:table]
 
