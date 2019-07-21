@@ -13,7 +13,8 @@ Cuts into subset if corresponding options are set
 
 ### Attributes
 
-- `from `
+- `from`
+- `startFrom`
 - `to`
 - `type`
 - `numbers`
