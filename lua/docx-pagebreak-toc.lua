@@ -39,7 +39,7 @@ local RAW_PAGEBREAK = "<w:p><w:r><w:br w:type=\"page\" /></w:r></w:p>"
 function toc(el)
     if el.text == "\\toc" then
         if FORMAT == "docx" then
-            debug("Table of Contents")
+            debug("[ lua ] insert Table of Contents")
             el.text = RAW_TOC
             el.format = "openxml"
             local para = pandoc.Para({ pandoc.Str("Table"), pandoc.Space(),
@@ -53,7 +53,7 @@ function toc(el)
         end
     elseif el.text == "\\newpage" then
         if FORMAT == "docx" then
-            debug("Pagebreak")
+            debug("[ lua ] insert a Pagebreak")
             el.text = RAW_PAGEBREAK
             el.format = "openxml"
             return el
