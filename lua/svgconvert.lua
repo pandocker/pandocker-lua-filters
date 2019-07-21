@@ -35,8 +35,8 @@ function convert_from_svg(el)
     local ext = get_ext[FORMAT] or "png"
     local source_file = stringify(el.src)
     --debug(source_file)
+    local source_base, source_ext = source_file:match('(.*)%.(.*)')
     if ext ~= "svg" and source_ext == "svg" then
-        local source_base, source_ext = source_file:match('(.*)%.(.*)')
         if file_exists(source_file) then
             local _, basename = require("pandocker.utils").basename(source_base)
             local abspath = get_current_directory()
