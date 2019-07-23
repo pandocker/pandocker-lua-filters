@@ -38,6 +38,7 @@ PANFLAGS += --lua-filter=../lua/wavedrom.lua
 PANFLAGS += --lua-filter=../lua/svgconvert.lua
 PANFLAGS += --lua-filter=../lua/csv2table.lua
 PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
+PANFLAGS += --filter=pandocker-filters
 PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)
