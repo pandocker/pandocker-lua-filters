@@ -17,6 +17,7 @@ local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["lgeometry"]
+assert(default_meta)
 
 local NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local MESSAGE = "[ lua ] Div in 'LANDSCAPE' class found"

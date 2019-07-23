@@ -19,6 +19,7 @@ local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local default_meta = require("pandocker.default_loader")["rmnote"]
+assert(default_meta)
 
 local meta = {}
 local METADATA_NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."

@@ -21,6 +21,7 @@ Converts level 1~4 headers in 'unnumbered' class to unnumbered headers
 local debug = require("pandocker.utils").debug
 
 local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
+assert(default_meta)
 
 local meta = {}
 local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
