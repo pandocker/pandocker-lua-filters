@@ -34,8 +34,9 @@ local function dump(tt, mm)
     end
 end
 
-function store_meta (meta)
+local function store_meta (meta)
     search_paths = meta["include"]
+    assert(search_paths ~= nil)
 end
 
 local function replace(el)
@@ -47,7 +48,7 @@ local function replace(el)
         --end
         if rep[1] == pandoc.Str("#include") and rep[2].tag == "Space" and rep[3].tag == "Quoted" then
             for _, v in ipairs(search_paths) do
-                included = "./" .. stringify(v) .. "/" .. stringify(rep[3].content)
+                local included = "./" .. stringify(v) .. "/" .. stringify(rep[3].content)
                 if file_exists(included) then
                     f = io.open(included, "r")
                     sub = pandoc.read(f:read("*a"), "markdown")
