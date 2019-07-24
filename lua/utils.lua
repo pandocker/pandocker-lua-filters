@@ -35,8 +35,22 @@ local function file_exists(path)
     return file ~= nil
 end
 
+local function get_tf(item, default)
+    if type(item) == "string" then
+        item = string.upper(item)
+        if tablex.search({ "TRUE", "YES" }, item) then
+            return true
+        else
+            return false
+        end
+    else
+        return default
+    end
+end
+
 return {
     debug = debug,
     basename = basename,
     file_exists = file_exists,
+    get_tf = get_tf,
 }
