@@ -21,8 +21,11 @@ local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
+local default_meta = require("pandocker.default_loader")["include"]
+assert(default_meta ~= nil)
 
 local search_paths = {}
+local META_NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local FILE_NOT_FOUND = "[ lua ] %s: file not found in search paths"
 
 local function dump(tt, mm)
@@ -34,9 +37,13 @@ local function dump(tt, mm)
     end
 end
 
-local function store_meta (meta)
-    search_paths = meta["include"]
-    assert(search_paths ~= nil)
+local function store_meta (mt)
+    search_paths = mt["include"]
+    if search_paths == nil then
+        search_paths = default_meta
+        debug(string.format(META_NOT_FOUND, "include", "./"))
+    end
+    table.insert(search_paths, "")
 end
 
 local function replace(el)
