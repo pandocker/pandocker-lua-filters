@@ -1,0 +1,19 @@
+# list from LSB
+# bits: bit width
+# attr: information RO/WO/RW etc.
+# name: name of bitfield
+reg:
+  - bits: 5
+  - bits: 1
+    attr: RW
+    name: IPO
+  - bits: 1
+    attr: RW
+    name: BRK
+  - bits: 1
+    name: CPK
+options:
+  bits: 8
+  fontfamily: "Source Code Pro"
+  lanes: 1
+  fontweight: "bold"

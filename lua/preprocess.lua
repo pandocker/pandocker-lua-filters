@@ -49,17 +49,15 @@ end
 local function replace(el)
     local rep = el.content
     local sub
+    local data
     if #rep == 3 then
-        --for ii, vv in ipairs(rep) do
-        --    print(vv.tag .. "(" .. stringify(vv) .. ")")
-        --end
+        --dump(rep)
         if rep[1] == pandoc.Str("#include") and rep[2].tag == "Space" and rep[3].tag == "Quoted" then
             for _, v in ipairs(search_paths) do
                 local included = "./" .. stringify(v) .. "/" .. stringify(rep[3].content)
                 if file_exists(included) then
-                    f = io.open(included, "r")
-                    sub = pandoc.read(f:read("*a"), "markdown")
-                    f:close()
+                    data = io.open(included, "r"):read("*a")
+                    sub = pandoc.read(data)
                     --dump(sub.blocks)
                     return sub
                 end

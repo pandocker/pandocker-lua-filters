@@ -25,8 +25,8 @@ PROJECT= `pwd`
 ##
 LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
 PANFLAGS =
-#PANFLAGS += $(MISC_SYS)/$(CONFIG)
-#PANFLAGS += $(MDDIR)/$(CONFIG)
+PANFLAGS += $(MISC_SYS)/$(CONFIG)
+PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += --lua-filter=../lua/tex-landscape.lua
 PANFLAGS += --lua-filter=../lua/preprocess.lua
 PANFLAGS += --lua-filter=../lua/removable-note.lua
@@ -38,7 +38,7 @@ PANFLAGS += --lua-filter=../lua/wavedrom.lua
 PANFLAGS += --lua-filter=../lua/svgconvert.lua
 PANFLAGS += --lua-filter=../lua/csv2table.lua
 PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
-PANFLAGS += --filter=pandocker-filters
+#PANFLAGS += --filter=pandocker-filters
 PANFLAGS += --filter=pandoc-crossref
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)
