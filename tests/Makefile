@@ -27,6 +27,7 @@ LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
 PANFLAGS =
 PANFLAGS += $(MISC_SYS)/$(CONFIG)
 PANFLAGS += $(MDDIR)/$(CONFIG)
+PANFLAGS += --resource-path=.:$(DATADIR):$(IMAGEDIR):$(MDDIR):$(TARGETDIR)
 PANFLAGS += --lua-filter=../lua/tex-landscape.lua
 PANFLAGS += --lua-filter=../lua/preprocess.lua
 PANFLAGS += --lua-filter=../lua/removable-note.lua

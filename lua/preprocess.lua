@@ -6,14 +6,16 @@ and tries to include contents of filename into AST tree
 
 - Metadata "include" is used as search path list
 - Does not apply to contents of a Div
+- search paths are inherited from option parameter for pandoc
 
 ## Syntax
 
 ```markdown
 # #include "section1.md"
-          ||           |
+<!--      ||           |
           | `-----------`--- Filename must be quoted
            `-- White space(s) required here
+-->
 ```
 ]]
 
@@ -21,11 +23,11 @@ local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
-local default_meta = require("pandocker.default_loader")["include"]
-assert(default_meta ~= nil)
+--local default_meta = require("pandocker.default_loader")["include"]
+--assert(default_meta ~= nil)
 
-local search_paths = {}
-local META_NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
+--local search_paths = {}
+--local META_NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local FILE_NOT_FOUND = "[ lua ] %s: file not found in search paths"
 
 local function dump(tt, mm)
@@ -37,6 +39,7 @@ local function dump(tt, mm)
     end
 end
 
+--[[
 local function store_meta (mt)
     search_paths = mt["include"]
     if search_paths == nil then
@@ -45,6 +48,7 @@ local function store_meta (mt)
     end
     table.insert(search_paths, "")
 end
+]]
 
 local function replace(el)
     local rep = el.content
@@ -53,7 +57,7 @@ local function replace(el)
     if #rep == 3 then
         --dump(rep)
         if rep[1] == pandoc.Str("#include") and rep[2].tag == "Space" and rep[3].tag == "Quoted" then
-            for _, v in ipairs(search_paths) do
+            for _, v in ipairs(PANDOC_STATE.resource_path) do
                 local included = "./" .. stringify(v) .. "/" .. stringify(rep[3].content)
                 if file_exists(included) then
                     data = io.open(included, "r"):read("*a")
@@ -97,5 +101,4 @@ local function preprocess(doc)
     return doc
 end
 
-return { { Meta = store_meta }, { Pandoc = preprocess }
-}
+return { { Pandoc = preprocess } }
