@@ -108,7 +108,6 @@ local function tabular(el)
                 alignment:append(ALIGN[al:upper()])
                 i = i + 1
             end
-
         end
         header = get_tf(el.attributes.header, true)
         if el.attributes.width ~= nil then
@@ -146,7 +145,7 @@ local function tabular(el)
             alignment:append(ALIGN.D)
         end
         while col_max > #widths do
-            widths:append(0.0)
+            widths:append(0.01)
         end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))
