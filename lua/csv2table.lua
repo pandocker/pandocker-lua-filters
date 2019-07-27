@@ -145,7 +145,11 @@ local function tabular(el)
             alignment:append(ALIGN.D)
         end
         while col_max > #widths do
-            widths:append(0.01)
+            if FORMAT == "docx" then
+                widths:append(0.01)
+            else
+                widths:append(0)
+            end
         end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))
