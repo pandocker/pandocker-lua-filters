@@ -44,8 +44,10 @@ end
 local function landscape(el)
     if el.classes:find("LANDSCAPE") then
         debug(MESSAGE)
-        table.insert(el.content, 1, start_landscape)
-        table.insert(el.content, stop_landscape)
+        if FORMAT == "latex" then
+            table.insert(el.content, 1, start_landscape)
+            table.insert(el.content, stop_landscape)
+        end
         return el.content
     end
 end
