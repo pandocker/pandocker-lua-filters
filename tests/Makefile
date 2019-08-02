@@ -33,7 +33,8 @@ PANFLAGS += --lua-filter=../lua/preprocess.lua
 PANFLAGS += --lua-filter=../lua/removable-note.lua
 PANFLAGS += --lua-filter=../lua/docx-pagebreak-toc.lua
 PANFLAGS += --lua-filter=../lua/docx-unnumberedheadings.lua
-PANFLAGS += --lua-filter=../lua/docx-extract-bullet-lists.lua
+#PANFLAGS += --lua-filter=../lua/docx-extract-bullet-lists.lua
+PANFLAGS += --lua-filter=../lua/table-width.lua
 PANFLAGS += --lua-filter=../lua/listingtable.lua
 PANFLAGS += --lua-filter=../lua/wavedrom.lua
 PANFLAGS += --lua-filter=../lua/svgconvert.lua
