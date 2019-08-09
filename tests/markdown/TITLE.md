@@ -9,11 +9,13 @@ listings: true
 
 \toc
 
-Table: table **width** {#tbl:tabls width=[0.1,0.1,0.9]}
+:::{.table width=[0.8,0.3]}
+Table: table **width** {#tbl:tabls}
 
 | Table | Header |  Row |
 |:------|:------:|-----:|
 | Cell  |  Cell  | Cell |
+:::
 
 # #include "rest.rst"
 # Level1
