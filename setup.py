@@ -172,6 +172,7 @@ setup(
                                              'lua/preprocess.lua',
                                              'lua/removable-note.lua',
                                              'lua/svgconvert.lua',
+                                             'lua/table-width.lua',
                                              'lua/tex-landscape.lua',
                                              'lua/tex-rowcolors-reset.lua',
                                              'lua/utils.lua',

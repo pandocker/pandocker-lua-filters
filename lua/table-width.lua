@@ -1,5 +1,24 @@
 --[[
 # table-width.lua
+
+Applies table attributes to a table inside a Div
+
+## Syntax
+
+:::{.table width=[w1,w2,...]}
+
+: Caption {#tbl:table}
+
+| Header    | Row   | Table |
+|:----------|:-----:|------:|
+| Cell      | Cell  | Cell  |
+
+:::
+
+where,
+
+- w1,w2,... : width value for each column. if not given padded by 0
+
 ]]
 
 local stringify = require("pandoc.utils").stringify
