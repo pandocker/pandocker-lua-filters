@@ -1,5 +1,31 @@
 --[[
 # csv2table.lua
+
+Converts Link to a csv file into Table object
+
+## Syntax
+
+[Caption](/path/to/file){.table width=[w1,w2,...] header=true alignment=a1a2... \
+                                subset_from=(y2,x2) subset_to=(y2,x2) #tbl:table}
+where,
+
+- Caption: caption of this table. if not given filename is used
+- /path/to/file : path to file. relative to directory where pandoc is invoked
+- header : flag to let first row as header row. defaults true
+- w1,w2,... : width value for each column. if not given padded by 0
+- a1a2... : alignment list for each column. c=Center, d=Default, l=Left, r=Right.
+if not given padded by d
+- subset_from : (row,col) pair to specify coordinate to cut FROM
+- subset_to : (row,col) pair to specify coordinate to cut TO
+
+### Equivalent output
+
+: Caption {#tbl:table}
+
+| Header    | Row   | Table |
+|:----------|:-----:|------:|
+| Cell      | Cell  | Cell  |
+
 ]]
 
 local pretty = require("pl.pretty")
