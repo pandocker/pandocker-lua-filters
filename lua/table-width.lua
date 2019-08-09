@@ -28,8 +28,7 @@ require("pl.stringx").import()
 
 local debug = require("pandocker.utils").debug
 
-local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
-local MESSAGE = "[ lua ] Div in 'LANDSCAPE' class found"
+local MESSAGE = "[ lua ] Div in 'table' class found"
 
 local function get_widths(attr)
     local widths = {}
@@ -48,8 +47,8 @@ end
 
 local function table_width(el)
     if el.classes:find("table") then
-        debug("table class div")
         if #el.content == 1 and el.content[1].tag == "Table" then
+            debug(MESSAGE)
             --pretty.dump(el.attributes["width"])
             local widths = el.attributes["width"]
             local tbl = el.content[1]
