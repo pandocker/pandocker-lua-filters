@@ -36,6 +36,10 @@ Lua filters for pandoc
 
 [**`csv2table.lua`**](lua/csv2table.lua)
 
+#### add width options to ordinary table
+
+[**`table-width.lua`**](lua/table-width.lua)
+
 ## *LaTeX* output only
 #### Landscape pages
 
