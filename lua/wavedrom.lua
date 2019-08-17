@@ -20,6 +20,8 @@ PANDOC_VERSION:must_be_at_least '2.7.3'
 local abs_pwd = require("pandoc.system").get_current_directory()
 local stringify = require("pandoc.utils").stringify
 
+local pretty = require("pl.pretty")
+
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
@@ -60,7 +62,8 @@ function Link(el)
             --print(fullinputpath, hash, fullpath)
             pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "")
             debug(string.format(MESSAGE, hash))
-            local img = pandoc.Image({}, fullpath, "", attr)
+            local img = pandoc.Image(el.content, fullpath, "fig:", attr)
+            --pretty.dump(img)
             return img
         else
             debug(string.format(NOT_FOUND, source_file))
