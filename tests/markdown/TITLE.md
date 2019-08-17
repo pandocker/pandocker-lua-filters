@@ -50,7 +50,7 @@ Bullet List 2
 
 [Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
 
-[Wavedrom(BitField)](data/json.json){.wavedrom}
+[Wavedrom(BitField)](data/json.json){.wavedrom #fig:wavedrom}
 
 \newpage
 
