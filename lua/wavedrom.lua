@@ -20,7 +20,7 @@ PANDOC_VERSION:must_be_at_least '2.7.3'
 local abs_pwd = require("pandoc.system").get_current_directory()
 local stringify = require("pandoc.utils").stringify
 
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists

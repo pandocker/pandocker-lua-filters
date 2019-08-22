@@ -21,9 +21,9 @@ where,
 
 ]]
 
-local stringify = require("pandoc.utils").stringify
+--local stringify = require("pandoc.utils").stringify
 
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 require("pl.stringx").import()
 
 local debug = require("pandocker.utils").debug
