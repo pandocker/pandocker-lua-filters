@@ -53,8 +53,9 @@ function Link(el)
         if file_exists(source_file) then
 
             -- for wavedrompy<=2.0.3
-            if source_ext == "json" then
+            if source_ext ~= "json" then
                 --[[  -- for wavedrompy >=2.0.4
+            if source_ext == "json" then
                 local data = io.open(source_file, "r"):read("*a")
                 if source_ext == "yaml" then
                     data = json.encode(yaml.load(data))
