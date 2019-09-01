@@ -30,7 +30,7 @@ local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
-local INVALID_FILETYPE = "[ lua ] %s: invalid file format for wavedrom. must be JSON or YAML"
+local INVALID_FILETYPE = "[ lua ] %s: invalid file format for wavedrom. must be JSON" -- or YAML
 local MESSAGE = "[ lua ] convert wavedrom to svg/%s.svg"
 local NOT_FOUND = "[ lua ] %s: file not found"
 
