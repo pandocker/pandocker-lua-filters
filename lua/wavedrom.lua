@@ -62,9 +62,9 @@ function Link(el)
                 return
             end
             local _, basename = require("pandocker.utils").basename(source_file)
-            if idn == "" then
-                idn = "fig:" .. string.gsub(basename, "%.", "_")
-            end
+            --if idn == "" then
+            --    idn = "fig:" .. string.gsub(basename, "%.", "_")
+            --end
             local attr = pandoc.Attr(idn, classes, el.attributes)
             local content = io.open(source_file, "rb"):read("a")
             local hash = pandoc.utils.sha1(content)
