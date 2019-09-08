@@ -17,10 +17,8 @@
 ]]
 PANDOC_VERSION:must_be_at_least '2.7.3'
 
---[[
 local yaml = require("lyaml")
 local json = require("cjson")
-]]
 
 local abs_pwd = require("pandoc.system").get_current_directory()
 local stringify = require("pandoc.utils").stringify
@@ -53,15 +51,13 @@ function Link(el)
         if file_exists(source_file) then
 
             -- for wavedrompy<=2.0.3
-            if source_ext ~= "json" then
-                --[[  -- for wavedrompy >=2.0.4
-            if source_ext == "json" then
-                local data = io.open(source_file, "r"):read("*a")
-                if source_ext == "yaml" then
-                    data = json.encode(yaml.load(data))
-                    --debug(json.encode(yaml.load(data)))
-                elseif source_ext ~= "json" then
-                ]]
+            --if source_ext ~= "json" then
+            -- for wavedrompy >=2.0.4
+            local data = io.open(source_file, "r"):read("*a")
+            if source_ext == "yaml" then
+                data = json.encode(yaml.load(data))
+                --debug(json.encode(yaml.load(data)))
+            elseif source_ext ~= "json" then
                 debug(string.format(INVALID_FILETYPE, source_file))
                 return
             end
@@ -75,8 +71,8 @@ function Link(el)
             local fullinputpath = string.format("%s/%s", abs_pwd, source_file)
             local fullpath = string.format("%s/svg/%s.svg", abs_pwd, hash)
             --print(fullinputpath, hash, fullpath)
-            pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "") -- for wavedrompy <=2.0.3
-            --pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data) -- for wavedrompy >=2.0.4
+            --pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "") -- for wavedrompy <=2.0.3
+            pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data) -- for wavedrompy >=2.0.4
             debug(string.format(MESSAGE, hash))
             local img = pandoc.Image(el.content, fullpath, "fig:", attr)
             --pretty.dump(img)
