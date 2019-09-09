@@ -6,13 +6,19 @@ Lua filters for pandoc
 `pip install git+https://github.com/pandocker/pandocker-lua-filters.git`
 
 ## General use
-#### Concatenate text files
+#### Convert CSV into table
 
-[**`preprocess.lua`**](lua/preprocess.lua)
+- requires `csv` luarocks package
+
+[**`csv2table.lua`**](lua/csv2table.lua)
 
 #### Text file listing
 
 [**`listingtable.lua`**](lua/listingtable.lua)
+
+#### Concatenate text files
+
+[**`preprocess.lua`**](lua/preprocess.lua)
 
 #### Removable note block
 
@@ -24,24 +30,16 @@ Lua filters for pandoc
 
 [**`svgconvert.lua`**](lua/svgconvert.lua)
 
-#### Wavedrom / Bit-Field
-
-- requires `wavedrom` (version later than 2.0) python package
-<!--
-- requires `lyaml` and `lua-cjson2` luarocks packages
--->
-
-[**`wavedrom.lua`**](lua/wavedrom.lua)
-
-#### convert CSV into table
-
-- requires `csv` luarocks package
-
-[**`csv2table.lua`**](lua/csv2table.lua)
-
-#### add width options to ordinary table
+#### Add width options to ordinary table
 
 [**`table-width.lua`**](lua/table-width.lua)
+
+#### Wavedrom / Bit-Field
+
+- requires `wavedrom` (version later than 2.0.3r1) python package
+- requires `lyaml` and `lua-cjson2` luarocks packages
+
+[**`wavedrom.lua`**](lua/wavedrom.lua)
 
 ## *LaTeX* output only
 #### Landscape pages
@@ -53,7 +51,13 @@ Lua filters for pandoc
 [**`tex-rowcolors-reset`**](lua/tex-rowcolors-reset.lua)
 
 ## *Docx* output only
-#### unnumbered headings
+#### TOC / Pagebreak
+
+[**`docx-pagebreak-toc.lua`**](lua/docx-pagebreak-toc.lua)
+
+- Adds TOC(Table Of Contents) or a pagebreak at any point of document
+
+#### Unnumbered headings
 
 [**`docx-unnumberedheadings.lua`**](lua/docx-unnumberedheadings.lua)
 
@@ -83,12 +87,6 @@ Lua filters for pandoc
 ##### Requirement for template
 -->
 
-#### TOC / Pagebreak
-
-[**`docx-pagebreak-toc.lua`**](lua/docx-pagebreak-toc.lua)
-
-- Adds TOC(Table Of Contents) or a pagebreak at any point of document
-
 # samples
 
 ```markdown
@@ -102,7 +100,7 @@ Feature request (via issues) and PRs are welcome. Post questions in issues with 
 ### DIY
 
 As lua filters only requires pandoc itself, it is relatively easy
-to try develop a new filter. I recommend to use `k4zuki/pandocker`
+to try develop a new filter. I recommend to use `k4zuki/pandocker-alpine`
 *docker image* like
 
 - `docker pull k4zuki/pandocker-alpine` to get image
@@ -115,5 +113,5 @@ to try develop a new filter. I recommend to use `k4zuki/pandocker`
 - `make html|pdf|docx` to compile test document
 - edit `tests/Makefile` to configure options for pandoc
 
-You dont have to `reinstall` for every source code updates. Instead edit `tests/Makefile`
+You don't have to `reinstall` for every source code updates. Instead edit `tests/Makefile`
 to run your new filter from inside repository.
