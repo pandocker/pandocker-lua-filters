@@ -39,6 +39,8 @@ function Link(el)
             el.content = el.target
         end
         local idn = el.identifier
+
+        -- remove "wavedrom" and "bitfield" classes
         local classes = {}
         for i, v in ipairs(el.classes) do
             if v ~= "wavedrom" and v ~= "bitfield" then
@@ -46,33 +48,31 @@ function Link(el)
             end
         end
 
+        -- main block
         local source_file = stringify(el.target)
         local source_ext = source_file:match('.*%.(.*)')
         if file_exists(source_file) then
-
-            -- for wavedrompy<=2.0.3
-            --if source_ext ~= "json" then
-            -- for wavedrompy >=2.0.4
+            -- reads file contents as string anyway; assuming input a JSON file
             local data = io.open(source_file, "r"):read("*a")
             if source_ext == "yaml" then
+                -- if extension is YAML: convert to JSON string
                 data = json.encode(yaml.load(data))
                 --debug(json.encode(yaml.load(data)))
             elseif source_ext ~= "json" then
+                -- prints error message if extension is not YAML nor JSON
                 debug(string.format(INVALID_FILETYPE, source_file))
                 return
             end
-            local _, basename = require("pandocker.utils").basename(source_file)
-            --if idn == "" then
-            --    idn = "fig:" .. string.gsub(basename, "%.", "_")
-            --end
+
             local attr = pandoc.Attr(idn, classes, el.attributes)
             local content = io.open(source_file, "rb"):read("a")
             local hash = pandoc.utils.sha1(content)
-            local fullinputpath = string.format("%s/%s", abs_pwd, source_file)
             local fullpath = string.format("%s/svg/%s.svg", abs_pwd, hash)
-            --print(fullinputpath, hash, fullpath)
-            --pandoc.pipe("wavedrompy", { "--input", fullinputpath, "--svg", fullpath }, "") -- for wavedrompy <=2.0.3
-            pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data) -- for wavedrompy >=2.0.4
+
+            -- for wavedrompy > 2.0.3
+            -- pipes JSON string to wavedrompy; equivalent to `echo <data> | wavedrompy --input - --svg <fullpath>`
+            pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data)
+
             debug(string.format(MESSAGE, hash))
             local img = pandoc.Image(el.content, fullpath, "fig:", attr)
             --pretty.dump(img)
