@@ -19,6 +19,7 @@ local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
 local MESSAGE = "[ lua ] convert a svg file to svg/%s.%s"
+local BYPASS = "[ lua ] Skipping conversion as target 'svg/%s.%s' exists"
 local ERROR_MESSAGE = "[ lua ] %s: file not found"
 
 local get_ext = {
@@ -41,8 +42,12 @@ function convert_from_svg(el)
             local _, basename = require("pandocker.utils").basename(source_base)
             local abspath = get_current_directory()
             local fullpath = string.format("%s/svg/%s.%s", abspath, basename, ext)
-            pandoc.pipe("rsvg-convert", { source_file, "-f", ext, "-o", fullpath }, "")
-            debug(string.format(MESSAGE, basename, ext))
+            if not file_exists(fullpath) then
+                pandoc.pipe("rsvg-convert", { source_file, "-f", ext, "-o", fullpath }, "")
+                debug(string.format(MESSAGE, basename, ext))
+            else
+                debug(string.format(BYPASS, basename, ext))
+            end
             el.src = fullpath
             --debug(abspath, path, source_file, basename, ext, fullpath)
             return el

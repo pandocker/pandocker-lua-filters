@@ -30,6 +30,7 @@ local file_exists = require("pandocker.utils").file_exists
 
 local INVALID_FILETYPE = "[ lua ] %s: invalid file format for wavedrom. must be JSON" -- or YAML
 local MESSAGE = "[ lua ] convert wavedrom to svg/%s.svg"
+local BYPASS = "[ lua ] Skipping conversion as target 'svg/%s.svg' exists"
 local NOT_FOUND = "[ lua ] %s: file not found"
 
 function Link(el)
@@ -71,9 +72,12 @@ function Link(el)
 
             -- for wavedrompy > 2.0.3
             -- pipes JSON string to wavedrompy; equivalent to `echo <data> | wavedrompy --input - --svg <fullpath>`
-            pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data)
-
-            debug(string.format(MESSAGE, hash))
+            if not file_exists(fullpath) then
+                pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data)
+                debug(string.format(MESSAGE, hash))
+            else
+                debug(string.format(BYPASS, hash))
+            end
             local img = pandoc.Image(el.content, fullpath, "fig:", attr)
             --pretty.dump(img)
             return img
