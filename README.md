@@ -67,7 +67,7 @@ Lua filters for pandoc
 ##### Requirement for template
 
 - Prepare `Heading Unnumbered 1` to `Heading Unnumbered 4` heading styles
-  - otherwise these headers appear in `Body` style
+  - Otherwise these headers inherit `Body` style
 
 | Level | Numbered  | Unnumbered           |
 |:-----:|:----------|:---------------------|
@@ -77,15 +77,21 @@ Lua filters for pandoc
 |   4   | Heading 4 | Heading Unnumbered 4 |
 |   5   | Heading 5 |                      |
 
-<!--
-#### centering images
+#### Figure styles
 
-- an image link in paragraph will be centered
-- blank lines required before and after image link
-- Requires `Centered` paragraph style in template otherwise no effect can be seen
+[**`docx-image-styles.lua`**](lua/docx-image-styles.lua)
+
+- Processes only paragraph having single image link
+  - Blank lines required before and after image link
+- Requires `Graphic Anchor` and `Figure Caption` paragraph styles in template
+otherwise these styles inherit `Body` style
+  - the filter creates two divs having `custom-style` attribute
+  - after process the image is placed in `custom-style="Graphic Anchor"` div and its caption is in `custom-style="Figure Caption"`
+  div respectively
 
 ##### Requirement for template
--->
+
+- Prepare `Graphic Anchor` and `Figure Caption` styles
 
 # samples
 
