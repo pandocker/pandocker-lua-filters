@@ -21,4 +21,6 @@ bullet-style:
 figure-styles:
   anchor: "Graphic Anchor"
   caption: "Figure Caption"
+
+toc-title: "Table of Contents"
 ...
