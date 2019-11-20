@@ -3,6 +3,7 @@
 
 Finds commands to insert TOC or a page break
 Only works for `docx` format
+Metadata `toc-title` could be used
 
 ## Syntax
 
@@ -35,15 +36,29 @@ local RAW_TOC = [[
 </w:sdt>
 ]]
 local RAW_PAGEBREAK = "<w:p><w:r><w:br w:type=\"page\" /></w:r></w:p>"
+local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 
-function toc(el)
+local meta_key = "toc-title"
+local default_meta = require("pandocker.default_loader")[meta_key]
+
+local function get_vars (mt)
+    meta = mt[meta_key]
+    if meta ~= nil and meta.tag == "MetaInlines" then
+        meta = { table.unpack(meta) }
+    else
+        meta = { table.unpack(default_meta) }
+        debug(string.format(NOT_FOUND, meta_key, "")
+        )
+    end
+end
+
+local function toc(el)
     if el.text == "\\toc" then
         if FORMAT == "docx" then
             debug("[ lua ] insert Table of Contents")
             el.text = RAW_TOC
             el.format = "openxml"
-            local para = pandoc.Para({ pandoc.Str("Table"), pandoc.Space(),
-                                       pandoc.Str("of"), pandoc.Space(), pandoc.Str("Contents") })
+            local para = pandoc.Para(meta)
             local div = pandoc.Div({ para, el })
             div["attr"]["attributes"]["custom-style"] = "TOC Heading"
             return div
@@ -65,4 +80,4 @@ function toc(el)
     --elseif FORMAT == "latex" then
 end
 
-return { { RawBlock = toc } }
+return { { Meta = get_vars }, { RawBlock = toc } }
