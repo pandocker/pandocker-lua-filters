@@ -57,6 +57,10 @@ Lua filters for pandoc
 
 - Adds TOC(Table Of Contents) or a pagebreak at any point of document
 
+##### Requirement for template
+
+TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrides this setting.
+
 #### Unnumbered headings
 
 [**`docx-unnumberedheadings.lua`**](lua/docx-unnumberedheadings.lua)
