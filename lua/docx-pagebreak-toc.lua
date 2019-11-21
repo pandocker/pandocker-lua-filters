@@ -3,7 +3,7 @@
 
 Finds commands to insert TOC or a page break
 Only works for `docx` format
-Metadata `toc-title` could be used
+TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrides this setting.
 
 ## Syntax
 
