@@ -10,10 +10,10 @@
 |             |  (preserve)   | |    (preserve)    | | (preserve)
 ]]
 
-PANDOC_VERSION:must_be_at_least '2.7.3'
+PANDOC_VERSION:must_be_at_least '2.8'
 
 local stringify = require("pandoc.utils").stringify
-local get_current_directory = require("pandoc.system").get_current_directory
+local get_current_directory = require("pandoc.system").get_working_directory
 
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
