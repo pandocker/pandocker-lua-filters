@@ -15,12 +15,12 @@
 |             |  (preserve)   | |    (preserve)    | | (preserve)
 
 ]]
-PANDOC_VERSION:must_be_at_least '2.8'
+PANDOC_VERSION:must_be_at_least '2.7.3'
 
 local yaml = require("lyaml")
 local json = require("cjson")
 
-local abs_pwd = require("pandoc.system").get_working_directory()
+local abs_pwd = require("pandoc.system").get_current_directory()
 local stringify = require("pandoc.utils").stringify
 
 --local pretty = require("pl.pretty")
