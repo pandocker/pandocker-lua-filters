@@ -28,6 +28,7 @@ PANFLAGS =
 PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += $(MISC_SYS)/$(CONFIG)
 PANFLAGS += --resource-path=.:$(DATADIR):$(IMAGEDIR):$(MDDIR):$(TARGETDIR)
+PANFLAGS += --lua-filter=../lua/tex-hide-meta.lua
 PANFLAGS += --lua-filter=../lua/tex-landscape.lua
 PANFLAGS += --lua-filter=../lua/preprocess.lua
 PANFLAGS += --lua-filter=../lua/removable-note.lua
