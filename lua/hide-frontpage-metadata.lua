@@ -1,7 +1,7 @@
 --[[
-# tex-hide-meta.lua
+# hide-frontpage-metadata.lua
 
-hides certain metadata when LaTeX output
+hides certain metadata when LaTeX or Docx output
 
 ]]
 
@@ -13,7 +13,7 @@ local debug = require("pandocker.utils").debug
 
 local MESSAGE = "[ lua ] metadata '%s' has found and removed"
 
-if FORMAT == "latex" then
+if FORMAT == "latex" or FORMAT == "docx" then
     local function get_vars (mt)
         local meta = {
             "author",
@@ -28,7 +28,7 @@ if FORMAT == "latex" then
                 debug(string.format(MESSAGE, v))
             end
         end
---         pretty.dump(mt)
+        --pretty.dump(mt)
         return mt
     end
     return { { Meta = get_vars } }
