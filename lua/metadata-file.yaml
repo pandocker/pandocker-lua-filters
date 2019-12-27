@@ -25,10 +25,10 @@ figure-styles:
 toc-title: "Table of Contents"
 
 table-cell-styles:
-  header-default: "Table Header Left"
-  header-left: "Table Header Left"
-  header-center: "Table Header Center"
-  header-right: "Table Header Right"
+  header-default: "Table Head Left"
+  header-left: "Table Head Left"
+  header-center: "Table Head Center"
+  header-right: "Table Head Right"
   body-default: "Table Body Left"
   body-left: "Table Body Left"
   body-center: "Table Body Center"
