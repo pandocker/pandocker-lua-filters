@@ -41,7 +41,7 @@ if FORMAT == "docx" then
         return aligns_table[align]
     end
     local function apply_cell_styles(el)
-        debug("Table found")
+        debug("[ lua ] Apply table styles")
         local aligns = el.aligns
         local headers = el.headers
         local rows = el.rows
