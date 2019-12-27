@@ -23,4 +23,14 @@ figure-styles:
   caption: "Figure Caption"
 
 toc-title: "Table of Contents"
+
+table-cell-styles:
+  header-default: "Table Header Left"
+  header-left: "Table Header Left"
+  header-center: "Table Header Center"
+  header-right: "Table Header Right"
+  body-default: "Table Body Left"
+  body-left: "Table Body Left"
+  body-center: "Table Body Center"
+  body-right: "Table Body Right"
 ...

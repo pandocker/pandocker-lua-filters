@@ -48,9 +48,31 @@ local function get_tf(item, default)
     end
 end
 
+-- requires global definition of `default_meta` and `meta_key`
+local function get_meta(doc_meta, default_meta, meta_key)
+    local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
+
+    meta = doc_meta[meta_key]
+    if meta ~= nil then
+        for k, v in pairs(default_meta) do
+            if meta[k] == nil then
+                meta[k] = v
+                local d = pandoc.utils.stringify(doc_meta[meta_key][k])
+                debug(string.format(NOT_FOUND, meta_key .. "." .. k, d))
+            end
+        end
+    else
+        meta = default_meta
+        debug(string.format(NOT_FOUND, meta_key, ""))
+    end
+    --pretty.dump(meta)
+    return meta
+end
+
 return {
-    debug = debug,
     basename = basename,
+    debug = debug,
     file_exists = file_exists,
     get_tf = get_tf,
+    util_get_meta = get_meta,
 }
