@@ -56,10 +56,13 @@ if FORMAT == "docx" then
         --pretty.dump(header_styles)
 
         for i, header in ipairs(headers) do
-            local header_cell = pandoc.Div(header)
-            header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
-            el.headers[i] = { header_cell }
-            --pretty.dump(header_cell)
+            if header ~= nil then
+
+                local header_cell = pandoc.Div(header)
+                header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
+                el.headers[i] = { header_cell }
+                --pretty.dump(header_cell)
+            end
         end
         --pretty.dump(headers)
 
