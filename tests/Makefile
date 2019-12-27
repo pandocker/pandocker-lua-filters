@@ -28,7 +28,7 @@ PANFLAGS =
 PANFLAGS += $(MDDIR)/$(CONFIG)
 PANFLAGS += $(MISC_SYS)/$(CONFIG)
 PANFLAGS += --resource-path=.:$(DATADIR):$(IMAGEDIR):$(MDDIR):$(TARGETDIR)
-PANFLAGS += --lua-filter=../lua/tex-hide-meta.lua
+PANFLAGS += --lua-filter=../lua/hide-frontpage-metadata.lua
 PANFLAGS += --lua-filter=../lua/tex-landscape.lua
 PANFLAGS += --lua-filter=../lua/preprocess.lua
 PANFLAGS += --lua-filter=../lua/removable-note.lua
@@ -40,6 +40,7 @@ PANFLAGS += --lua-filter=../lua/listingtable.lua
 PANFLAGS += --lua-filter=../lua/wavedrom.lua
 PANFLAGS += --lua-filter=../lua/svgconvert.lua
 PANFLAGS += --lua-filter=../lua/csv2table.lua
+PANFLAGS += --lua-filter=../lua/docx-apply-cell-styles.lua
 PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
 #PANFLAGS += --filter=pandocker-filters
 PANFLAGS += --filter=pandoc-crossref
