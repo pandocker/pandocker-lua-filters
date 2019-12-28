@@ -3,7 +3,7 @@
 
 Finds table; get list of alignment; get list of styles to apply; apply styles for each cell
 ]]
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 
 local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
@@ -56,15 +56,14 @@ if FORMAT == "docx" then
         --pretty.dump(header_styles)
 
         for i, header in ipairs(headers) do
-            if header ~= nil then
-
+            if #header > 0 then
                 local header_cell = pandoc.Div(header)
                 header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
                 el.headers[i] = { header_cell }
                 --pretty.dump(header_cell)
             end
+            --pretty.dump(headers)
         end
-        --pretty.dump(headers)
 
         for i, row in ipairs(rows) do
             for j, cell in ipairs(row) do
@@ -76,5 +75,7 @@ if FORMAT == "docx" then
         --pretty.dump(el)
         return el
     end
+
     return { { Meta = get_meta }, { Table = apply_cell_styles } }
+
 end
