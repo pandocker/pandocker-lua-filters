@@ -16,16 +16,19 @@ local MESSAGE = "[ lua ] metadata '%s' has found and removed"
 if FORMAT == "latex" or FORMAT == "docx" then
     local function get_vars (mt)
         local meta = {
-            "author",
-            "date",
-            "subtitle",
-            "title",
+            author = "author-meta",
+            date = "date-meta",
+            subtitle = "subtitle-meta",
+            title = "title-meta",
         }
 
-        for i, v in ipairs(meta) do
-            if mt[v] ~= nil then
-                mt[v] = nil
-                debug(string.format(MESSAGE, v))
+        for k, v in pairs(meta) do
+            debug(k .. ": " .. v)
+            if mt[k] ~= nil then
+                mt[v] = stringify(mt[k])
+                --debug(stringify(mt[k]))
+                mt[k] = nil
+                debug(string.format(MESSAGE, k))
             end
         end
         --pretty.dump(mt)
