@@ -12,7 +12,8 @@ local util_get_meta = require("pandocker.utils").util_get_meta
 local meta_key = "table-cell-styles"
 local meta = {}
 local default_meta = require("pandocker.default_loader")[meta_key]
---local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
+
+MESSAGE = "[ lua ] Apply table cell styles"
 
 if FORMAT == "docx" then
 
@@ -30,6 +31,7 @@ if FORMAT == "docx" then
         --debug(aligns_table[align])
         return aligns_table[align]
     end
+
     local function get_body_styles(align)
         --pretty.dump(meta)
         local aligns_table = {
@@ -40,8 +42,9 @@ if FORMAT == "docx" then
         --debug(aligns_table[align])
         return aligns_table[align]
     end
+
     local function apply_cell_styles(el)
-        debug("[ lua ] Apply table styles")
+        debug(MESSAGE)
         local aligns = el.aligns
         local headers = el.headers
         local rows = el.rows
