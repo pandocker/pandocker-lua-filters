@@ -19,7 +19,6 @@ if FORMAT == "docx" then
 
     local function get_meta(mt)
         meta = util_get_meta(mt, default_meta, meta_key)
-        return meta
     end
 
     local function get_header_styles(align)
