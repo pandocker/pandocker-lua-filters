@@ -42,6 +42,7 @@ PANFLAGS += --lua-filter=../lua/svgconvert.lua
 PANFLAGS += --lua-filter=../lua/csv2table.lua
 PANFLAGS += --lua-filter=../lua/docx-apply-cell-styles.lua
 #PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
+PANFLAGS += --lua-filter=../lua/tex-underline.lua
 #PANFLAGS += --filter=pandocker-filters
 PANFLAGS += --filter=pandoc-crossref
 PANFLAGS += --lua-filter=../lua/docx-image-styles.lua
