@@ -23,7 +23,7 @@ if FORMAT == "latex" or FORMAT == "docx" then
         }
 
         for k, v in pairs(meta) do
-            debug(k .. ": " .. v)
+            --debug(k .. ": " .. v)
             if mt[k] ~= nil then
                 mt[v] = stringify(mt[k])
                 --debug(stringify(mt[k]))
