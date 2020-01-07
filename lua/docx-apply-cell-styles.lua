@@ -42,8 +42,19 @@ if FORMAT == "docx" then
         return aligns_table[align]
     end
 
+    local function plain2para(el)
+        --pretty.dump(el.content)
+        --pretty.dump(el.tag)
+        if el.tag == "Plain" then
+            el = pandoc.Para(el.content)
+        end
+        return el
+    end
+
     local function apply_cell_styles(el)
         debug(MESSAGE)
+        -- apply plein2para() for each Plain in el
+        el = pandoc.walk_block(el, { Plain = plain2para })
         local aligns = el.aligns
         local headers = el.headers
         local rows = el.rows
@@ -58,6 +69,7 @@ if FORMAT == "docx" then
         --pretty.dump(header_styles)
 
         for i, header in ipairs(headers) do
+            --header = plain2para(header)
             if #header > 0 then
                 local header_cell = pandoc.Div(header)
                 header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
@@ -69,6 +81,7 @@ if FORMAT == "docx" then
 
         for i, row in ipairs(rows) do
             for j, cell in ipairs(row) do
+                --cell = plain2para(cell)
                 local body_cell = pandoc.Div(cell)
                 body_cell["attr"]["attributes"]["custom-style"] = stringify(body_styles[j])
                 el.rows[i][j] = { body_cell }
