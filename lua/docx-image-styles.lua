@@ -48,6 +48,7 @@ if FORMAT == "docx" then
             if stringify(image.caption) ~= "" then
                 caption_div.content = { pandoc.Para(image.caption) }
                 image.caption = {}
+                image.title = ""
             end
             image_div.content = { pandoc.Para(image) }
             return { image_div, caption_div }
