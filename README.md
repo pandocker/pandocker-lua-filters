@@ -12,6 +12,10 @@ Lua filters for pandoc
 
 [**`csv2table.lua`**](lua/csv2table.lua)
 
+#### Replace `title` `subtitle` `date` `author` metadata
+
+[**`hide-frontpage-metadata`**](lua/hide-frontpage-metadata.lua)
+
 #### Text file listing
 
 [**`listingtable.lua`**](lua/listingtable.lua)
@@ -46,11 +50,25 @@ Lua filters for pandoc
 
 [**`tex-landscape.lua`**](lua/tex-landscape.lua)
 
+<!--
 #### Reset table coloring
 
 [**`tex-rowcolors-reset`**](lua/tex-rowcolors-reset.lua)
+-->
+
+#### Applies underline to `.underline` class span
+
+[**`tex-underline.lua`**](lua/tex-underline.lua)
 
 ## *Docx* output only
+#### Apply custom styles for each table cell
+
+[**`docx-apply-cell-styles.lua`**](lua/docx-apply-cell-styles.lua)
+
+#### Apply custom styles for image and its caption
+
+[**`docx-image-styles.lua`**](lua/docx-image-styles.lua)
+
 #### TOC / Pagebreak
 
 [**`docx-pagebreak-toc.lua`**](lua/docx-pagebreak-toc.lua)
