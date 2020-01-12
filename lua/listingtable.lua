@@ -18,6 +18,7 @@ Cuts into subset if corresponding options are set
 - `to`
 - `type`
 - `numbers`
+- `nocaption`
 
 ## Note
 
@@ -28,9 +29,12 @@ Cuts into subset if corresponding options are set
 |                   .listingtable     type=plain numbers=left from=5 to=10
 ]]
 
+local tablex = require("pl.tablex")
+
 local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
+local get_tf = require("pandocker.utils").get_tf
 
 local function listingtable(el)
     --[[
@@ -60,6 +64,7 @@ local function listingtable(el)
         end
         local caption = pandoc.Str(stringify(el.content))
         local file_type = el.attributes["type"] or "plain"
+        local nocaption = get_tf(el.attributes.nocaption, false)
         local linefrom = tonumber(el.attributes["from"]) or 1
         if linefrom < 1 then
             linefrom = 1
@@ -71,7 +76,7 @@ local function listingtable(el)
         end
         local attributes = {}
         for k, v in pairs(el.attributes) do
-            if k ~= "type" and k ~= "from" and k ~= "to" then
+            if not tablex.search({ "type", "from", "to", "nocaption" }, k) then
                 attributes[k] = v
             end
         end
@@ -100,21 +105,13 @@ local function listingtable(el)
                 debug(numbers)
         ]]
 
-        local para = { pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }),
-                       raw_code }
+        local para = { raw_code }
+        if not nocaption then
+            table.insert(para, 1, pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }))
+        end
         --debug(stringify(para))
         return para
     end
-    --[[
-        for v in ipairs(el.classes) do
-            debug(v)
-        end
-        for k, v in pairs(el.attributes) do
-            debug(stringify(k))
-            debug(stringify(v))
-        end
-    ]]
-
 end
 
 function Para(el)

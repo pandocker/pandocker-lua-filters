@@ -4,6 +4,7 @@
 Utility functions
 ]]
 
+local tablex = require("pl.tablex")
 
 local function debug(string)
     io.stderr:write(string .. "\n")
