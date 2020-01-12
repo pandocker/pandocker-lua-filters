@@ -110,6 +110,7 @@ local function get_alignments(attr)
         alignment:append(ALIGN[al:upper()])
         i = i + 1
     end
+    return alignment
 end
 
 local function tabular(el)
