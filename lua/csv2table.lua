@@ -5,13 +5,14 @@ Converts Link to a csv file into Table object
 
 ## Syntax
 
-[Caption](/path/to/file){.table width=[w1,w2,...] header=true alignment=a1a2... \
+[Caption](/path/to/file){.table width=[w1,w2,...] header=true nocaption=true alignment=a1a2... \
                                 subset_from=(y2,x2) subset_to=(y2,x2) #tbl:table}
 where,
 
 - Caption: caption of this table. if not given filename is used
 - /path/to/file : path to file. relative to directory where pandoc is invoked
 - header : flag to let first row as header row. defaults true
+- nocaption : Flag to unset temporary caption. defaults false
 - w1,w2,... : width value for each column. if not given padded by 0
 - a1a2... : alignment list for each column. c=Center, d=Default, l=Left, r=Right.
 if not given padded by d
@@ -78,17 +79,51 @@ local ALIGN = { ["D"] = pandoc.AlignDefault,
                 ["R"] = pandoc.AlignRight
 }
 
+local function get_xy(attr)
+    local _y = 1
+    local _x = 1
+    local coord = attr:lstrip("[("):rstrip(")]"):split(",")
+    _y = tonumber(coord[1])
+    _x = tonumber(coord[2])
+    return _y, _x
+end
+
+local function get_widths(attr)
+    local widths = List()
+    local _widths = attr:lstrip("[("):rstrip(")]"):split(",")
+    for _, v in ipairs(_widths) do
+        v = tonumber(v)
+        if v == nil then
+            v = 0.0
+        end
+        widths:append(v)
+    end
+    return widths
+end
+
+local function get_alignments(attr)
+    local alignment = List()
+    local i = 1
+    local al = ""
+    while i <= #attr do
+        al = string.sub(attr, i, i)
+        alignment:append(ALIGN[al:upper()])
+        i = i + 1
+    end
+end
+
 local function tabular(el)
     if el.classes:includes "table" then
         local tab = {}
         local source_file = stringify(el.target)
+        local header = get_tf(el.attributes.header, true)
+        local nocaption = get_tf(el.attributes.nocaption, false)
         local y_from = 1
         local x_from = 1
         local y_to = -1
         local x_to = -1
         local caption = ""
         local alignment = List()
-        local header = true
         local widths = List()
 
         if file_exists(source_file) then
@@ -99,7 +134,11 @@ local function tabular(el)
             return
         end
         if stringify(el.content) == "" then
-            caption = { pandoc.Str(el.target) }
+            if nocaption then
+                caption = {}
+            else
+                caption = { pandoc.Str(el.target) }
+            end
         else
             caption = el.content
         end
@@ -110,14 +149,10 @@ local function tabular(el)
             caption:append(pandoc.Str("{#" .. el.identifier .. "}"))
         end
         if el.attributes.subset_from ~= nil then
-            local subset_from = el.attributes.subset_from:lstrip("[("):rstrip(")]"):split(",")
-            y_from = tonumber(subset_from[1])
-            x_from = tonumber(subset_from[2])
+            y_from, x_from = get_xy(el.attributes.subset_from)
         end
         if el.attributes.subset_to ~= nil then
-            local subset_to = el.attributes.subset_to:lstrip("[("):rstrip(")]"):split(",")
-            y_to = tonumber(subset_to[1])
-            x_to = tonumber(subset_to[2])
+            y_to, x_to = get_xy(el.attributes.subset_to)
             if x_to < x_from then
                 x_to = x_from
             end
@@ -126,25 +161,10 @@ local function tabular(el)
             end
         end
         if el.attributes.alignment ~= nil then
-            local i = 1
-            local al = ""
-            while i <= #el.attributes.alignment do
-                al = string.sub(el.attributes.alignment, i, i)
-                --print(string.sub(el.attributes.alignment, i, i))
-                alignment:append(ALIGN[al:upper()])
-                i = i + 1
-            end
+            alignment = get_alignments(el.attributes.alignment)
         end
-        header = get_tf(el.attributes.header, true)
         if el.attributes.width ~= nil then
-            local _widths = el.attributes.width:lstrip("[("):rstrip(")]"):split(",")
-            for _, v in ipairs(_widths) do
-                v = tonumber(v)
-                if v == nil then
-                    v = 0.0
-                end
-                widths:append(v)
-            end
+            widths = get_widths(el.attributes.width)
         end
         local rows = List()
         local i = 1
@@ -189,7 +209,7 @@ local function tabular(el)
     end
 end
 
-function link2table(el)
+local function link2table(el)
     if #el.content == 1 and el.content[1].tag == "Link" then
         return tabular(el.content[1])
     end
