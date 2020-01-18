@@ -5,7 +5,7 @@ Applies table attributes to a table inside a Div
 
 ## Syntax
 
-:::{.table width=[w1,w2,...]}
+:::{.table width=[w1,w2,...] noheader=true|false}
 
 : Caption {#tbl:table}
 
@@ -17,7 +17,8 @@ Applies table attributes to a table inside a Div
 
 where,
 
-- w1,w2,... : width value for each column. if not given padded by 0
+- w1,w2,... : width value for each column. if not given padded by 0.0
+- noheader: flag if header row exists. true to move header row to head of body rows.
 
 ]]
 
@@ -27,6 +28,7 @@ where,
 require("pl.stringx").import()
 
 local debug = require("pandocker.utils").debug
+local get_tf = require("pandocker.utils").get_tf
 
 local MESSAGE = "[ lua ] Div in 'table' class found"
 
@@ -51,8 +53,14 @@ local function table_width(el)
             debug(MESSAGE)
             --pretty.dump(el.attributes["width"])
             local widths = el.attributes["width"]
+            local noheader = get_tf(el.attributes["noheader"], false)
             local tbl = el.content[1]
             local col_max = #tbl.widths
+            if noheader and tbl.headers ~= {} then
+                debug("noheader=true")
+                table.insert(tbl.rows, 1, tbl.headers)
+                tbl.headers = {}
+            end
             if widths ~= nil then
                 widths = widths:match("%[(.*)%]")
                 widths = get_widths(widths)

@@ -34,7 +34,7 @@ Lua filters for pandoc
 
 [**`svgconvert.lua`**](lua/svgconvert.lua)
 
-#### Add width options to ordinary table
+#### Applies table attributes to a table
 
 [**`table-width.lua`**](lua/table-width.lua)
 
