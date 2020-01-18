@@ -31,6 +31,8 @@ local debug = require("pandocker.utils").debug
 local get_tf = require("pandocker.utils").get_tf
 
 local MESSAGE = "[ lua ] Div in 'table' class found"
+local NOHEADER_MESSAGE = "[ lua ] Move header row to general rows"
+local WIDTH_MESSAGE = "[ lua ] Adjust column ratio"
 
 local function get_widths(attr)
     local widths = {}
@@ -57,13 +59,14 @@ local function table_width(el)
             local tbl = el.content[1]
             local col_max = #tbl.widths
             if noheader and tbl.headers ~= {} then
-                debug("noheader=true")
+                debug(NOHEADER_MESSAGE)
                 table.insert(tbl.rows, 1, tbl.headers)
                 tbl.headers = {}
             end
             if widths ~= nil then
                 widths = widths:match("%[(.*)%]")
                 widths = get_widths(widths)
+                debug(WIDTH_MESSAGE)
             else
                 widths = {}
             end
