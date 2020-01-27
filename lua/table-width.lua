@@ -49,6 +49,15 @@ local function get_widths(attr)
     return widths
 end
 
+local function sum_content(el)
+    local sum = 0
+    --pretty.dump(el)
+    for i, v in ipairs(el) do
+        sum = sum + #v
+    end
+    return sum
+end
+
 local function table_width(el)
     if el.classes:find("table") then
         if #el.content == 1 and el.content[1].tag == "Table" then
@@ -60,7 +69,13 @@ local function table_width(el)
             local col_max = #tbl.widths
             if noheader and tbl.headers ~= {} then
                 debug(NOHEADER_MESSAGE)
-                table.insert(tbl.rows, 1, tbl.headers)
+                if #tbl.rows == 1 and sum_content(tbl.rows[1]) == 0 then
+                    debug("[ lua ] header row overrides first body row")
+                    tbl.rows[1] = tbl.headers
+                else
+                    debug("[ lua ] header row is inserted at head of body rows")
+                    table.insert(tbl.rows, 1, tbl.headers)
+                end
                 tbl.headers = {}
             end
             if widths ~= nil then
