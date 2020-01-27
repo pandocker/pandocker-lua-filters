@@ -18,7 +18,9 @@ Applies table attributes to a table inside a Div
 where,
 
 - w1,w2,... : width value for each column. if not given padded by 0.0
-- noheader: flag if header row exists. true to move header row to head of body rows.
+- noheader: flag if header row exists. `true` to move header row to head of body rows.
+  Default is `false`. When table has only one blank row, header row overrides body row so that
+  table has single row without header row.
 
 ]]
 
