@@ -1,6 +1,6 @@
 ---
 title: 本のタイトル
-abstract: 本の概要
+subtitle: 本の概要
 circle: サークル名
 author: 本の作者
 comiket: コミケ
@@ -45,15 +45,25 @@ docx_coreprop:
   subject: "SubjecT" # str
   title: "Title" # str
 
-#  created: "31-Dec-2018" # datetime DD-MMM-YYYY set externally
+  #  created: "31-Dec-2018" # datetime DD-MMM-YYYY set externally
   content_status: "Status" # ignored?
   identifier: "ID" # ignored?
   language: "Japanese" # ignored?
   version: "Version" # ignored?
 
   table:
-#    "Normal Table": "Centered"
+    "Normal Table": "Centered"
   paragraph:
 #    "Normal": "Body Text"
 #    "First Paragraph": "Body Text"
+
+table-cell-styles:
+  header-default: "Table Header Left"
+  header-left: "Table Header Left"
+  header-center: "Table Header Center"
+  header-right: "Table Header Right"
+  body-default: "Table Body Left"
+  body-left: "Table Body Left"
+  body-center: "Table Body Center"
+  body-right: "Table Body Right"
 ...
