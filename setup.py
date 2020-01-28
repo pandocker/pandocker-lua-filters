@@ -178,6 +178,7 @@ setup(
                                              'lua/table-width.lua',
                                              'lua/tex-landscape.lua',
                                              'lua/tex-rowcolors-reset.lua',
+                                             'lua/tex-underline.lua',
                                              'lua/utils.lua',
                                              'lua/wavedrom.lua',
 
