@@ -19,33 +19,41 @@ PROJECT= `pwd`
 # INPUT:= TITLE.md
 # TARGET:= TARGET-$(DATE)-$(HASH)
 # REVERSE_INPUT:= reverse-input.docx
-# REFERENCE:= $(MISC)/ref.docx
+#REFERENCE := $(DATADIR)/ref.docx
+#SYSTEM_DOCXFRONTPAGE := $(MDDIR)/frontpage.md
 # COREPROPFLAGS := --table "Normal Table=Centered"
 # COREPROPFLAGS += --paragraph "Normal=Body Text"
 ##
-LUA_FILTER_BASE = $(PIPBASE)/share/lua/5.3/pandocker
-PANFLAGS =
-PANFLAGS += $(MDDIR)/$(CONFIG)
-PANFLAGS += $(MISC_SYS)/$(CONFIG)
-PANFLAGS += --resource-path=.:$(DATADIR):$(IMAGEDIR):$(MDDIR):$(TARGETDIR)
-PANFLAGS += --lua-filter=../lua/hide-frontpage-metadata.lua
-PANFLAGS += --lua-filter=../lua/tex-landscape.lua
-PANFLAGS += --lua-filter=../lua/preprocess.lua
-PANFLAGS += --lua-filter=../lua/removable-note.lua
-PANFLAGS += --lua-filter=../lua/docx-pagebreak-toc.lua
-PANFLAGS += --lua-filter=../lua/docx-unnumberedheadings.lua
-#PANFLAGS += --lua-filter=../lua/docx-extract-bullet-lists.lua
-PANFLAGS += --lua-filter=../lua/table-width.lua
-PANFLAGS += --lua-filter=../lua/listingtable.lua
-PANFLAGS += --lua-filter=../lua/wavedrom.lua
-PANFLAGS += --lua-filter=../lua/svgconvert.lua
-PANFLAGS += --lua-filter=../lua/csv2table.lua
-PANFLAGS += --lua-filter=../lua/docx-apply-cell-styles.lua
-#PANFLAGS += --lua-filter=../lua/tex-rowcolors-reset.lua
-PANFLAGS += --lua-filter=../lua/tex-underline.lua
-#PANFLAGS += --filter=pandocker-filters
+LUA_FILTER_BASE = ../lua
+PANFLAGS := --read=markdown+east_asian_line_breaks
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/hide-frontpage-metadata.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/removable-note.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-landscape.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-pagebreak-toc.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-underline.lua
+PANFLAGS += --filter=pantable
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-apply-cell-styles.lua
+PANFLAGS += --filter=pandocker-blockdiag-filters
+PANFLAGS += --filter=pandoc-svgbob-filter
+PANFLAGS += --filter=pandoc-imagine
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/svgconvert.lua
+PANFLAGS += --filter=pandocker-filters
+PANFLAGS += --filter=pandoc-docx-extract-bullet-list
 PANFLAGS += --filter=pandoc-crossref
-PANFLAGS += --lua-filter=../lua/docx-image-styles.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-image-styles.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-rowcolors-reset.lua
+PANFLAGS += --listings
+PANFLAGS += --top-level-division=chapter
+PANFLAGS += --number-sections --highlight-style=kate
+PANFLAGS += -M short-hash=$(HASH)
+PANFLAGS += -M tables=true
+PANFLAGS += -M envversion=$(ENV_VERSION)
 #PFLAGS += $(PANFLAGS)
 #PANFLAGS = $(PFLAGS)
 
