@@ -1,8 +1,8 @@
-vvv section2.md vvv
+$$////////////~section2.md~////////////$$
 
 This section is what is included 2
 
-Table: table
+Table: table without setting column widths
 
 | This | is |       |
 |:-----|:---|:------|
@@ -12,4 +12,4 @@ Table: table
 Remove this block
 :::
 
-\^\^\^ section2.md \^\^\^
+$$////////////~section2.md~////////////$$
