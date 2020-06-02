@@ -4,7 +4,7 @@ initdir:
 	cd tests; \
 	make initdir
 
-html:
+html: copy
 	cd tests; \
 	make html
 
@@ -17,18 +17,21 @@ uninstall:
 reinstall: uninstall install
 #	pip3 install .
 
+copy:
+	cp lua/* /usr/share/lua/5.3/pandocker/
+
 clean:
 	cd tests; \
 	make clean
 
-tex:
+tex: copy
 	cd tests; \
 	make tex
 
-docx:
+docx: copy
 	cd tests; \
 	make docx
 
-pdf:
+pdf: copy
 	cd tests; \
 	make pdf
