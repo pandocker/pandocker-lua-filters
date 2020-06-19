@@ -169,6 +169,7 @@ setup(
                                              'lua/docx-apply-cell-styles.lua',
                                              'lua/docx-image-styles.lua',
                                              'lua/docx-pagebreak-toc.lua',
+                                             'lua/docx-appendixheadings.lua',
                                              'lua/docx-unnumberedheadings.lua',
                                              'lua/hide-frontpage-metadata.lua',
                                              'lua/listingtable.lua',
