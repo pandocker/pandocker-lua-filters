@@ -21,12 +21,13 @@ Applies level 1~5 headers in 'appendix' class to use dedicated headers
 
 local debug = require("pandocker.utils").debug
 
-local default_meta = require("pandocker.default_loader")["heading-unnumbered"]
+local META_KEY = "heading-appendix"
+local CLASS_KEY = "appendix"
+
+local default_meta = require("pandocker.default_loader")[META_KEY]
 assert(default_meta)
 
 local meta = {}
-local META_KEY = "heading-appendix"
-local CLASS_KEY = "appendix"
 local APPLY_DEFAULT = "[ lua ] metadata '%s' was not found in source, applying default %s."
 local TOO_DEEP_LEVEL = "[ lua ] unnumbered heading greater than level %d is found and ignored"
 local MAX_HEADING_LEVEL = 5
