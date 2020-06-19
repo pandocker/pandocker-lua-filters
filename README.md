@@ -56,6 +56,27 @@ Lua filters for pandoc
 [**`tex-rowcolors-reset`**](lua/tex-rowcolors-reset.lua)
 -->
 
+#### Appendix headings
+
+[**`docx-appendixheadings.lua`**](lua/docx-appendixheadings.lua)
+
+- Makes `appendix` class work to _appendix_ headings in DOCX format
+- Limited to level-1 to 5 headings
+
+##### Requirement for template
+
+- Prepare `Appendix Heading 1` to `Appendix Heading 4` heading styles
+  - Otherwise these headers inherit `Body` style
+
+| Level | Numbered  | Unnumbered           |
+|:-----:|:----------|:---------------------|
+|   1   | Heading 1 | Heading Unnumbered 1 |
+|   2   | Heading 2 | Heading Unnumbered 2 |
+|   3   | Heading 3 | Heading Unnumbered 3 |
+|   4   | Heading 4 | Heading Unnumbered 4 |
+|   5   | Heading 5 | Heading Unnumbered 5 |
+|   6   | Heading 6 |                      |
+
 #### Applies underline to `.underline` class span
 
 [**`tex-underline.lua`**](lua/tex-underline.lua)
@@ -84,11 +105,11 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 [**`docx-unnumberedheadings.lua`**](lua/docx-unnumberedheadings.lua)
 
 - Makes `UnnumberHeadings` class work to _unnumber_ headings in DOCX format
-- Limited to level-1 to 4 headings
+- Limited to level-1 to 5 headings
 
 ##### Requirement for template
 
-- Prepare `Heading Unnumbered 1` to `Heading Unnumbered 4` heading styles
+- Prepare `Heading Unnumbered 1` to `Heading Unnumbered 5` heading styles
   - Otherwise these headers inherit `Body` style
 
 | Level | Numbered  | Unnumbered           |
@@ -97,7 +118,8 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 |   2   | Heading 2 | Heading Unnumbered 2 |
 |   3   | Heading 3 | Heading Unnumbered 3 |
 |   4   | Heading 4 | Heading Unnumbered 4 |
-|   5   | Heading 5 |                      |
+|   5   | Heading 5 | Heading Unnumbered 5 |
+|   6   | Heading 6 |                      |
 
 #### Figure styles
 
