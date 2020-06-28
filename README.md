@@ -82,13 +82,17 @@ Lua filters for pandoc
 [**`tex-underline.lua`**](lua/tex-underline.lua)
 
 ## *Docx* output only
-#### Apply custom styles for each table cell
+#### Apply custom (paragraph) styles for each table cell
 
 [**`docx-apply-cell-styles.lua`**](lua/docx-apply-cell-styles.lua)
 
-#### Apply custom styles for image and its caption
+#### Apply custom (paragraph) styles for image and its caption
 
 [**`docx-image-styles.lua`**](lua/docx-image-styles.lua)
+
+#### Apply custom (character) styles for any span
+
+[**`docx-custom-span-styles.lua`**](lua/docx-custom-span-styles.lua)
 
 #### TOC / Pagebreak
 

@@ -21,6 +21,11 @@ heading-appendix:
   4: "Appendix Heading 4"
   5: "Appendix Heading 5"
 
+custom-spans:
+  red: "WarningTok"
+  green: "PreprocessorTok"
+  blue: "AttributeTok"
+
 bullet-style:
   1: "Bullet List 1"
   2: "Bullet List 2"

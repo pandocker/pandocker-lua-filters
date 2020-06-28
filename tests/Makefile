@@ -39,6 +39,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-underline.lua
 PANFLAGS += --filter=pantable
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-apply-cell-styles.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-custom-span-styles.lua
 PANFLAGS += --filter=pandocker-blockdiag-filters
 PANFLAGS += --filter=pandoc-svgbob-filter
 PANFLAGS += --filter=pandoc-imagine

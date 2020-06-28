@@ -166,10 +166,11 @@ setup(
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
     data_files=[('share/lua/5.3/pandocker', ['lua/csv2table.lua',
                                              'lua/default_loader.lua',
+                                             'lua/docx-appendixheadings.lua',
                                              'lua/docx-apply-cell-styles.lua',
+                                             'lua/docx-custom-span-styles.lua',
                                              'lua/docx-image-styles.lua',
                                              'lua/docx-pagebreak-toc.lua',
-                                             'lua/docx-appendixheadings.lua',
                                              'lua/docx-unnumberedheadings.lua',
                                              'lua/hide-frontpage-metadata.lua',
                                              'lua/listingtable.lua',
