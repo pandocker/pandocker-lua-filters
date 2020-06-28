@@ -1,5 +1,5 @@
 --[[
-# UnnumberedHeadings
+# AppendixHeadings
 
 ## Function
 
