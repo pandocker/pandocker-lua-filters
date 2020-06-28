@@ -16,18 +16,48 @@ Table: table **width** {#tbl:tabls}
 |:------|:------:|-----:|
 | Cell  |  Cell  | Cell |
 :::
+\
+
+::: {#fig:tiled-figures width=[0.5,0.5]}
+::: {.table noheader=true}
+
+| [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--1} |                                                                                   |
+|:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
+|                                                                                   | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--2} |
+
+:::
+Tiled figures on a table
+:::
+\
+
+[**Tiled figures on a table**]{.colored color="FF0000"}
 
 # #include "rest.rst"
-# Level1
 
-[Table Caption](data/table.csv){.table subset_from=(1,2) alignment=CCC width=[0.1]}
+[CSV file with caption](data/table.csv){.table}
+
+[Alignment = DLCR](data/table.csv){.table alignment=DLCR}
+
+[Subset table](data/table.csv){.table subset_from=(1,2)}
+
+[Set widths](data/table.csv){.table width=[0.2,0.3,0.2,0.3]}
+
+##### Auto caption
+
+[](data/table.csv){.table}
+
+##### No caption
+
+[](data/table.csv){.table nocaption=true}
 
 [@tbl:table]
 
 ## Level2
 # Level1 unnumbered {-}
 ## Level2 unnumbered {-}
-# #include "section2.md"
+##### Level5 unnumbered {-}
+
+<!--# #include "section2.md"-->
 
 ::::::{custom-style="Heading Unnumbered 3"}
 Level3 *unnumbered*
@@ -40,23 +70,37 @@ Bullet List 1
 Bullet List 2
 :::
 :::::
-[@lst:lst]
+
+[red?]{.red}
+[green?]{.green}
+[blue?]{.blue}
+
+[[@lst:lst]]{.underline}
 
 [bit.yaml](data/bit.yaml){.bitfield}
 
 #### Level4 unnumbered {-}
 
-# #include "section1.md"
+<!--# #include "section1.md"-->
 
 [Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
 
-[Wavedrom(BitField)](data/json.json){.wavedrom #fig:wavedrom}
+[Wavedrom(BitField)](data/tutorial_0.json){.wavedrom #fig:wavedrom}
 
 \newpage
 
-[](markdown/config.yaml){.listingtable type=yaml from=2 to=10 }
+[](markdown/config.yaml){.listingtable type=yaml from=2 to=10 nocaption=true}
 
-<!--[This failes to list](markdown/config){.listingtable numbers=right type=python from=2 to=5 #lst:list}-->
+::: LANDSCAPE
+
+[](data/ditaa.puml){.listingtable type=puml #lst:ditaa-sample}
+
+[](data/ditaa.puml){.listingtable nocaption=true
+                    .plantuml #fig:ditaa-sample im_out="img" im_fmt='png' caption="PlantUML x ditaa x imagine"}
+
+:::
+
+[This failes to list](markdown/config.yaml){.listingtable numbers=right type=yaml from=2 to=5 #lst:list}
 
 ![dummy](images/dummy.png)
 
@@ -64,3 +108,5 @@ Bullet List 2
 ##### Level5
 # #include "section2.md"
 :::
+
+~~Strikeout~~ ~~ごはんはおかず~~
