@@ -10,8 +10,10 @@
 Detects Span in custom class listed in config file and apply custom-styles attribute.
 
 ]]
+--local pretty = require("pl.pretty")
 
 local debug = require("pandocker.utils").debug
+local util_get_meta = require("pandocker.utils").util_get_meta
 
 local META_KEY = "custom-spans"
 
@@ -23,18 +25,15 @@ local APPLY_DEFAULT = "[ lua ] metadata '%s' was not found in source, applying d
 local APPLY = "[ lua ] '%s' class Span found and applied '%s' custom character style"
 
 if FORMAT == "docx" then
-    local function get_vars (mt)
-        meta = mt[META_KEY]
-        if meta == nil then
-            meta = default_meta
-            debug(string.format(APPLY_DEFAULT, META_KEY, ""))
-        end
+    local function get_vars(mt)
+        meta = util_get_meta(mt, default_meta, META_KEY)
     end
 
     local function replace(el)
         for k, v in pairs(meta) do
             if el.classes:includes(k) then
                 local style = pandoc.utils.stringify(v)
+                --debug(k .. ", " .. style)
                 el.attributes["custom-style"] = style
                 debug(string.format(APPLY, k, style))
             end

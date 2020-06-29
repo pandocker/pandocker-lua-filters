@@ -58,6 +58,9 @@ docx_coreprop:
 #    "Normal": "Body Text"
 #    "First Paragraph": "Body Text"
 
+custom-spans:
+  default-paragraph-font: "Default Paragraph Font"
+
 table-cell-styles:
   header-default: "Table Header Left"
   header-left: "Table Header Left"

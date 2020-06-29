@@ -74,6 +74,7 @@ Bullet List 2
 [red?]{.red}
 [green?]{.green}
 [blue?]{.blue}
+[foo?]{.default-paragraph-font}
 
 [[@lst:lst]]{.underline}
 
