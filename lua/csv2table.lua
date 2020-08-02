@@ -210,10 +210,14 @@ local function tabular(el)
     end
 end
 
-local function link2table(el)
-    if #el.content == 1 and el.content[1].tag == "Link" then
-        return tabular(el.content[1])
+if PANDOC_VERSION < { 2, 10 } then
+    local function link2table(el)
+        if #el.content == 1 and el.content[1].tag == "Link" then
+            return tabular(el.content[1])
+        end
     end
+else
+    debug("[ lua ] Pandoc version mismatched. This filter works with Pandoc<2.10")
 end
 
 return { { Para = link2table } }
