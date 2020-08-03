@@ -18,9 +18,9 @@ local function basename(path)
     | path              | pwd               | file      |
     |---------------------------------------------------|
     | /path             | /                 | path      |
-    | /path/to/file     | /path/to          | file      |
+    | /path/to/file     | /path/to/         | file      |
     | /path/to/file/    | /path/to/file/    | nil       |
-    | /path/to/file.txt | /path/to          | file.txt  |
+    | /path/to/file.txt | /path/to/         | file.txt  |
     ]]
 
     return path:match('(.*/)(.*)')
