@@ -6,7 +6,7 @@ Converts Link to a csv file into Table object
 ## Syntax
 
 [Caption](/path/to/file){.table width=[w1,w2,...] header=true nocaption=true alignment=a1a2... \
-                                subset_from=(y2,x2) subset_to=(y2,x2) #tbl:table}
+                                subset_from=(y1,x1) subset_to=(y2,x2) #tbl:table}
 where,
 
 - Caption: caption of this table. if not given filename is used
@@ -82,33 +82,27 @@ local ALIGN = { ["D"] = pandoc.AlignDefault,
 local function get_xy(attr)
     local _y = 1
     local _x = 1
-    local coord = attr:lstrip("[("):rstrip(")]"):split(",")
-    _y = tonumber(coord[1])
-    _x = tonumber(coord[2])
+    _y, _x = string.match(attr, "(%d+),(%d+)")
+    --debug(attr .. " " .. _y .. " " .. _x)
+    _y = tonumber(_y)
+    _x = tonumber(_x)
     return _y, _x
 end
 
 local function get_widths(attr)
     local widths = List()
-    local _widths = attr:lstrip("[("):rstrip(")]"):split(",")
-    for _, v in ipairs(_widths) do
-        v = tonumber(v)
-        if v == nil then
-            v = 0.0
-        end
-        widths:append(v)
+    for num in string.gmatch(attr, "(%d+%.?%d*),?") do
+        --debug(num)
+        widths:append(tonumber(num))
     end
     return widths
 end
 
 local function get_alignments(attr)
     local alignment = List()
-    local i = 1
-    local al = ""
-    while i <= #attr do
-        al = string.sub(attr, i, i)
-        alignment:append(ALIGN[al:upper()])
-        i = i + 1
+    for al in string.gmatch(attr, "[dlrcDLRC]") do
+        --debug(al)
+        alignment:append(al:upper())
     end
     return alignment
 end
