@@ -10,6 +10,7 @@ docrevision: "1.0"
 # front: images/front-image.png
 verbcolored: false
 # rmnote: false
+#toc-title: "Table of Contents"
 
 svgbob:
   font-family: "Source Code Pro"
@@ -22,52 +23,59 @@ heading-unnumbered:
   2: "Heading Unnumbered 2"
   3: "Heading Unnumbered 3"
   4: "Heading Unnumbered 4"
-  5: "Heading Unnumbered 5"
+  5: "Heading Unnumbered 4"
+
+heading-appendix:
+  1: "Appendix Heading 1"
+  2: "Appendix Heading 2"
+  3: "Appendix Heading 3"
+  4: "Appendix Heading 4"
+  5: "Appendix Heading 5"
 
 bullet-style:
   1: "Bullet List 1"
   2: "Bullet List 2"
+  3: "Bullet List 3"
 
 numbered-bullets:
   1: "Number Bullet"
   2: "Number Bullet 2"
+  3: "Number Bullet 3"
+
+custom-spans:
+  red: "WarningTok"
+  green: "PreprocessorTok"
+  blue: "AttributeTok"
 
 image-div-style: "Image Caption"
 
 docx_coreprop:
-  author: "K4ZUKI" # str
-  category: "Category" # str
-  comments: "Comment" # str
-  keywords: "Keyword1 Keyword2" # str
-  last_modified_by: "K4ZUKI" # str
-  last_printed: "31-Dec-2018" # datetime DD-MMM-YYYY
-  modified: "31-Dec-2018" # datetime DD-MMM-YYYY
-  revision: 1123 # int < 32768
-  subject: "SubjecT" # str
-  title: "Title" # str
+  #  author: "K4ZUKI" # str
+  #  category: "Category" # str
+  #  comments: "Comment" # str
+  #  keywords: "Keyword1 Keyword2" # str
+  #  last_modified_by: "K4ZUKI" # str
+  #  last_printed: "31-Dec-2018" # datetime DD-MMM-YYYY
+  #  modified: "31-Dec-2018" # datetime DD-MMM-YYYY
+  #  revision: 1123 # int < 32768
+  #  subject: "SubjecT" # str
+  #  title: "Title" # str
 
   #  created: "31-Dec-2018" # datetime DD-MMM-YYYY set externally
-  content_status: "Status" # ignored?
-  identifier: "ID" # ignored?
-  language: "Japanese" # ignored?
-  version: "Version" # ignored?
+  #  content_status: "Status" # ignored?
+  #  identifier: "ID" # ignored?
+  #  language: "Japanese" # ignored?
+  #  version: "Version" # ignored?
 
+  table-alignment-in-page: center # left / center /right
+  table-cell-vertical-alignment: center # top / center / bottom / both
+  read-only-recommended: true
+  disable-table-autofit: false # setting 'true' requires explicit column widths setting
   table:
-    "Normal Table": "Centered"
+  #    "Normal Table": "Centered"
   paragraph:
-#    "Normal": "Body Text"
-#    "First Paragraph": "Body Text"
-
-custom-spans:
-  default-paragraph-font: "Default Paragraph Font"
-
-table-cell-styles:
-  header-default: "Table Header Left"
-  header-left: "Table Header Left"
-  header-center: "Table Header Center"
-  header-right: "Table Header Right"
-  body-default: "Table Body Left"
-  body-left: "Table Body Left"
-  body-center: "Table Body Center"
-  body-right: "Table Body Right"
+    "Image Caption": "Figure Caption"
+  #    "Normal": "Body Text"
+  #    "First Paragraph": "Body Text"
+  character:
 ...
