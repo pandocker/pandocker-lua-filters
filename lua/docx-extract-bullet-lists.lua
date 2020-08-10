@@ -11,9 +11,10 @@ Level-4 and deeper level items are promoted to level-3
 - Level1
   - Level2
     - Level3
-      -Level4
+      - Level4
 
-# Outputs
+
+# Equivalent outputs
 
 :::{custom-style="Bullet List 1"}
 Level1
@@ -33,14 +34,20 @@ Level4
 ```
 ]]
 
+--local stringify = require("pandoc.utils").stringify
+
+--local pretty = require("pl.pretty")
+
 local debug = require("pandocker.utils").debug
 
 local default_meta = require("pandocker.default_loader")["bullet-style"]
+assert(default_meta)
+
 local meta = {}
 local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
 
-local function get_vars (mt)
-    if FORMAT == "docx" then
+if FORMAT == "docx" then
+    local function get_vars (mt)
         meta = mt["bullet-style"]
         if meta ~= nil then
             for k, v in pairs(default_meta) do
@@ -56,8 +63,8 @@ local function get_vars (mt)
             --debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
     end
-end
 
-return { { Meta = get_vars }
-    --, { Header = replace }
-}
+    return { { Meta = get_vars }
+        --, { Header = replace }
+    }
+end
