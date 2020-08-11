@@ -169,6 +169,7 @@ setup(
                                              'lua/docx-appendixheadings.lua',
                                              'lua/docx-apply-cell-styles.lua',
                                              'lua/docx-custom-span-styles.lua',
+                                             'lua/docx-extract-bullet-lists.lua',
                                              'lua/docx-image-styles.lua',
                                              'lua/docx-pagebreak-toc.lua',
                                              'lua/docx-unnumberedheadings.lua',

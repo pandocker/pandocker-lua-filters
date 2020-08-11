@@ -73,6 +73,24 @@ Lua filters for pandoc
 
 [**`docx-custom-span-styles.lua`**](lua/docx-custom-span-styles.lua)
 
+#### Apply custom (paragraph) styles for any unnumbered bullet lists
+
+Finds unnumbered bullet lists down to 3rd level and applies custom paragraph styles.
+**4th level and lower list items are escalated to 3rd level**.
+
+[**`docx-extract-bullet-lists.lua`**](lua/ddocx-extract-bullet-lists.lua)
+
+##### Requirement for template
+
+- Prepare `Bullet List 1` to `Bullet List 3` paragraph styles (by the way this is 1st level list item)
+  - Otherwise these headers inherit `Body` style (this is 2nd level)
+
+| Level | Unnumbered    |
+|:-----:|:--------------|
+|   1   | Bullet List 1 |
+|   2   | Bullet List 2 |
+|  3+   | Bullet List 3 |
+
 #### TOC / Pagebreak
 
 [**`docx-pagebreak-toc.lua`**](lua/docx-pagebreak-toc.lua)
