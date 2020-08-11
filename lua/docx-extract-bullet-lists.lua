@@ -55,12 +55,12 @@ if FORMAT == "docx" then
         --debug(stringify(meta))
     end
 
-    local function extract(el)
+    local function extract_bullet_list(el)
         for i, v in ipairs(el.content) do
             for _, e in ipairs(v) do
                 if e.tag == "BulletList" then
                     depth = depth + 1
-                    extract(e)
+                    extract_bullet_list(e)
                     depth = depth - 1
                 else
                     if depth >= max_depth then
@@ -80,7 +80,7 @@ if FORMAT == "docx" then
         end
     end
 
-    local function Pandoc(doc)
+    local function bulletlist_to_divs(doc)
         local head = {}
         local tail = {}
 
@@ -89,13 +89,19 @@ if FORMAT == "docx" then
             if el.tag == "BulletList" then
                 --doc.blocks[i] = pandoc.Null()
                 depth = depth + 1
-                extract(el)
+                extract_bullet_list(el)
+                table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before BulletList
+                table.move(doc.blocks, i + 1, #doc.blocks, 1, tail) -- tail has after BulletList
+                table.move(bl, 1, #bl, #head + 1, head) -- concat head and bl -> head
+                table.move(tail, 1, #tail, #head + 1, head) -- concat head and tail
+                doc.blocks = head
                 depth = depth - 1
+                return bulletlist_to_divs(doc)
                 --debug(stringify(bl))
             end
         end
         return doc
     end
 
-    return { { Meta = get_meta }, { Pandoc = Pandoc } }
+    return { { Meta = get_meta }, { Pandoc = bulletlist_to_divs } }
 end
