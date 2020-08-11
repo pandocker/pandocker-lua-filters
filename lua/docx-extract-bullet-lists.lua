@@ -43,9 +43,11 @@ local util_get_meta = require("pandocker.utils").util_get_meta
 
 local meta_key = "bullet-style"
 local meta = {}
+local max_depth = 3
+local TOO_DEEP = "[ lua ] Listed item found at too deep level. Promote to level-%d."
+
 local default_meta = require("pandocker.default_loader")[meta_key]
 assert(default_meta)
-local max_depth = 3
 
 if FORMAT == "docx" then
     local depth = 0
@@ -63,8 +65,9 @@ if FORMAT == "docx" then
                     extract_bullet_list(e)
                     depth = depth - 1
                 else
-                    if depth >= max_depth then
+                    if depth > max_depth then
                         style = meta[tostring(max_depth)]
+                        debug(string.format(TOO_DEEP, max_depth))
                         --debug(stringify(meta[tostring(max_depth)]))
                     else
                         style = meta[tostring(depth)]
@@ -74,7 +77,7 @@ if FORMAT == "docx" then
                     bullet["attr"]["attributes"]["custom-style"] = stringify(style)
 
                     table.insert(bl, bullet)
-                    debug(depth .. " " .. e.tag .. " " .. stringify(e))
+                    --debug(depth .. " " .. e.tag .. " " .. stringify(e))
                 end
             end
         end
@@ -87,7 +90,7 @@ if FORMAT == "docx" then
         for i, el in ipairs(doc.blocks) do
             bl = {}
             if el.tag == "BulletList" then
-                --doc.blocks[i] = pandoc.Null()
+                debug("[ lua ] Bullet list found")
                 depth = depth + 1
                 extract_bullet_list(el)
                 table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before BulletList
