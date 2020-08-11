@@ -9,6 +9,8 @@ listings: true
 
 \toc
 
+\newpage
+
 :::{.table width=[0.8,0.3]}
 Table: table **width** {#tbl:tabls}
 
