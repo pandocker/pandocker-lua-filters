@@ -34,37 +34,68 @@ Level4
 ```
 ]]
 
---local stringify = require("pandoc.utils").stringify
+local stringify = require("pandoc.utils").stringify
 
 --local pretty = require("pl.pretty")
 
 local debug = require("pandocker.utils").debug
+local util_get_meta = require("pandocker.utils").util_get_meta
 
-local default_meta = require("pandocker.default_loader")["bullet-style"]
-assert(default_meta)
-
+local meta_key = "bullet-style"
 local meta = {}
-local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying default %s."
+local default_meta = require("pandocker.default_loader")[meta_key]
+assert(default_meta)
+local max_depth = 3
 
 if FORMAT == "docx" then
-    local function get_vars (mt)
-        meta = mt["bullet-style"]
-        if meta ~= nil then
-            for k, v in pairs(default_meta) do
-                if meta[k] == nil then
-                    meta[k] = v
-                    local d = pandoc.utils.stringify(mt["bullet-style"][k])
-                    debug(string.format(NOT_FOUND, "bullet-style." .. k, d))
+    local depth = 0
+
+    local function get_meta(mt)
+        meta = util_get_meta(mt, default_meta, meta_key)
+        --debug(stringify(meta))
+    end
+
+    local function extract(el)
+        for i, v in ipairs(el.content) do
+            for _, e in ipairs(v) do
+                if e.tag == "BulletList" then
+                    depth = depth + 1
+                    extract(e)
+                    depth = depth - 1
+                else
+                    if depth >= max_depth then
+                        style = meta[tostring(max_depth)]
+                        --debug(stringify(meta[tostring(max_depth)]))
+                    else
+                        style = meta[tostring(depth)]
+                        --debug(stringify(meta[tostring(depth)]))
+                    end
+                    bullet = pandoc.Div(e)
+                    bullet["attr"]["attributes"]["custom-style"] = stringify(style)
+
+                    table.insert(bl, bullet)
+                    debug(depth .. " " .. e.tag .. " " .. stringify(e))
                 end
             end
-        else
-            meta = default_meta
-            debug(string.format(NOT_FOUND, "bullet-style", ""))
-            --debug("metadata 'heading-unnumbered' was not found in source, applying defaults.")
         end
     end
 
-    return { { Meta = get_vars }
-        --, { Header = replace }
-    }
+    local function Pandoc(doc)
+        local head = {}
+        local tail = {}
+
+        for i, el in ipairs(doc.blocks) do
+            bl = {}
+            if el.tag == "BulletList" then
+                --doc.blocks[i] = pandoc.Null()
+                depth = depth + 1
+                extract(el)
+                depth = depth - 1
+                --debug(stringify(bl))
+            end
+        end
+        return doc
+    end
+
+    return { { Meta = get_meta }, { Pandoc = Pandoc } }
 end
