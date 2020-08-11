@@ -20,7 +20,7 @@ reinstall: uninstall install
 #	pip3 install .
 
 copy:
-	cp lua/* $(PIP_BASE)/share/lua/5.3/pandocker/
+	cp lua/* $(PIPBASE)/share/lua/5.3/pandocker/
 
 clean:
 	cd tests; \
