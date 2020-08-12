@@ -210,8 +210,7 @@ if PANDOC_VERSION < { 2, 10 } then
             return tabular(el.content[1])
         end
     end
+    return { { Para = link2table } }
 else
     debug("[ lua ] Pandoc version mismatched. This filter works with Pandoc<2.10")
 end
-
-return { { Para = link2table } }
