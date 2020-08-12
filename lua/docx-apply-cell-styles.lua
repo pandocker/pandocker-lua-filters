@@ -90,7 +90,10 @@ if FORMAT == "docx" then
         --pretty.dump(el)
         return el
     end
-
-    return { { Meta = get_meta }, { Table = apply_cell_styles } }
-
+    if PANDOC_VERSION < { 2, 10 } then
+        return { { Meta = get_meta }, { Table = apply_cell_styles } }
+    else
+        debug("[ lua ] Pandoc version mismatched. This filter works with Pandoc<2.10")
+    end
 end
+
