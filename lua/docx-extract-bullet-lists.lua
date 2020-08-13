@@ -69,21 +69,36 @@ if FORMAT == "docx" then
         end
         return style
     end
-
     local function extract_bullet_list(el)
+        local paras = {}
         local style = get_style()
+        local function make_div()
+            local _content = {}
+            for i, para in ipairs(paras) do
+                table.insert(_content, para.content)
+                if i ~= #paras then
+                    table.insert(_content, {})
+                end
+            end
+
+            bullet = pandoc.Div({ pandoc.LineBlock(_content) })
+            bullet["attr"]["attributes"]["custom-style"] = stringify(style)
+            table.insert(bl, bullet)
+            paras = {}
+        end
         for _, blocks in ipairs(el.content) do
             --debug(depth .. ", " .. #v .. ", " .. stringify(v))
             for i, e in ipairs(blocks) do
                 if e.tag == "BulletList" then
+                    make_div()
                     depth = depth + 1
                     extract_bullet_list(e)
                     depth = depth - 1
                 else
-                    bullet = pandoc.Div(e)
-                    bullet["attr"]["attributes"]["custom-style"] = stringify(style)
-
-                    table.insert(bl, bullet)
+                    table.insert(paras, e)
+                    if i == #blocks then
+                        make_div()
+                    end
                     --debug(depth .. " " .. e.tag .. " " .. stringify(e))
                 end
             end
