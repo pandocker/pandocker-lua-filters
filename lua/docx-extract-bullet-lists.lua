@@ -57,22 +57,29 @@ if FORMAT == "docx" then
         --debug(stringify(meta))
     end
 
+    local function get_style()
+        local style = ""
+        if depth > max_depth then
+            style = meta[tostring(max_depth)]
+            debug(string.format(TOO_DEEP, max_depth))
+            --debug(stringify(meta[tostring(max_depth)]))
+        else
+            style = meta[tostring(depth)]
+            --debug(stringify(meta[tostring(depth)]))
+        end
+        return style
+    end
+
     local function extract_bullet_list(el)
-        for i, v in ipairs(el.content) do
-            for _, e in ipairs(v) do
+        local style = get_style()
+        for _, blocks in ipairs(el.content) do
+            --debug(depth .. ", " .. #v .. ", " .. stringify(v))
+            for i, e in ipairs(blocks) do
                 if e.tag == "BulletList" then
                     depth = depth + 1
                     extract_bullet_list(e)
                     depth = depth - 1
                 else
-                    if depth > max_depth then
-                        style = meta[tostring(max_depth)]
-                        debug(string.format(TOO_DEEP, max_depth))
-                        --debug(stringify(meta[tostring(max_depth)]))
-                    else
-                        style = meta[tostring(depth)]
-                        --debug(stringify(meta[tostring(depth)]))
-                    end
                     bullet = pandoc.Div(e)
                     bullet["attr"]["attributes"]["custom-style"] = stringify(style)
 
