@@ -41,27 +41,26 @@ local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
 local util_get_meta = require("pandocker.utils").util_get_meta
 
-local meta_key = "bullet-style"
+local META_KEY = "bullet-style"
 local meta = {}
-local max_depth = 3
+local MAX_DEPTH = 3
 local TOO_DEEP = "[ lua ] Listed item found at too deep level. Promote to level-%d."
 
-local default_meta = require("pandocker.default_loader")[meta_key]
+local default_meta = require("pandocker.default_loader")[META_KEY]
 assert(default_meta)
 
 if FORMAT == "docx" then
-    local depth = 0
 
     local function get_meta(mt)
-        meta = util_get_meta(mt, default_meta, meta_key)
+        meta = util_get_meta(mt, default_meta, META_KEY)
         --debug(stringify(meta))
     end
 
-    local function get_style()
+    local function get_style(depth)
         local style = ""
-        if depth > max_depth then
-            style = meta[tostring(max_depth)]
-            debug(string.format(TOO_DEEP, max_depth))
+        if depth > MAX_DEPTH then
+            style = meta[tostring(MAX_DEPTH)]
+            debug(string.format(TOO_DEEP, MAX_DEPTH))
             --debug(stringify(meta[tostring(max_depth)]))
         else
             style = meta[tostring(depth)]
@@ -69,35 +68,43 @@ if FORMAT == "docx" then
         end
         return style
     end
-    local function extract_bullet_list(el)
-        local paras = {}
-        local style = get_style()
-        local function make_div()
-            local _content = {}
-            for i, para in ipairs(paras) do
-                table.insert(_content, para.content)
-                if i ~= #paras then
-                    table.insert(_content, {})
-                end
-            end
 
-            bullet = pandoc.Div({ pandoc.LineBlock(_content) })
-            bullet["attr"]["attributes"]["custom-style"] = stringify(style)
-            table.insert(bl, bullet)
-            paras = {}
+    local function combine_para_plain(paras, depth)
+        local _content = {}
+        for idx, para in ipairs(paras) do
+            table.insert(_content, para.content)
+            if idx ~= #paras then
+                table.insert(_content, {})
+            end
         end
+
+        bullet = pandoc.Div({ pandoc.LineBlock(_content) })
+        bullet["attr"]["attributes"]["custom-style"] = stringify(get_style(depth))
+        table.insert(bl, bullet)
+    end
+
+    local function extract_bullet_list(el, depth)
+        local paras = {}
+        local style = get_style(depth)
+
         for _, blocks in ipairs(el.content) do
             --debug(depth .. ", " .. #v .. ", " .. stringify(v))
-            for i, e in ipairs(blocks) do
-                if e.tag == "BulletList" then
-                    make_div()
-                    depth = depth + 1
-                    extract_bullet_list(e)
-                    depth = depth - 1
+            for idx, block in ipairs(blocks) do
+                if block.tag ~= "Para" and block.tab ~= "Plain" then
+                    combine_para_plain(paras, depth)
+                    paras = {}
+                    if block.tag == "BulletList" then
+                        extract_bullet_list(block, depth + 1)
+                    else
+                        bullet = pandoc.Div(block)
+                        bullet["attr"]["attributes"]["custom-style"] = stringify(style)
+                        table.insert(bl, bullet)
+                    end
                 else
-                    table.insert(paras, e)
-                    if i == #blocks then
-                        make_div()
+                    table.insert(paras, block)
+                    if idx == #blocks then
+                        combine_para_plain(paras, depth)
+                        paras = {}
                     end
                     --debug(depth .. " " .. e.tag .. " " .. stringify(e))
                 end
@@ -113,14 +120,12 @@ if FORMAT == "docx" then
             bl = {}
             if el.tag == "BulletList" then
                 debug("[ lua ] Bullet list found")
-                depth = depth + 1
-                extract_bullet_list(el)
+                extract_bullet_list(el, 1)
                 table.move(doc.blocks, 1, i - 1, 1, head) -- head has contents before BulletList
                 table.move(doc.blocks, i + 1, #doc.blocks, 1, tail) -- tail has after BulletList
                 table.move(bl, 1, #bl, #head + 1, head) -- concat head and bl -> head
                 table.move(tail, 1, #tail, #head + 1, head) -- concat head and tail
                 doc.blocks = head
-                depth = depth - 1
                 return bulletlist_to_divs(doc)
                 --debug(stringify(bl))
             end
