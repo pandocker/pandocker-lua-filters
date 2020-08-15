@@ -102,7 +102,7 @@ local function get_alignments(attr)
     local alignment = List()
     for al in string.gmatch(attr, "[dlrcDLRC]") do
         --debug(al)
-        alignment:append(al:upper())
+        alignment:append(ALIGN[al:upper()])
     end
     return alignment
 end
