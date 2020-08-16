@@ -42,6 +42,16 @@ local file_exists = require("pandocker.utils").file_exists
 local MESSAGE = "[ lua ] insert a table from %s"
 local FILE_NOT_FOUND = "[ lua ] %s: file not found"
 
+local table_template = [==[
+| table |
+|-------|
+| cell  |
+
+Table: caption
+]==]
+
+local my_table = pandoc.read(table_template, "markdown").blocks[1]
+
 local function get_tf(item, default)
     if type(item) == "string" then
         item = string.upper(item)
@@ -60,8 +70,17 @@ local function get_cell(c)
         c = tostring(c)
     end
     --pretty.dump(c)
-    local cell = pandoc.read(c, "markdown").blocks
-    return cell
+
+    local _cell = pandoc.read(c, "markdown").blocks
+    if PANDOC_VERSION < { 2, 10 } then
+        return _cell -- List of Blocks
+    else
+        return { attr = { "", {}, {} },
+                 alignment = pandoc.AlignDefault,
+                 row_span = 1,
+                 col_span = 1,
+                 contents = pandoc.List(_cell) } -- Cell
+    end
 end
 
 local function get_row(t)
@@ -70,7 +89,11 @@ local function get_row(t)
         --dump(get_cell(v), "")
         table.insert(row, get_cell(v))
     end
-    return row
+    if PANDOC_VERSION < { 2, 10 } then
+        return row -- List of List of Blocks
+    else
+        return { { "", {}, {} }, row }
+    end
 end
 
 local ALIGN = { ["D"] = pandoc.AlignDefault,
