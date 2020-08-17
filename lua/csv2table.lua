@@ -52,6 +52,15 @@ Table: caption
 
 local my_table = pandoc.read(table_template, "markdown").blocks[1]
 
+local blank_attr = { "", {}, {} }
+local blank_head_row = function()
+    if PANDOC_VERSION < { 2, 10 } then
+        return { {} }
+    else
+        return { blank_attr, {} }
+    end
+end
+
 local function get_tf(item, default)
     if type(item) == "string" then
         item = string.upper(item)
@@ -75,7 +84,7 @@ local function get_cell(c)
     if PANDOC_VERSION < { 2, 10 } then
         return _cell -- List of Blocks
     else
-        return { attr = { "", {}, {} },
+        return { attr = blank_attr,
                  alignment = pandoc.AlignDefault,
                  row_span = 1,
                  col_span = 1,
@@ -92,7 +101,7 @@ local function get_row(t)
     if PANDOC_VERSION < { 2, 10 } then
         return row -- List of List of Blocks
     else
-        return { { "", {}, {} }, row }
+        return { blank_attr, row }
     end
 end
 
@@ -134,7 +143,8 @@ local function tabular(el)
     if el.classes:includes "table" then
         local tab = {}
         local source_file = stringify(el.target)
-        local header = get_tf(el.attributes.header, true)
+        local header_avail = get_tf(el.attributes.header, true)
+        local header = blank_head_row()
         local nocaption = get_tf(el.attributes.nocaption, false)
         local y_from = 1
         local x_from = 1
@@ -199,10 +209,9 @@ local function tabular(el)
             end
             i = i + 1
         end
-        if header then
+        if header_avail then
             header = rows:pop(1)
-        else
-            header = { {} }
+            --pretty.dump(header)
         end
         --pretty.dump(header)
         while col_max > #alignment do
@@ -217,13 +226,30 @@ local function tabular(el)
         end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))
-        return pandoc.Table(
-                caption,
-                alignment,
-                widths,
-                header,
-                rows
-        )
+        if PANDOC_VERSION < { 2, 10 } then
+            return pandoc.Table(
+                    caption,
+                    alignment,
+                    widths,
+                    header,
+                    rows
+            )
+        else
+            --pretty.dump(header)
+            local table = my_table:clone()
+            table.head = { blank_attr, { header } }
+            --pretty.dump(table.head)
+            table.caption = { long = { pandoc.Plain(caption) } }
+            --pretty.dump(table.caption)
+            table.colspecs = tablex.zip(alignment, widths)
+            --pretty.dump(table.colspecs)
+            table.bodies = { { attr = blank_attr,
+                               head = {   },
+                               body = rows,
+                               row_head_columns = 0 } }
+            --pretty.dump(table.bodies)
+            return table
+        end
     end
 end
 
