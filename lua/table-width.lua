@@ -22,12 +22,30 @@ where,
   Default is `false`. When table has only one blank row, header row overrides body row so that
   table has single row without header row.
 
+try:
+$ pandoc -t native -L lua/table-width.lua
+:::{.table width=[0.5] noheader=true}
+: Test1
+
+| Header    |
+|:----------|
+| Cell      |
+:::
+
+:::{.table width=[0.5] noheader=true}
+: Test2
+
+| Cell      | Cell      |
+|:----------|----------:|
+|           |           |
+:::
+
 ]]
 
 --local stringify = require("pandoc.utils").stringify
 
 --local pretty = require("pl.pretty")
---local tablex = require("pl.tablex")
+local tablex = require("pl.tablex")
 local List = require("pl.List")
 require("pl.stringx").import()
 
@@ -35,8 +53,14 @@ local debug = require("pandocker.utils").debug
 local get_tf = require("pandocker.utils").get_tf
 
 local MESSAGE = "[ lua ] Div in 'table' class found"
-local NOHEADER_MESSAGE = "[ lua ] Move header row to general rows"
+local NOHEADER_MESSAGE = "[ lua ] Move header row to body rows"
 local WIDTH_MESSAGE = "[ lua ] Adjust column ratio"
+local empty_attr = { "", {}, {} }
+local empty_cell = { attr = empty_attr,
+                     alignment = pandoc.AlignDefault,
+                     row_span = 1,
+                     col_span = 1,
+                     contents = {} }
 
 local function get_widths(attr)
     local widths = List()
@@ -51,11 +75,18 @@ local function get_widths(attr)
     return widths
 end
 
-local function sum_content(el)
+local function sum_content(row)
     local sum = 0
     --pretty.dump(el)
-    for i, v in ipairs(el) do
-        sum = sum + #v
+    for _, cell in ipairs(row) do
+        if PANDOC_VERSION < { 2, 10 } then
+            sum = sum + #cell
+        else
+            if not tablex.deepcompare(empty_cell, cell) then
+                --pretty.dump(cell)
+                sum = sum + 1
+            end
+        end
     end
     return sum
 end
@@ -79,6 +110,8 @@ local function merge_colspecs(colspecs, widths)
 end
 
 local function table_width(el)
+    local headers = {}
+    local body = {}
     if el.classes:find("table") then
         if #el.content == 1 and el.content[1].tag == "Table" then
             debug(MESSAGE)
@@ -86,24 +119,46 @@ local function table_width(el)
             local widths = el.attributes["width"]
             local noheader = get_tf(el.attributes["noheader"], false)
             local tbl = el.content[1] -- Table
+            local empty_row = { empty_attr, {} }
 
             local col_max = 1
             if PANDOC_VERSION < { 2, 10 } then
+                headers = tbl.headers
+                body = tbl.rows
                 col_max = #tbl.widths
             else
+                headers = tbl.head[2]
+                body = tbl.bodies[1].body
+                --pretty.dump(body)
                 col_max = #tbl.colspecs
+                for _, v in ipairs(tablex.range(1, col_max)) do
+                    table.insert(empty_row[2], empty_cell)
+                end
             end
 
-            if noheader and tbl.headers ~= {} then
+            if noheader and headers ~= {} then
                 debug(NOHEADER_MESSAGE)
-                if #tbl.rows == 1 and sum_content(tbl.rows[1]) == 0 then
-                    debug("[ lua ] header row overrides first body row")
-                    tbl.rows[1] = tbl.headers
+                if PANDOC_VERSION < { 2, 10 } then
+                    if #body == 1 and sum_content(body[1]) == 0 then
+                        debug("[ lua ] header row overrides first body row")
+                        tbl.rows[1] = headers
+                    else
+                        debug("[ lua ] header row is inserted at head of body rows")
+                        table.insert(tbl.rows, 1, headers)
+                    end
+                    tbl.headers = {}
                 else
-                    debug("[ lua ] header row is inserted at head of body rows")
-                    table.insert(tbl.rows, 1, tbl.headers)
+                    if #body == 1 and sum_content(body[1]) == 0 then
+                        debug("[ lua ] header row overrides first body row")
+                        tbl.bodies[1].body = headers
+                    else
+                        debug("[ lua ] header row is inserted at head of body rows")
+                        --pretty.dump(tbl.bodies[1].body)
+                        --pretty.dump(headers)
+                        table.insert(tbl.bodies[1].body, 1, headers[1])
+                    end
+                    tbl.head = { empty_attr, {  } }
                 end
-                tbl.headers = {}
             end
             if widths ~= nil then
                 widths = get_widths(widths)
