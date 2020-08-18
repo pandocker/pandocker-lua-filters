@@ -52,12 +52,12 @@ Table: caption
 
 local my_table = pandoc.read(table_template, "markdown").blocks[1]
 
-local blank_attr = { "", {}, {} }
-local blank_head_row = function()
+local empty_attr = { "", {}, {} }
+local empty_row = function()
     if PANDOC_VERSION < { 2, 10 } then
         return { {} }
     else
-        return { blank_attr, {} }
+        return { empty_attr, {} }
     end
 end
 
@@ -84,7 +84,7 @@ local function get_cell(c)
     if PANDOC_VERSION < { 2, 10 } then
         return _cell -- List of Blocks
     else
-        return { attr = blank_attr,
+        return { attr = empty_attr,
                  alignment = pandoc.AlignDefault,
                  row_span = 1,
                  col_span = 1,
@@ -101,7 +101,7 @@ local function get_row(t)
     if PANDOC_VERSION < { 2, 10 } then
         return row -- List of List of Blocks
     else
-        return { blank_attr, row }
+        return { empty_attr, row }
     end
 end
 
@@ -144,7 +144,7 @@ local function tabular(el)
         local tab = {}
         local source_file = stringify(el.target)
         local header_avail = get_tf(el.attributes.header, true)
-        local header = blank_head_row()
+        local header = empty_row()
         local nocaption = get_tf(el.attributes.nocaption, false)
         local y_from = 1
         local x_from = 1
@@ -237,13 +237,13 @@ local function tabular(el)
         else
             --pretty.dump(header)
             local table = my_table:clone()
-            table.head = { blank_attr, { header } }
+            table.head = { empty_attr, { header } }
             --pretty.dump(table.head)
             table.caption = { long = { pandoc.Plain(caption) } }
             --pretty.dump(table.caption)
             table.colspecs = tablex.zip(alignment, widths)
             --pretty.dump(table.colspecs)
-            table.bodies = { { attr = blank_attr,
+            table.bodies = { { attr = empty_attr,
                                head = {   },
                                body = rows,
                                row_head_columns = 0 } }
