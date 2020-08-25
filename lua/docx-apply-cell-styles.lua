@@ -97,7 +97,7 @@ if FORMAT == "docx" then
             for j, cell in ipairs(row) do
                 --pretty.dump(cell.contents)
                 _cell = pandoc.Div(cell.contents)
-                _cell["attr"]["attributes"]["custom-style"] = stringify(styles[i])
+                _cell["attr"]["attributes"]["custom-style"] = stringify(styles[j])
                 cell.contents = { _cell }
                 row[j] = cell
             end
