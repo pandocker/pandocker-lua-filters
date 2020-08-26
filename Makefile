@@ -37,3 +37,7 @@ docx: copy
 pdf: copy
 	cd tests; \
 	make pdf
+
+wavedrom:
+	@echo "wavedrom"
+	docker run --rm -it -v $(PWD):/root -w /tmp node:10 /root/wavedrom.sh

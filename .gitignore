@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+pandocker_lua_filters/version.py
