@@ -25,7 +25,7 @@ Table: table **width** {#tbl:tabls}
 
 | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--1} |                                                                                   |
 |:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-|                                                                                   | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--2} |
+|          [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom--3}           | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--2} |
 
 :::
 Tiled figures on a table
