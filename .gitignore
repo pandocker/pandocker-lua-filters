@@ -108,3 +108,4 @@ mac/
 linux/
 .npm/
 .nexe/
+.config/
