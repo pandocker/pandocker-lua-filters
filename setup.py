@@ -191,6 +191,13 @@ setup(
 
                                              'lua/metadata-file.yaml',
                                              ]),
+                ('bin/pandocker', ['build/wavedrom-cli',
+                                   'build/wavedrom-cli.bin',
+                                   'build/wavedrom-cli.exe',
+                                   'build/linux/bin/svgbob',
+                                   'build/osx/bin/svgbob.bin',
+                                   'build/windows/bin/svgbob.exe',
+                                   ]),
                 ],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
