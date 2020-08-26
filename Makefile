@@ -40,4 +40,8 @@ pdf: copy
 
 wavedrom:
 	@echo "wavedrom"
-	docker run --rm -it -v $(PWD):/root -w /tmp node:10 /root/wavedrom.sh
+	docker run --rm -v $(PWD):/root -w /tmp node:10 /root/scripts/wavedrom.sh
+
+svgbob:
+	@echo "svgbob"
+	docker run --rm -it -v $(PWD):/tmp -w /tmp joseluisq/rust-linux-darwin-builder ./scripts/svgbob.sh
