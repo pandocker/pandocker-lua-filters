@@ -210,6 +210,7 @@ setup(
     entry_points={  # Optional
         'console_scripts': [
             'pandocker-lua-filters=pandocker_lua_filters:main',
+            'get-platform=pandocker_lua_filters:get_platform',
         ],
     },
 

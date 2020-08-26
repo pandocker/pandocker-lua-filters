@@ -24,6 +24,7 @@ SOFTWARE.
 """
 
 import argparse
+import platform
 from .version import version
 
 
@@ -31,6 +32,16 @@ def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument('--version', action='version', version=str(version))
     args = parser.parse_args()
+
+
+def get_platform():
+    pf = platform.platform()
+    if pf.startswith("Windows"):
+        print("Windows")
+    elif pf.startswith("Darwin"):
+        print("OSX")
+    elif pf.startswith("Linux"):
+        print("Linux")
 
 
 if __name__ == "__main__":
