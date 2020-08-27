@@ -3,7 +3,7 @@ on: push
 
 jobs:
   make-wavedrom:
-    name: Compile wavedrom
+    name: Compile svgbob
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
