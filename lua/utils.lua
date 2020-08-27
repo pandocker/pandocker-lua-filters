@@ -95,6 +95,18 @@ local function getos()
     return "unknown"
 end
 
+local function package_base_path()
+    local PACKAGE_BASE_PATH = "pip3 show pandocker-lua-filters | grep Location | cut -c11- | rev | cut -d/ -f4- | rev"
+    local fh, err = io.popen(PACKAGE_BASE_PATH, "r")
+    local base = ""
+    if fh then
+        base = fh:read()
+    else
+        base = "/"
+    end
+    return base
+end
+
 return {
     basename = basename,
     debug = debug,
@@ -102,4 +114,5 @@ return {
     get_os = getos,
     get_tf = get_tf,
     util_get_meta = get_meta,
+    package_base_path = package_base_path,
 }
