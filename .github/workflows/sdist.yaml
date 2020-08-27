@@ -7,9 +7,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@2.0.0
-      - name: Make
-        run: make wavedrom
-  sdist:
-    name: Create package
-    runs-on: ubuntu-latest
+        uses: actions/checkout@v2.0.0
+      - run: ls
+      - name: install dependencies
+        run: |
+          pip3 install wheel setuptools setuptools_scm
+      - name: svgbob.sh
+        container:
+          images: joseluisq/rust-linux-darwin-builder
+          options: -v $(PWD):/tmp -w /tmp ./scripts/svgbob.sh
+      - name: build svgbob
+        run: make svgbob
+      - name: build wheel
+        run: make wheel
+      - name: upload to testpypi (at a push)
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+          repository_url: https://test.pypi.org/legacy/
+      - name: upload to pypi (at a tag)
+        uses: pypa/gh-action-pypi-publish@master
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
