@@ -70,10 +70,36 @@ local function get_meta(doc_meta, default_meta, meta_key)
     return meta
 end
 
+--<http://www.wellho.net/resources/ex.php4?item=u112/getos>
+--[[ What operating system?
+Lua has only a small library of built in functions - often
+you have to pull in a library from another source, or write
+your own.
+
+Here is the start of a piece of code to identify operating
+system information (such as which OS you're running on.
+]]
+
+local function getos()
+
+    -- Unix, Linux varients
+    fh, err = io.popen("uname -o 2>/dev/null", "r")
+    if fh then
+        osname = fh:read()
+    end
+    if osname then
+        return osname
+    end
+
+    -- Add code for other operating systems here
+    return "unknown"
+end
+
 return {
     basename = basename,
     debug = debug,
     file_exists = file_exists,
+    get_os = getos,
     get_tf = get_tf,
     util_get_meta = get_meta,
 }
