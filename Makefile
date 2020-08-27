@@ -47,7 +47,7 @@ svgbob:
 	@echo "svgbob"
 	docker run --rm -it -v $(PWD):/tmp -w /tmp joseluisq/rust-linux-darwin-builder ./scripts/svgbob.sh
 
-wheel:
+wheel: svgbob
 	 python3 setup.py bdist_wheel
 
 check: wheel
