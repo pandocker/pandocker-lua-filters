@@ -46,6 +46,7 @@ pdf: copy
 svgbob:
 	@echo "svgbob"
 	docker run --rm -it -v $(PWD):/tmp -w /tmp joseluisq/rust-linux-darwin-builder ./scripts/svgbob.sh
+	docker run --rm -v $(PWD):/tmp -w /tmp svgbob ./scripts/svgbob.sh
 
 wheel: svgbob
 	 python3 setup.py bdist_wheel

@@ -17,7 +17,8 @@ jobs:
           images: joseluisq/rust-linux-darwin-builder
           options: -v $(PWD):/tmp -w /tmp ./scripts/svgbob.sh
       - name: build svgbob
-        run: make svgbob
+        run: |
+          docker build scripts/ -t svgbob
       - name: build wheel
         run: make wheel
       - name: upload to testpypi (at a push)
