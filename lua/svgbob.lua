@@ -12,6 +12,8 @@ local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
 
 local util_get_meta = require("pandocker.utils").util_get_meta
+local platform = require("pandocker.utils").get_os()
+local base = require("pandocker.utils").package_base_path()
 
 local META_KEY = "svgbob"
 local meta = {}
@@ -22,6 +24,7 @@ assert(default_meta)
 local MESSAGE = "[ lua ] convert svgbob to svg/%s.svg"
 local BYPASS = "[ lua ] Skipping conversion as target 'svg/%s.svg' exists"
 local NOT_FOUND = "[ lua ] %s: file not found"
+local SVGBOB = "%s/bin/%s"
 
 local function get_meta(mt)
     meta = util_get_meta(mt, default_meta, META_KEY)
@@ -60,12 +63,20 @@ function Link(el)
                 local font_size = stringify(meta["font-size"])
                 local scale = stringify(meta["scale"])
                 local stroke_width = stringify(meta["stroke-width"])
-                pandoc.pipe("svgbob", { source_file,
-                                        "--font-family", font_family,
-                                        "--font-size", font_size,
-                                        "--scale", scale,
-                                        "--stroke-width", stroke_width,
-                                        "-o", fullpath }, "")
+                local svgbob = "svgbob"
+                if platform == "Linux" then
+                    svgbob = string.format(SVGBOB, base, "pandocker/svgbob")
+                elseif platform == "Darwin" then
+                    svgbob = string.format(SVGBOB, base, "pandocker/svgbob.bin")
+                else
+                    svgbob = string.format(SVGBOB, base, "pandocker/svgbob.exe")
+                end
+                pandoc.pipe(svgbob, { source_file,
+                                      "--font-family", font_family,
+                                      "--font-size", font_size,
+                                      "--scale", scale,
+                                      "--stroke-width", stroke_width,
+                                      "-o", fullpath }, "")
                 debug(string.format(MESSAGE, hash))
             else
                 debug(string.format(BYPASS, hash))
