@@ -23,6 +23,7 @@ copy:
 	cp lua/* $(PIPBASE)/share/lua/5.3/pandocker/
 
 clean:
+	rm -rf dist
 	cd tests; \
 	make clean
 
@@ -45,3 +46,9 @@ wavedrom:
 svgbob:
 	@echo "svgbob"
 	docker run --rm -it -v $(PWD):/tmp -w /tmp joseluisq/rust-linux-darwin-builder ./scripts/svgbob.sh
+
+wheel:
+	 python3 setup.py bdist_wheel
+
+check: wheel
+	twine check dist/pandocker_lua_filters*.whl
