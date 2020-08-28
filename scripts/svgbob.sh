@@ -10,7 +10,7 @@ mv build/linux/bin/svgbob build/svgbob
 
 rustup target add x86_64-pc-windows-gnu
 cargo install --force svgbob_cli --root=build/windows --target=x86_64-pc-windows-gnu
-mv build/windows/bin/svgbob build/svgbob.exe
+mv build/windows/bin/svgbob.exe build/svgbob.exe
 
 rustup target add x86_64-apple-darwin
 cargo install --force svgbob_cli --root=build/osx --target=x86_64-apple-darwin
