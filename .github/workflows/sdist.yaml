@@ -24,12 +24,12 @@ jobs:
       - name: upload to testpypi (at a push)
         uses: pypa/gh-action-pypi-publish@master
         with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_PASSWORD }}
           repository_url: https://test.pypi.org/legacy/
       - name: upload to pypi (at a tag)
         uses: pypa/gh-action-pypi-publish@master
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_PASSWORD }}
