@@ -194,9 +194,6 @@ setup(
                 ('bin/pandocker', ['build/svgbob',
                                    'build/svgbob.bin',
                                    'build/svgbob.exe',
-                                   # 'build/wavedrom-cli',
-                                   # 'build/wavedrom-cli.bin',
-                                   # 'build/wavedrom-cli.exe',
                                    ]),
                 ],  # Optional
 
