@@ -1,6 +1,9 @@
-name: Create python source package
-on: push
-
+name: Build python wheel package
+on:
+  push:
+    branches:
+      - sdist-test
+      - master
 jobs:
   make-wavedrom:
     name: Compile svgbob
@@ -8,26 +11,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
-      - run: ls
-      - name: install dependencies
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
         run: |
           pip3 install wheel setuptools setuptools_scm
-      - name: svgbob.sh
-        container:
-          images: joseluisq/rust-linux-darwin-builder
-          options: -v $(PWD):/tmp -w /tmp ./scripts/svgbob.sh
-      - name: build svgbob
+      - name: Build svgbob image
         run: |
           docker build scripts/ -t svgbob
-      - name: build wheel
+      - name: Build wheel
         run: make wheel
-      - name: upload to testpypi (at a push)
-        uses: pypa/gh-action-pypi-publish@master
+      - name: Upload artifact wheel (at a push)
+        uses: actions/upload-artifact@v2
         with:
-          user: ${{ secrets.PYPI_USERNAME }}
-          password: ${{ secrets.PYPI_PASSWORD }}
-          repository_url: https://test.pypi.org/legacy/
-      - name: upload to pypi (at a tag)
+          name: wheel package
+          path: dist
+      - name: Upload to pypi (at a tag)
         uses: pypa/gh-action-pypi-publish@master
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         with:
