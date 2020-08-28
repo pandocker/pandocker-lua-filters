@@ -1,9 +1,5 @@
 name: Build python wheel package
-on:
-  push:
-    branches:
-      - sdist-test
-      - master
+on: [push, create]
 jobs:
   make-wavedrom:
     name: Compile svgbob
