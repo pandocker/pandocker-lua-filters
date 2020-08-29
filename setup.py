@@ -180,6 +180,7 @@ setup(
                                              'lua/listingtable.lua',
                                              'lua/preprocess.lua',
                                              'lua/removable-note.lua',
+                                             'lua/svgbob.lua',
                                              'lua/svgconvert.lua',
                                              'lua/table-width.lua',
                                              'lua/tex-landscape.lua',
