@@ -151,8 +151,8 @@ local function table_width(el)
                     end
                     tbl.headers = {}
                 else
-                    debug(#body)
-                    debug(sum_content(body[1]))
+                    --debug(#body)
+                    --debug(sum_content(body[1]))
                     if #body == 1 and sum_content(body[1]) == 0 then
                         debug("[ lua ] header row overrides first body row")
                         tbl.bodies[1].body = headers
