@@ -78,10 +78,13 @@ end
 local function sum_content(row)
     local sum = 0
     --pretty.dump(el)
-    for _, cell in ipairs(row) do
-        if PANDOC_VERSION < { 2, 10 } then
+    if PANDOC_VERSION < { 2, 10 } then
+        for _, cell in ipairs(row) do
             sum = sum + #cell
-        else
+        end
+    else
+        for _, cell in ipairs(row[2]) do
+            --debug(tostring(tablex.deepcompare(empty_cell, cell)))
             if not tablex.deepcompare(empty_cell, cell) then
                 --pretty.dump(cell)
                 sum = sum + 1
@@ -148,6 +151,8 @@ local function table_width(el)
                     end
                     tbl.headers = {}
                 else
+                    debug(#body)
+                    debug(sum_content(body[1]))
                     if #body == 1 and sum_content(body[1]) == 0 then
                         debug("[ lua ] header row overrides first body row")
                         tbl.bodies[1].body = headers
