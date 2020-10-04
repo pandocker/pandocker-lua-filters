@@ -6,6 +6,12 @@ Lua filters for pandoc
 `pip install git+https://github.com/pandocker/pandocker-lua-filters.git`
 
 ## General use
+#### Convert AAFigure ascii art
+
+- requires `aafigure` python package
+
+[**`aafigure.lua`**](lua/aafigure.lua)
+
 #### Convert CSV into table
 
 - requires `csv` luarocks package
@@ -27,6 +33,10 @@ Lua filters for pandoc
 #### Removable note block
 
 [**`removable-note.lua`**](lua/removable-note.lua)
+
+#### Convert svgbob ascii art
+
+[**`svgbob.lua`**](lua/svgbob.lua)
 
 #### Convert SVG images to other formats
 
