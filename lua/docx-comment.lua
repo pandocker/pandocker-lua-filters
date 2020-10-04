@@ -20,17 +20,18 @@ local List = require("pandoc").List
 
 local debug = require("pandocker.utils").debug
 local KEY = "comment"
-local empty_attr = { "", {}, {} }
 
-local function replace(el)
-    if not List({ nil, "" }):includes(el.attributes[KEY]) then
-        -- 'comment' attribute value is not blank nor nil
-        local comment_string = el.attributes[KEY]
-        debug(comment_string)
-        local comment_start = pandoc.Span({ pandoc.Str(comment_string) }, { "", { "comment-start" }, {} })
-        local comment_end = pandoc.Span(pandoc.Null, { "", { "comment-end" }, {} })
-        el.attributes[KEY] = nil
-        return pandoc.Span({ comment_start, el, comment_end })
+if FORMAT == "docx" then
+    local function replace(el)
+        if not List({ nil, "" }):includes(el.attributes[KEY]) then
+            -- 'comment' attribute value is not blank nor nil
+            local comment_string = el.attributes[KEY]
+            debug(comment_string)
+            local comment_start = pandoc.Span({ pandoc.Str(comment_string) }, { "", { "comment-start" }, {} })
+            local comment_end = pandoc.Span(pandoc.Null, { "", { "comment-end" }, {} })
+            el.attributes[KEY] = nil
+            return pandoc.Span({ comment_start, el, comment_end })
+        end
     end
 end
 
