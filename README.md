@@ -71,6 +71,10 @@ Lua filters for pandoc
 [**`tex-underline.lua`**](lua/tex-underline.lua)
 
 ## *Docx* output only
+#### Inserts a comment
+
+[**`docx-comment.lua`**](lua/docx-comment.lua)
+
 #### Apply custom (paragraph) styles for each table cell
 
 [**`docx-apply-cell-styles.lua`**](lua/docx-apply-cell-styles.lua)

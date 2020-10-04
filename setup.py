@@ -172,6 +172,7 @@ setup(
                                              'lua/default_loader.lua',
                                              'lua/docx-appendixheadings.lua',
                                              'lua/docx-apply-cell-styles.lua',
+                                             'lua/docx-comment.lua',
                                              'lua/docx-custom-span-styles.lua',
                                              'lua/docx-extract-bullet-lists.lua',
                                              'lua/docx-image-styles.lua',
