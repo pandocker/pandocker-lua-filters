@@ -138,7 +138,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=["wavedrom>2.0.3*"],  # Optional
+    install_requires=["wavedrom>2.0.3*", "aafigure"],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -167,7 +167,8 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[('share/lua/5.3/pandocker', ['lua/csv2table.lua',
+    data_files=[('share/lua/5.3/pandocker', ['lua/aafigure.lua',
+                                             'lua/csv2table.lua',
                                              'lua/default_loader.lua',
                                              'lua/docx-appendixheadings.lua',
                                              'lua/docx-apply-cell-styles.lua',

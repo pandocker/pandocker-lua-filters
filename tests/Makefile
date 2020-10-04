@@ -27,6 +27,7 @@ PROJECT= `pwd`
 LUA_FILTER_BASE = ../lua
 PANFLAGS := --read=markdown+east_asian_line_breaks
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/hide-frontpage-metadata.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/aafigure.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/removable-note.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-landscape.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
