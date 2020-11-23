@@ -32,14 +32,14 @@ local function get_meta(mt)
 end
 
 function Link(el)
-    if el.classes:includes "svgbob" then
-        --debug("Link in 'wavedrom' class")
+    if el.classes:includes(META_KEY) then
+        --debug("Link in " .. META_KEY .. " class")
         if stringify(el.content) == "" then
             el.content = el.target
         end
         local idn = el.identifier
 
-        -- remove "wavedrom" and "bitfield" classes
+        -- remove svgbob classe
         local classes = {}
         for i, v in ipairs(el.classes) do
             if v ~= "svgbob" then
