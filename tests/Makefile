@@ -37,7 +37,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/svgbob.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-underline.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-quote.lua
 #PANFLAGS += --filter=pantable
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-apply-cell-styles.lua
