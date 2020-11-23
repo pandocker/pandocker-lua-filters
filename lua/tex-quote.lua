@@ -9,10 +9,8 @@ local end_env = pandoc.Para(pandoc.RawInline("latex", "\\end{mdframed}"))
 
 if FORMAT == "latex" then
     function BlockQuote(el)
-        debug(pandoc.utils.stringify(el))
-        for i, v in ipairs(el.content) do
-            debug(v.tag)
-        end
+        debug("[ lua ] BlockQuote found")
+        --debug(pandoc.utils.stringify(el))
         table.insert(el.content, 1, begin_env)
         table.insert(el.content, #el.content + 1, end_env)
 
