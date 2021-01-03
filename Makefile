@@ -24,6 +24,7 @@ copy:
 
 clean:
 	rm -rf dist
+	rm pandocker_lua_filters/version.py
 	cd tests; \
 	make clean
 
@@ -43,11 +44,14 @@ pdf: copy
 #	@echo "wavedrom"
 #	docker run --rm -v $(PWD):/root -w /tmp node:10 /root/scripts/wavedrom.sh
 
+build/svgbob: svgbob
+build/svgbob.bin: svgbob
+build/svgbob.exe: svgbob
 svgbob:
 	@echo "svgbob"
 	docker run --rm -v $(PWD):/tmp -w /tmp svgbob ./scripts/svgbob.sh
 
-wheel: svgbob
+wheel: build/svgbob build/svgbob.bin build/svgbob.exe
 	 sudo python3 setup.py bdist_wheel
 
 check: wheel
