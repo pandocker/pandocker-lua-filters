@@ -20,12 +20,14 @@ Table: table **width** {#tbl:tabls}
 :::
 \
 
+[@fig:wavedrom-2]
+
 ::: {#fig:tiled-figures width=[0.5,0.5]}
 ::: {.table noheader=true}
 
-| [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--1} |                                                                                   |
-|:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-|          [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom--3}           | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom--2} |
+| [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom-1} |       [AAFigure](data/aafigure.txt){.aafigure width=70mm #fig:wavedrom-2}        |
+|:--------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|
+|          [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom-3}           | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom-4} |
 
 :::
 Tiled figures on a table
