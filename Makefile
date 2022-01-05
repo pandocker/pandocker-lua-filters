@@ -24,6 +24,7 @@ copy:
 
 clean:
 	rm -rf dist
+	touch pandocker_lua_filters/version.py
 	rm pandocker_lua_filters/version.py
 	cd tests; \
 	make clean
