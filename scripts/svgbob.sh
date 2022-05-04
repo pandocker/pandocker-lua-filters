@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-apt update
-apt -y install gcc-mingw-w64
+sudo apt update
+sudo apt -y install gcc-mingw-w64
 rustup update
 
 rustup target add x86_64-unknown-linux-musl
