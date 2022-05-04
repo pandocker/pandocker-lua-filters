@@ -40,6 +40,18 @@ $ pandoc -t native -L lua/table-width.lua
 |           |           |
 :::
 
+:::{.table }
+|  head  | head2   |
+|----|----|
+|cell|cell|
+:::
+
+
+:::{.table }
+|head|
+|----|
+|    |
+:::
 ]]
 
 --local stringify = require("pandoc.utils").stringify
@@ -83,11 +95,15 @@ local function sum_content(row)
             sum = sum + #cell
         end
     else
-        for _, cell in ipairs(row[2]) do
-            --debug(tostring(tablex.deepcompare(empty_cell, cell)))
-            if not tablex.deepcompare(empty_cell, cell) then
-                --pretty.dump(cell)
-                sum = sum + 1
+        --row _should_ be a list of cells but:
+        --when whole row is blank cells, __row is a nil__
+        if row ~= nil then
+            for _, cell in ipairs(row[2]) do
+                --debug(tostring(tablex.deepcompare(empty_cell, cell)))
+                if not tablex.deepcompare(empty_cell, cell) then
+                    --pretty.dump(cell)
+                    sum = sum + 1
+                end
             end
         end
     end
@@ -143,9 +159,13 @@ local function table_width(el)
                 debug(NOHEADER_MESSAGE)
                 if PANDOC_VERSION < { 2, 10 } then
                     if #body == 1 and sum_content(body[1]) == 0 then
-                        debug("[ lua ] header row overrides first body row")
+                        -- valid header row + first body row is blank
+                        -- -> remove header row + first body row has ex-header row contents
+                        debug("[ lua ] header row overrides first body row && remove header row")
                         tbl.rows[1] = headers
                     else
+                        -- valid header row + first body row is not blank
+                        -- -> remove header row + ex-header row stacks at top of body rows
                         debug("[ lua ] header row is inserted at head of body rows")
                         table.insert(tbl.rows, 1, headers)
                     end
@@ -153,11 +173,12 @@ local function table_width(el)
                 else
                     --debug(#body)
                     --debug(sum_content(body[1]))
+                    -- valid header row + first body row is blank
                     if #body == 1 and sum_content(body[1]) == 0 then
-                        debug("[ lua ] header row overrides first body row")
+                        debug("[ lua ] header row overrides first body row && remove header row (pandoc >= 2.10)")
                         tbl.bodies[1].body = headers
                     else
-                        debug("[ lua ] header row is inserted at head of body rows")
+                        debug("[ lua ] header row is inserted at head of body rows (pandoc >= 2.10)")
                         --pretty.dump(tbl.bodies[1].body)
                         --pretty.dump(headers)
                         table.insert(tbl.bodies[1].body, 1, headers[1])
