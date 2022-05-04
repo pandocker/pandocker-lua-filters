@@ -53,7 +53,7 @@ svgbob:
 	docker run --rm -v $(PWD):/tmp -w /tmp svgbob ./scripts/svgbob.sh
 
 wheel: build/svgbob build/svgbob.bin build/svgbob.exe
-	 sudo python3 setup.py bdist_wheel
+	sudo python3 setup.py bdist_wheel
 
 check: wheel
 	twine check dist/pandocker_lua_filters*.whl
