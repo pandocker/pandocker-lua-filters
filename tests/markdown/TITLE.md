@@ -1,6 +1,6 @@
 ---
 heading-unnumbered:
-  2: "Heading Unnumbered 1.1"
+2: "Heading Unnumbered 1.1"
 codeBlockCaptions: true
 listingTitle: "List"
 listings: true
@@ -11,12 +11,22 @@ listings: true
 
 \newpage
 
+::: {.table }
+
+|    |    |
+|----|----|
+|    |    |
+|    |    |
+
+:::
+
 :::{.table width=[0.8,0.3]}
-Table: table **width** {#tbl:tabls}
+Table: table **width** {#tbl:table}
 
 | Table | Header |  Row |
 |:------|:------:|-----:|
 | Cell  |  Cell  | Cell |
+
 :::
 \
 
@@ -57,8 +67,11 @@ Tiled figures on a table
 [@tbl:table]
 
 ## Level2
+
 # Level1 unnumbered {-}
+
 ## Level2 unnumbered {-}
+
 ##### Level5 unnumbered {-}
 
 <!--# #include "section2.md"-->
@@ -111,7 +124,7 @@ Bullet List 2
 [](data/ditaa.puml){.listingtable type=puml #lst:ditaa-sample}
 
 [](data/ditaa.puml){.listingtable nocaption=true
-                    .plantuml #fig:ditaa-sample im_out="img" im_fmt='png' caption="PlantUML x ditaa x imagine"}
+.plantuml #fig:ditaa-sample im_out="img" im_fmt='png' caption="PlantUML x ditaa x imagine"}
 
 :::
 
@@ -120,8 +133,11 @@ Bullet List 2
 ![dummy](images/dummy.png)
 
 ::: LANDSCAPE :::
+
 ##### Level5
+
 # #include "section2.md"
+
 :::
 
 ~~Strikeout~~ ~~ごはんはおかず~~

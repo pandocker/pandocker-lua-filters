@@ -237,7 +237,8 @@ local function tabular(el)
         else
             --pretty.dump(header)
             local table = my_table:clone()
-            table.head = { empty_attr, { header } }
+            --debug("table.head.rows " .. tostring(table.head.rows))
+            table.head.rows = { header }
             --pretty.dump(table.head)
             table.caption = { long = { pandoc.Plain(caption) } }
             --pretty.dump(table.caption)
