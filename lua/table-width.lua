@@ -56,7 +56,7 @@ $ pandoc -t native -L lua/table-width.lua
 
 --local stringify = require("pandoc.utils").stringify
 
---local pretty = require("pl.pretty")
+local pretty = require("pl.pretty")
 local tablex = require("pl.tablex")
 local List = require("pl.List")
 require("pl.stringx").import()
@@ -87,23 +87,27 @@ local function get_widths(attr)
     return widths
 end
 
+local function simple_sum_content(row)
+    local sum = 0
+    -- Row is a list of Cell's
+    debug("simple_sum_content()")
+    for _, cell in ipairs(row) do
+        sum = sum + #cell
+    end
+    return sum
+end
+
 local function sum_content(row)
     local sum = 0
     --pretty.dump(el)
-    if PANDOC_VERSION < { 2, 10 } then
-        for _, cell in ipairs(row) do
-            sum = sum + #cell
-        end
-    else
-        --row _should_ be a list of cells but:
-        --when whole row is blank cells, __row is a nil__
-        if row ~= nil then
-            for _, cell in ipairs(row[2]) do
-                --debug(tostring(tablex.deepcompare(empty_cell, cell)))
-                if not tablex.deepcompare(empty_cell, cell) then
-                    --pretty.dump(cell)
-                    sum = sum + 1
-                end
+    --row _should_ be a list of cells but:
+    --when whole row is blank cells, __row is a nil__
+    if row ~= nil then
+        for _, cell in ipairs(row[2]) do
+            --debug(tostring(tablex.deepcompare(empty_cell, cell)))
+            if not tablex.deepcompare(empty_cell, cell) then
+                --pretty.dump(cell)
+                sum = sum + 1
             end
         end
     end
@@ -142,6 +146,7 @@ local function table_width(tbl, attr)
         headers = tbl.headers
         body = tbl.rows
         col_max = #tbl.widths
+        sum_content = simple_sum_content
     else
         headers = tbl.head[2]
         body = tbl.bodies[1].body
