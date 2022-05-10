@@ -127,6 +127,11 @@ local function merge_colspecs(colspecs, widths)
     end
     return colspecs
 end
+
+local function table_width(el, attr)
+
+end
+
 local function table_finder(el)
     local headers = {}
     local body = {}
