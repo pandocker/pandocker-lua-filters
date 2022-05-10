@@ -127,8 +127,7 @@ local function merge_colspecs(colspecs, widths)
     end
     return colspecs
 end
-
-local function table_width(el)
+local function table_finder(el)
     local headers = {}
     local body = {}
     if el.classes:find("table") then
@@ -206,4 +205,4 @@ local function table_width(el)
     end
 end
 
-return { { Div = table_width } }
+return { { Div = table_finder } }
