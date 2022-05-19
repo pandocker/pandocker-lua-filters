@@ -31,6 +31,10 @@ local function dump(tt, mm)
 end
 
 local function get_vars (mt)
+    if tostring(PANDOC_VERSION) == "2.15" then
+        debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+        return
+    end
     meta = mt["rmnote"]
     if meta == nil then
         meta = default_meta
@@ -54,5 +58,10 @@ local function remove(doc)
     --dump(doc.blocks, "    ")
     return doc
 end
+if tostring(PANDOC_VERSION) ~= "2.15" then
+    return { { Meta = get_vars }, { Pandoc = remove } }
+else
+    debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+    return
+end
 
-return { { Meta = get_vars }, { Pandoc = remove } }

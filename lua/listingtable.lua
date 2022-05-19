@@ -45,6 +45,10 @@ local function listingtable(el)
     ]]
 
     if el.classes:includes "listingtable" then
+        if tostring(PANDOC_VERSION) == "2.15" then
+            debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+            return
+        end
         if stringify(el.content) == "" then
             el.content = el.target
         end

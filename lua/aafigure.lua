@@ -33,6 +33,10 @@ end
 
 function Link(el)
     if el.classes:includes(META_KEY) then
+        if tostring(PANDOC_VERSION) == "2.15" then
+            debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+            return
+        end
         --debug("Link in 'wavedrom' class")
         if stringify(el.content) == "" then
             el.content = el.target
@@ -74,4 +78,10 @@ function Link(el)
     end
 end
 
-return { { Meta = get_meta }, { Link = Link } }
+if tostring(PANDOC_VERSION) ~= "2.15" then
+    debug(tostring(tostring(PANDOC_VERSION) == "2.15"))
+    return { { Meta = get_meta }, { Link = Link } }
+else
+    debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+    return
+end
