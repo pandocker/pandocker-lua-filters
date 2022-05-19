@@ -80,7 +80,7 @@ local function get_widths(attr)
         --debug(num)
         num = tonumber(num)
         if num == 0 and FORMAT == "docx" then
-            v = 0.01
+            num = 0.01
         end
         widths:append(num)
     end
@@ -100,11 +100,10 @@ end
 local function sum_content(row)
     local sum = 0
     local cells = 0
-    debug("row." .. tostring(tablex.keys(row)))
-    if PANDOC_VERSION < { 2, 17 } then
-        cells = row[2]
+    if tablex.find(tablex.keys(row), "cells") ~= nil then
+        cells = row.cells -- pandoc >= 2.17
     else
-        cells = row.cells
+        cells = row[2] -- 2.10 <= pandoc < 2.17
     end
     --pretty.dump(el)
     --row _should_ be a list of cells but:
@@ -154,7 +153,15 @@ local function table_width(tbl, attr)
 
     --debug("tbl.head." .. tostring(tablex.keys(tbl.head)))
     --debug("tbl.bodies[1]." .. tostring(tablex.keys(tbl.bodies[1])))
-    local headers = tbl.head[2]
+
+    --debug("tbl.head." .. tostring(tablex.keys(tbl.head)))
+    local headers = nil
+    if tablex.find(tablex.keys(tbl.head), "rows") ~= nil then
+        headers = tbl.head.rows -- pandoc >= 2.17
+    else
+        headers = tbl.head[2] -- pandoc < 2.17
+    end
+
     local body = tbl.bodies[1].body
     local col_max = #tbl.colspecs
     --pretty.dump(body)
@@ -198,7 +205,6 @@ local function simple_table_width(tbl, attr)
     local headers = tbl.headers
     local body = tbl.rows
     local col_max = #tbl.widths
-    local empty_row = { empty_attr, {} }
 
     if noheader and headers ~= {} then
         debug(NOHEADER_MESSAGE)
