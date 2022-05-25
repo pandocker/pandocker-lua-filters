@@ -55,6 +55,10 @@ local function replace(el)
     local sub
     local data
     if #rep == 3 then
+        if tostring(PANDOC_VERSION) == "2.15" then
+            debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+            return
+        end
         --dump(rep)
         if rep[1] == pandoc.Str("#include") and rep[2].tag == "Space" and rep[3].tag == "Quoted" then
             for _, v in ipairs(PANDOC_STATE.resource_path) do

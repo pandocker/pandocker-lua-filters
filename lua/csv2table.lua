@@ -141,6 +141,10 @@ end
 
 local function tabular(el)
     if el.classes:includes "table" then
+        if tostring(PANDOC_VERSION) == "2.15" then
+            debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+            return
+        end
         local tab = {}
         local source_file = stringify(el.target)
         local header_avail = get_tf(el.attributes.header, true)
