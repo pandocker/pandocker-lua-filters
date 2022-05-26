@@ -241,8 +241,15 @@ local function tabular(el)
         else
             --pretty.dump(header)
             local table = my_table:clone()
-            --debug("table.head.rows " .. tostring(table.head.rows))
-            table.head.rows = { header }
+            --debug("table." .. tostring(tablex.keys(table)))
+            --debug(tostring(tablex.keys(table.head)))
+            if tablex.find(tablex.keys(table.head), "rows") ~= nil then
+                -- pandoc >= 2.17
+                table.head.rows = { header }
+            else
+                -- pandoc < 2.17
+                table.head[2] = { header }
+            end
             --pretty.dump(table.head)
             table.caption = { long = { pandoc.Plain(caption) } }
             --pretty.dump(table.caption)
