@@ -13,6 +13,8 @@ local meta_key = "table-cell-styles"
 local meta = {}
 local default_meta = require("pandocker.default_loader")[meta_key]
 
+local tablex = require("pl.tablex")
+
 MESSAGE = "[ lua ] Apply table cell styles"
 
 if FORMAT == "docx" then
@@ -53,36 +55,22 @@ if FORMAT == "docx" then
 
     local function get_aligns(el)
         local aligns = {}
-        if PANDOC_VERSION < { 2, 10 } then
-            aligns = el.aligns
-        else
-            for _, v in ipairs(el.colspecs) do
-                table.insert(aligns, v[1])
-            end
+        for _, v in ipairs(el.colspecs) do
+            table.insert(aligns, v[1])
         end
         return aligns
     end
 
     local function get_headers(el)
         local headers = {}
-        if PANDOC_VERSION < { 2, 10 } then
-            headers = el.headers
-            return headers
-        else
-            headers = el.head
-            return headers
-        end
+        headers = el.head
+        return headers
     end
 
     local function get_body_rows(el)
         local rows = {}
-        if PANDOC_VERSION < { 2, 10 } then
-            rows = el.rows
-            return rows
-        else
-            rows = el.bodies[1].body
-            return rows
-        end
+        rows = el.bodies[1].body
+        return rows
     end
 
     local function apply_rows_styles(rows, styles)
@@ -91,9 +79,16 @@ if FORMAT == "docx" then
         --local rows_attr = rows[1]
         --rows = rows[2]
         for i, row in ipairs(rows) do
-            row_attr = row[1]
+            if tablex.find(tablex.keys(row), "cells") ~= nil then
+                -- pandoc >= 2.17
+                row_attr = row.attr
+                row = row.cells
+            else
+                -- pandoc < 2.17
+                row_attr = row[1]
+                row = row[2]
+            end
             --debug(tostring(tablex.deepcompare(empty_attr, row_attr)))
-            row = row[2]
             for j, cell in ipairs(row) do
                 --pretty.dump(cell.contents)
                 _cell = pandoc.Div(cell.contents)
@@ -107,15 +102,26 @@ if FORMAT == "docx" then
     end
 
     local function apply_header_styles(header, styles)
-        local header_attr = header[1]
-        header = apply_rows_styles(header[2], styles)
-        return { header_attr, header }
+        local headers
+        local header_attr = nil
+        if tablex.find(tablex.keys(header), "rows") ~= nil then
+            -- pandoc >= 2.17
+            header_attr = header.attr
+            headers = header.rows
+            header.rows = apply_rows_styles(headers, styles)
+            return header
+        else
+            --debug("header[1]." .. tostring(tablex.keys(header[1])))
+            -- pandoc < 2.17
+            header_attr = header[1]
+            headers = header[2]
+            header = apply_rows_styles(headers, styles)
+            return { header_attr, header }
+        end
     end
 
     local function apply_cell_styles(el)
         debug(MESSAGE)
-        -- apply plein2para() for each Plain in el
-        el = pandoc.walk_block(el, { Plain = plain2para })
         local aligns = get_aligns(el)
         local headers = get_headers(el)
         local rows = get_body_rows(el)
@@ -128,34 +134,49 @@ if FORMAT == "docx" then
         end
         --pretty.dump(body_styles)
         --pretty.dump(header_styles)
-        if PANDOC_VERSION < { 2, 10 } then
-            for i, header in ipairs(headers) do
-                --header = plain2para(header)
-                if #header > 0 then
-                    local header_cell = pandoc.Div(header)
-                    header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
-                    el.headers[i] = { header_cell }
-                    --pretty.dump(header_cell)
-                end
-                --pretty.dump(headers)
-            end
+        el.head = apply_header_styles(headers, header_styles)
+        rows = apply_rows_styles(rows, body_styles)
 
-            for i, row in ipairs(rows) do
-                for j, cell in ipairs(row) do
-                    --cell = plain2para(cell)
-                    local body_cell = pandoc.Div(cell)
-                    body_cell["attr"]["attributes"]["custom-style"] = stringify(body_styles[j])
-                    el.rows[i][j] = { body_cell }
-                end
+        return el
+    end
+
+    local function apply_simple_cell_styles(el)
+        debug(MESSAGE)
+        local body_styles = {}
+        local header_styles = {}
+        for _, v in ipairs(el.aligns) do
+            table.insert(body_styles, get_body_styles(v))
+            table.insert(header_styles, get_header_styles(v))
+        end
+        for i, header in ipairs(el.headers) do
+            if #header > 0 then
+                local header_cell = pandoc.Div(header)
+                header_cell["attr"]["attributes"]["custom-style"] = stringify(header_styles[i])
+                el.headers[i] = { header_cell }
             end
-        else
-            el.head = apply_header_styles(headers, header_styles)
-            rows = apply_rows_styles(rows, body_styles)
+        end
+
+        for i, row in ipairs(el.rows) do
+            for j, cell in ipairs(row) do
+                --cell = plain2para(cell)
+                local body_cell = pandoc.Div(cell)
+                body_cell["attr"]["attributes"]["custom-style"] = stringify(body_styles[j])
+                el.rows[i][j] = { body_cell }
+            end
         end
         return el
     end
 
-    return { { Meta = get_meta }, { Table = apply_cell_styles } }
+    local function version_switch (el)
+        -- apply plein2para() for each Plain in el
+        el = pandoc.walk_block(el, { Plain = plain2para })
+        if PANDOC_VERSION < { 2, 10 } then
+            return apply_simple_cell_styles(el)
+        else
+            return apply_cell_styles(el)
+        end
+    end
+    return { { Meta = get_meta }, { Table = version_switch } }
 
 end
 
