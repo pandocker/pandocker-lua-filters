@@ -1,11 +1,18 @@
 # pandocker-lua-filters
+
 Lua filters for pandoc
 
 ## Install
 
-`pip install git+https://github.com/pandocker/pandocker-lua-filters.git`
+- installs as a python package for ease of use
+    - `pip install pandocker-lua-filters`
+- lua filters should be installed under `<sys.prefix>/share/lua/5.3/pandocker` where
+  `<sys.prefix>` can be confirmed by `python -c "import sys; print(sys.prefix)"`.
+  This `<sys.prefix>/share/lua/5.3` should be added to `package.path` which can be confirmed
+  by `lua -e "print(package.path)"`
 
 ## General use
+
 #### Convert AAFigure ascii art
 
 - requires `aafigure` python package
@@ -14,7 +21,7 @@ Lua filters for pandoc
 
 #### Convert CSV into table
 
-- requires `csv` luarocks package
+- requires `csv` and `penlight` luarocks packages
 
 [**`csv2table.lua`**](lua/csv2table.lua)
 
@@ -23,6 +30,8 @@ Lua filters for pandoc
 [**`hide-frontpage-metadata`**](lua/hide-frontpage-metadata.lua)
 
 #### Text file listing
+
+- requires `penlight` luarocks package
 
 [**`listingtable.lua`**](lua/listingtable.lua)
 
@@ -46,6 +55,8 @@ Lua filters for pandoc
 
 #### Applies table attributes to a table
 
+- requires `penlight` luarocks package
+
 [**`table-width.lua`**](lua/table-width.lua)
 
 #### Wavedrom / Bit-Field
@@ -56,6 +67,7 @@ Lua filters for pandoc
 [**`wavedrom.lua`**](lua/wavedrom.lua)
 
 ## *LaTeX* output only
+
 #### Landscape pages
 
 [**`tex-landscape.lua`**](lua/tex-landscape.lua)
@@ -71,6 +83,7 @@ Lua filters for pandoc
 [**`tex-underline.lua`**](lua/tex-underline.lua)
 
 ## *Docx* output only
+
 #### Inserts a comment
 
 [**`docx-comment.lua`**](lua/docx-comment.lua)
@@ -97,7 +110,7 @@ Finds unnumbered bullet lists down to 3rd level and applies custom paragraph sty
 ##### Requirement for template
 
 - Prepare `Bullet List 1` to `Bullet List 3` paragraph styles (by the way this is 1st level list item)
-  - Otherwise these headers inherit `Body` style (this is 2nd level)
+    - Otherwise these headers inherit `Body` style (this is 2nd level)
 
 | Level | Unnumbered    |
 |:-----:|:--------------|
@@ -125,7 +138,7 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 ##### Requirement for template
 
 - Prepare `Appendix Heading 1` to `Appendix Heading 5` heading styles
-  - Otherwise these headers inherit `Body` style
+    - Otherwise these headers inherit `Body` style
 
 | Level | Numbered  | Unnumbered         |
 |:-----:|:----------|:-------------------|
@@ -146,7 +159,7 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 ##### Requirement for template
 
 - Prepare `Heading Unnumbered 1` to `Heading Unnumbered 5` heading styles
-  - Otherwise these headers inherit `Body` style
+    - Otherwise these headers inherit `Body` style
 
 | Level | Numbered  | Unnumbered           |
 |:-----:|:----------|:---------------------|
@@ -162,12 +175,13 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 [**`docx-image-styles.lua`**](lua/docx-image-styles.lua)
 
 - Processes only paragraph having single image link
-  - Blank lines required before and after image link
+    - Blank lines required before and after image link
 - Requires `Graphic Anchor` and `Figure Caption` paragraph styles in template
-otherwise these styles inherit `Body` style
-  - the filter creates two divs having `custom-style` attribute
-  - after process the image is placed in `custom-style="Graphic Anchor"` div and its caption is in `custom-style="Figure Caption"`
-  div respectively
+  otherwise these styles inherit `Body` style
+    - the filter creates two divs having `custom-style` attribute
+    - after process the image is placed in `custom-style="Graphic Anchor"` div and its caption is
+      in `custom-style="Figure Caption"`
+      div respectively
 
 ##### Requirement for template
 
