@@ -1,12 +1,3 @@
----
-heading-unnumbered:
-2: "Heading Unnumbered 1.1"
-codeBlockCaptions: true
-listingTitle: "List"
-listings: true
-#rmnote: true
-...
-
 \toc
 
 \newpage
@@ -20,7 +11,7 @@ listings: true
 
 :::
 
-:::{.table width=[0.8,0.3]}
+:::{.table width=[0.5,0.3]}
 Table: table **width** {#tbl:table}
 
 | Table | Header |  Row |
@@ -28,19 +19,20 @@ Table: table **width** {#tbl:table}
 | Cell  |  Cell  | Cell |
 
 :::
-\
 
 [@fig:wavedrom-2]
 
 ::: {#fig:tiled-figures width=[0.5,0.5]}
 ::: {.table noheader=true}
 
-| [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom-1} |       [AAFigure](data/aafigure.txt){.aafigure width=70mm #fig:wavedrom-2}        |
-|:--------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|
-|          [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom-3}           | [Wavedrom(BitField)](data/tutorial_0.json){.wavedrom width=70mm #fig:wavedrom-4} |
+| [Wavedrom(BitField)](data/json.json){.wavedrom width=70mm #fig:wavedrom-1} |    [AAFigure](data/aafigure.txt){.aafigure width=70mm #fig:wavedrom-2}     |
+|:--------------------------------------------------------------------------:|:--------------------------------------------------------------------------:|
+|       [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom-3}        | [Wavedrom(BitField)](data/json.json){.wavedrom width=70mm #fig:wavedrom-4} |
 
 :::
+
 Tiled figures on a table
+
 :::
 \
 
@@ -50,7 +42,7 @@ Tiled figures on a table
 
 [CSV file with caption](data/table.csv){.table}
 
-[Alignment = DLCR](data/table.csv){.table alignment=DLCR}
+[Alignment = DLCR](data/table.csv){.table alignment=DLCR width=[0.5]}
 
 [Subset table](data/table.csv){.table subset_from=(1,2)}
 
@@ -58,7 +50,7 @@ Tiled figures on a table
 
 ##### Auto caption
 
-[](data/table.csv){.table}
+[](data/table.csv){.table width=[0.5]}
 
 ##### No caption
 
