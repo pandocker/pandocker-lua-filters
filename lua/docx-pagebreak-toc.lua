@@ -17,7 +17,7 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 ```
 ]]
 
-local stringify = require("pandoc.utils").stringify
+--local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 

@@ -29,7 +29,7 @@ if not given padded by d
 
 ]]
 
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 require("pl.stringx").import()
 local List = require("pl.List")
 local tablex = require("pl.tablex")

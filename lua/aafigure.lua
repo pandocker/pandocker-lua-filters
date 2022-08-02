@@ -6,7 +6,7 @@ PANDOC_VERSION:must_be_at_least '2.8'
 local abs_pwd = require("pandoc.system").get_working_directory()
 local stringify = require("pandoc.utils").stringify
 
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 
 local debug = require("pandocker.utils").debug
 local file_exists = require("pandocker.utils").file_exists
@@ -79,7 +79,7 @@ function Link(el)
 end
 
 if tostring(PANDOC_VERSION) ~= "2.15" then
-    debug(tostring(tostring(PANDOC_VERSION) == "2.15"))
+    --debug(tostring(tostring(PANDOC_VERSION) == "2.15"))
     return { { Meta = get_meta }, { Link = Link } }
 else
     debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
