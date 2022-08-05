@@ -13,16 +13,6 @@ from os import path
 # and accepts an argument to specify the text encoding
 # Python 3 only projects can skip this import
 from io import open
-import platform
-
-pf = platform.platform()
-svgbob_binary = "build/svgbob"
-if pf.startswith("Linux"):
-    svgbob_binary = "build/svgbob"
-elif pf.startswith("Darwin"):
-    svgbob_binary = "build/svgbob.bin"
-elif pf.startswith("Windows"):
-    svgbob_binary = "build/svgbob.exe"
 
 here = path.abspath(path.dirname(__file__))
 
@@ -204,7 +194,10 @@ setup(
 
                                              'lua/metadata-file.yaml',
                                              ]),
-                ('bin', [svgbob_binary]),
+                ('bin/pandocker', ['build/svgbob',
+                                   'build/svgbob.bin',
+                                   'build/svgbob.exe',
+                                   ]),
                 ],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
