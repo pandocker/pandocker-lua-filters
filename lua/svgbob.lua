@@ -68,9 +68,9 @@ function Link(el)
                 local scale = stringify(meta["scale"])
                 local stroke_width = stringify(meta["stroke-width"])
                 local svgbob = "svgbob"
-                if platform == "Linux" then
+                if string.find(platform, "Linux") then
                     svgbob = string.format(SVGBOB, base, "pandocker/svgbob")
-                elseif platform == "Darwin" then
+                elseif string.find(platform, "Darwin") then
                     svgbob = string.format(SVGBOB, base, "pandocker/svgbob.bin")
                 else
                     svgbob = string.format(SVGBOB, base, "pandocker/svgbob.exe")
