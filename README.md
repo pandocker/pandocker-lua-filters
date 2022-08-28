@@ -61,7 +61,7 @@ Lua filters for pandoc
 
 #### Wavedrom / Bit-Field
 
-- requires `wavedrom` (version later than 2.0.3r1) python package
+- requires `wavedrom-cli` in `$PATH` (`npm i -g wavedrom-cli`)
 - requires `lyaml` and `lua-cjson2` luarocks packages
 
 [**`wavedrom.lua`**](lua/wavedrom.lua)

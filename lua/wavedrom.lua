@@ -74,10 +74,9 @@ function Link(el)
             local hash = pandoc.utils.sha1(content)
             local fullpath = string.format("%s/svg/%s.svg", abs_pwd, hash)
 
-            -- for wavedrompy > 2.0.3
-            -- pipes JSON string to wavedrompy; equivalent to `echo <data> | wavedrompy --input - --svg <fullpath>`
+            -- pipes JSON string to wavedrom-cli; equivalent to `echo <data> | wavedrom-cli -i - -s <fullpath>`
             if not file_exists(fullpath) then
-                pandoc.pipe("wavedrompy", { "--input", "-", "--svg", fullpath }, data)
+                pandoc.pipe("wavedrom-cli", { "-i", "-", "-s", fullpath }, data)
                 debug(string.format(MESSAGE, hash))
             else
                 debug(string.format(BYPASS, hash))
