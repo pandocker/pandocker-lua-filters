@@ -13,7 +13,10 @@ where,
 - /path/to/file : path to file. relative to directory where pandoc is invoked
 - header : flag to let first row as header row. defaults true
 - nocaption : Flag to unset temporary caption. defaults false
-- w1,w2,... : width value for each column. if not given padded by 0
+- w1,w2,... : width value for each column. if not fully given padded by
+  (1 - (sum of given widths)) / (number of unnumbered columns)
+  e.g. When [0.5] is given for 4-column table, the first column will have 0.5 and the rest will have 0.16667 each
+  of page width (i.e. (1 - 0.5) / 3)
 - a1a2... : alignment list for each column. c=Center, d=Default, l=Left, r=Right.
 if not given padded by d
 - subset_from : (row,col) pair to specify coordinate to cut FROM
@@ -33,6 +36,7 @@ if not given padded by d
 require("pl.stringx").import()
 local List = require("pl.List")
 local tablex = require("pl.tablex")
+local seq = require("pl.seq")
 local csv = require("csv")
 
 local stringify = require("pandoc.utils").stringify
@@ -221,11 +225,19 @@ local function tabular(el)
         while col_max > #alignment do
             alignment:append(ALIGN.D)
         end
+
+        local rest = 1 - seq.sum(widths)
+        local rest_columns_width = 0
+        if rest <= 1 then
+            rest_columns_width = rest / (col_max - #widths)
+        end
+        --debug(rest_width)
+
         while col_max > #widths do
             if FORMAT == "docx" then
                 widths:append(0.01)
             else
-                widths:append(0)
+                widths:append(rest_columns_width)
             end
         end
         --pretty.dump(alignment)

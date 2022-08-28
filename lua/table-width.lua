@@ -17,7 +17,10 @@ Applies table attributes to a table inside a Div
 
 where,
 
-- w1,w2,... : width value for each column. if not given padded by 0.0
+- w1,w2,... : width value for each column. if not fully given padded by
+  (1 - (sum of given widths)) / (number of unnumbered columns)
+  e.g. When [0.5] is given for 4-column table, the first column will have 0.5 and the rest will have 0.16667 each
+  of page width (i.e. (1 - 0.5) / 3)
 - noheader: flag if header row exists. `true` to move header row to head of body rows.
   Default is `false`. When table has only one blank row, header row overrides body row so that
   table has single row without header row.
@@ -57,6 +60,7 @@ $ pandoc -t native -L lua/table-width.lua
 --local stringify = require("pandoc.utils").stringify
 
 local pretty = require("pl.pretty")
+local seq = require("pl.seq")
 local tablex = require("pl.tablex")
 local List = require("pl.List")
 require("pl.stringx").import()
@@ -127,11 +131,19 @@ local function fill_widths(col_max, widths)
     else
         widths = {}
     end
+
+    local rest = 1 - seq.sum(widths)
+    local rest_columns_width = 0
+    if rest <= 1 then
+        rest_columns_width = rest / (col_max - #widths)
+    end
+    --debug(rest_width)
+
     while col_max > #widths do
         if FORMAT == "docx" then
             table.insert(widths, 0.01)
         else
-            table.insert(widths, 0)
+            table.insert(widths, rest_width)
         end
     end
     return widths
