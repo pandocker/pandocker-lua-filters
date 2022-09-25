@@ -59,7 +59,7 @@ $ pandoc -t native -L lua/table-width.lua
 
 --local stringify = require("pandoc.utils").stringify
 
-local pretty = require("pl.pretty")
+--local pretty = require("pl.pretty")
 local seq = require("pl.seq")
 local tablex = require("pl.tablex")
 local List = require("pl.List")
@@ -137,13 +137,13 @@ local function fill_widths(col_max, widths)
     if rest <= 1 then
         rest_columns_width = rest / (col_max - #widths)
     end
-    --debug(rest_width)
+    --debug(rest_columns_width)
 
     while col_max > #widths do
         if FORMAT == "docx" then
             table.insert(widths, 0.01)
         else
-            table.insert(widths, rest_width)
+            table.insert(widths, rest_columns_width)
         end
     end
     return widths
