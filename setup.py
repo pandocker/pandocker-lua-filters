@@ -16,6 +16,33 @@ from io import open
 
 here = path.abspath(path.dirname(__file__))
 
+list_of_filters = ["lua/aafigure.lua",
+                   "lua/csv2table.lua",
+                   "lua/default_loader.lua",
+                   "lua/docx-appendixheadings.lua",
+                   "lua/docx-apply-cell-styles.lua",
+                   "lua/docx-comment.lua",
+                   "lua/docx-custom-span-styles.lua",
+                   "lua/docx-extract-bullet-lists.lua",
+                   "lua/docx-image-styles.lua",
+                   "lua/docx-pagebreak-toc.lua",
+                   "lua/docx-unnumberedheadings.lua",
+                   "lua/hide-frontpage-metadata.lua",
+                   "lua/listingtable.lua",
+                   "lua/preprocess.lua",
+                   "lua/removable-note.lua",
+                   "lua/svgbob.lua",
+                   "lua/svgconvert.lua",
+                   "lua/table-width.lua",
+                   "lua/tex-landscape.lua",
+                   "lua/tex-quote.lua",
+                   "lua/tex-remove-sout.lua",
+                   "lua/tex-rowcolors-reset.lua",
+                   "lua/utils.lua",
+                   "lua/wavedrom.lua",
+
+                   "lua/metadata-file.yaml",
+                   ]
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
@@ -167,33 +194,8 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[('share/lua/5.3/pandocker', ['lua/aafigure.lua',
-                                             'lua/csv2table.lua',
-                                             'lua/default_loader.lua',
-                                             'lua/docx-appendixheadings.lua',
-                                             'lua/docx-apply-cell-styles.lua',
-                                             'lua/docx-comment.lua',
-                                             'lua/docx-custom-span-styles.lua',
-                                             'lua/docx-extract-bullet-lists.lua',
-                                             'lua/docx-image-styles.lua',
-                                             'lua/docx-pagebreak-toc.lua',
-                                             'lua/docx-unnumberedheadings.lua',
-                                             'lua/hide-frontpage-metadata.lua',
-                                             'lua/listingtable.lua',
-                                             'lua/preprocess.lua',
-                                             'lua/removable-note.lua',
-                                             'lua/svgbob.lua',
-                                             'lua/svgconvert.lua',
-                                             'lua/table-width.lua',
-                                             'lua/tex-landscape.lua',
-                                             'lua/tex-quote.lua',
-                                             'lua/tex-remove-sout.lua',
-                                             'lua/tex-rowcolors-reset.lua',
-                                             'lua/utils.lua',
-                                             'lua/wavedrom.lua',
-
-                                             'lua/metadata-file.yaml',
-                                             ]),
+    data_files=[('share/lua/5.3/pandocker', list_of_filters),
+                ('share/lua/5.4/pandocker', list_of_filters),
                 ('bin/pandocker', ['build/svgbob',
                                    'build/svgbob.bin',
                                    'build/svgbob.exe',
