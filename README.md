@@ -105,7 +105,7 @@ Lua filters for pandoc
 Finds unnumbered bullet lists down to 3rd level and applies custom paragraph styles.
 **4th level and lower list items are escalated to 3rd level**.
 
-[**`docx-extract-bullet-lists.lua`**](lua/ddocx-extract-bullet-lists.lua)
+[**`docx-extract-bullet-lists.lua`**](lua/docx-extract-bullet-lists.lua)
 
 ##### Requirement for template
 
