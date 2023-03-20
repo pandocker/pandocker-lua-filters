@@ -90,7 +90,7 @@ if FORMAT == "docx" then
         for _, blocks in ipairs(el.content) do
             --debug(depth .. ", " .. #v .. ", " .. stringify(v))
             for idx, block in ipairs(blocks) do
-                if block.tag ~= "Para" and block.tab ~= "Plain" then
+                if block.tag ~= "Para" and block.tag ~= "Plain" then
                     combine_para_plain(paras, depth)
                     paras = {}
                     if block.tag == "BulletList" then
