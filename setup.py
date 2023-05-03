@@ -194,8 +194,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[('share/lua/5.3/pandocker', list_of_filters),
-                ('share/lua/5.4/pandocker', list_of_filters),
+    data_files=[('share/lua/common/pandocker', list_of_filters),
                 ('bin/pandocker', ['build/svgbob',
                                    'build/svgbob.bin',
                                    'build/svgbob.exe',
