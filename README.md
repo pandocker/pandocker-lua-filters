@@ -100,6 +100,10 @@ Lua filters for pandoc
 
 [**`docx-custom-span-styles.lua`**](lua/docx-custom-span-styles.lua)
 
+#### Apply in-place color for any span
+
+[**`docx-colored-span.lua`**](lua/docx-colored-span.lua)
+
 #### Apply custom (paragraph) styles for any unnumbered bullet lists
 
 Finds unnumbered bullet lists down to 3rd level and applies custom paragraph styles.
