@@ -80,4 +80,16 @@ local function toc(el)
     --elseif FORMAT == "latex" then
 end
 
-return { { Meta = get_vars }, { RawBlock = toc } }
+local function linebreak(el)
+
+    local text = string.gsub(el.text, "^%s*(.-)%s*$", "%1")
+    if text == "\\linebreak" then
+        if FORMAT == "docx" then
+            debug("[ lua ] insert a LineBreak")
+            el = pandoc.LineBreak()
+            return el
+        end
+    end
+end
+
+return { { Meta = get_vars }, { RawBlock = toc }, { RawInline = linebreak } }
