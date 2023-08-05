@@ -122,11 +122,11 @@ Finds unnumbered bullet lists down to 3rd level and applies custom paragraph sty
 |   2   | Bullet List 2 |
 |  3+   | Bullet List 3 |
 
-#### TOC / Pagebreak
+#### TOC / Pagebreak / Linebreak
 
 [**`docx-pagebreak-toc.lua`**](lua/docx-pagebreak-toc.lua)
 
-- Adds TOC(Table Of Contents) or a pagebreak at any point of document
+- Adds TOC(Table Of Contents), a line break or a page break at any point of document
 
 ##### Requirement for template
 
