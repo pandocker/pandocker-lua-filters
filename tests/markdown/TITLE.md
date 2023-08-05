@@ -2,12 +2,15 @@
 
 \newpage
 
+text \linebreak \linebreak text
+text
+
 ::: {.table }
 
-|    |    |
-|----|----|
-|    |    |
-|    |    |
+| text \linebreak text |    |
+|----------------------|----|
+|                      |    |
+|                      |    |
 
 :::
 
