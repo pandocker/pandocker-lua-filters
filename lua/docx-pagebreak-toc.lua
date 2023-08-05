@@ -20,6 +20,7 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 --local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
+local strip = require("pl.stringx").strip
 
 local RAW_TOC = [[
 <w:sdt>
@@ -82,7 +83,7 @@ end
 
 local function linebreak(el)
 
-    local text = string.gsub(el.text, "^%s*(.-)%s*$", "%1")
+    local text = strip(el.text)
     if text == "\\linebreak" then
         if FORMAT == "docx" then
             debug("[ lua ] insert a LineBreak")
