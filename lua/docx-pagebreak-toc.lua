@@ -84,7 +84,8 @@ end
 local function linebreak(el)
 
     local text = strip(el.text)
-    if text == "\\linebreak" then
+    debug('"' .. el.text .. '", "' .. text .. '"')
+    if text == "<br>" then
         if FORMAT == "docx" then
             debug("[ lua ] insert a LineBreak")
             el = pandoc.LineBreak()
