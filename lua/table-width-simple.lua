@@ -82,10 +82,12 @@ local function get_widths(attr)
     local widths = List()
     for num in string.gmatch(attr, "(%d+%.?%d*),?") do
         --debug(num)
-        num = tonumber(num)
-        if num == 0 and FORMAT == "docx" then
-            num = 0.01
-        end
+        --[[
+                num = tonumber(num)
+                if num == 0 and FORMAT == "docx" then
+                    num = 0.01
+                end
+        ]]
         widths:append(tonumber(num))
     end
     --pretty.dump(widths)
@@ -94,23 +96,10 @@ end
 
 local function sum_content(row)
     local sum = 0
-    local cells = 0
-    if tablex.find(tablex.keys(row), "cells") ~= nil then
-        cells = row.cells -- pandoc >= 2.17
-    else
-        cells = row[2] -- 2.10 <= pandoc < 2.17
-    end
-    --pretty.dump(el)
-    --row _should_ be a list of cells but:
-    --when whole row is blank cells, __row is a nil__
-    if row ~= nil then
-        for _, cell in ipairs(cells) do
-            --debug(tostring(tablex.deepcompare(empty_cell, cell)))
-            if not tablex.deepcompare(empty_cell, cell) then
-                --pretty.dump(cell)
-                sum = sum + 1
-            end
-        end
+    -- Row is a list of Cell's
+    --debug("simple_sum_content()")
+    for _, cell in ipairs(row) do
+        sum = sum + #cell
     end
     return sum
 end
@@ -154,46 +143,28 @@ local function table_width(tbl, attr)
     --pretty.dump(el.attributes["width"])
     local widths = attr["width"]
     local noheader = get_tf(attr["noheader"], false)
-    local empty_row = { empty_attr, {} }
 
-    --debug("tbl.head." .. tostring(tablex.keys(tbl.head)))
-    --debug("tbl.bodies[1]." .. tostring(tablex.keys(tbl.bodies[1])))
-
-    --debug("tbl.head." .. tostring(tablex.keys(tbl.head)))
-    local headers = nil
-    if tablex.find(tablex.keys(tbl.head), "rows") ~= nil then
-        headers = tbl.head.rows -- pandoc >= 2.17
-    else
-        headers = tbl.head[2] -- pandoc < 2.17
-    end
-
-    local body = tbl.bodies[1].body
-    local col_max = #tbl.colspecs
-    --pretty.dump(body)
-
-    for _, v in ipairs(tablex.range(1, col_max)) do
-        table.insert(empty_row[2], empty_cell)
-    end
+    local headers = tbl.headers
+    local body = tbl.rows
+    local col_max = #tbl.widths
 
     if noheader and headers ~= {} then
         debug(NOHEADER_MESSAGE)
-        --debug(#body)
-        --debug(sum_content(body[1]))
-        -- valid header row + first body row is blank
         if #body == 1 and sum_content(body[1]) == 0 then
-            debug("[ lua ] header row overrides first body row && remove header row (pandoc >= 2.10)")
-            tbl.bodies[1].body = headers
+            -- valid header row + first body row is blank
+            -- -> remove header row + first body row has ex-header row contents
+            debug("[ lua ] header row overrides first body row && remove header row (pandoc < 2.10)")
+            tbl.rows[1] = headers
         else
-            debug("[ lua ] header row is inserted at head of body rows (pandoc >= 2.10)")
-            --pretty.dump(tbl.bodies[1].body)
-            --pretty.dump(headers)
-            table.insert(tbl.bodies[1].body, 1, headers[1])
+            -- valid header row + first body row is not blank
+            -- -> remove header row + ex-header row stacks at top of body rows
+            debug("[ lua ] header row is inserted at head of body rows (pandoc < 2.10)")
+            table.insert(tbl.rows, 1, headers)
         end
-        tbl.head = { empty_attr, {  } }
+        tbl.headers = {}
     end
     widths = fill_widths(col_max, widths)
-    tbl.colspecs = merge_colspecs(tbl.colspecs, widths)
-    --pretty.dump(tbl.colspecs)
+    tbl.widths = widths
 
     --pretty.dump(widths)
     return tbl
@@ -207,6 +178,6 @@ local function table_finder(el)
     end
 end
 
-if PANDOC_VERSION >= { 2, 10 } then
+if PANDOC_VERSION < { 2, 10 } then
     return { { Div = table_finder } }
 end

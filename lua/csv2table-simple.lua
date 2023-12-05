@@ -58,7 +58,7 @@ local my_table = pandoc.read(table_template, "markdown").blocks[1]
 
 local empty_attr = { "", {}, {} }
 local empty_row = function()
-    return { empty_attr, {} }
+    return { {} }
 end
 
 local function get_tf(item, default)
@@ -81,11 +81,7 @@ local function get_cell(c)
     --pretty.dump(c)
 
     local _cell = pandoc.read(c, "markdown").blocks
-    return { attr = empty_attr,
-             alignment = pandoc.AlignDefault,
-             row_span = 1,
-             col_span = 1,
-             contents = pandoc.List(_cell) } -- Cell
+    return _cell -- List of Blocks
 end
 
 local function get_row(t)
@@ -94,7 +90,7 @@ local function get_row(t)
         --dump(get_cell(v), "")
         table.insert(row, get_cell(v))
     end
-    return { empty_attr, row }
+    return row -- List of List of Blocks
 end
 
 local ALIGN = { ["D"] = pandoc.AlignDefault,
@@ -230,28 +226,13 @@ local function tabular(el)
         end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))
-        --pretty.dump(header)
-        local table = my_table:clone()
-        --debug("table." .. tostring(tablex.keys(table)))
-        --debug(tostring(tablex.keys(table.head)))
-        if tablex.find(tablex.keys(table.head), "rows") ~= nil then
-            -- pandoc >= 2.17
-            table.head.rows = { header }
-        else
-            -- pandoc < 2.17
-            table.head[2] = { header }
-        end
-        --pretty.dump(table.head)
-        table.caption = { long = { pandoc.Plain(caption) } }
-        --pretty.dump(table.caption)
-        table.colspecs = tablex.zip(alignment, widths)
-        --pretty.dump(table.colspecs)
-        table.bodies = { { attr = empty_attr,
-                           head = {   },
-                           body = rows,
-                           row_head_columns = 0 } }
-        --pretty.dump(table.bodies)
-        return table
+        return pandoc.Table(
+                caption,
+                alignment,
+                widths,
+                header,
+                rows
+        )
     end
 end
 
@@ -261,6 +242,6 @@ local function link2table(el)
     end
 end
 
-if PANDOC_VERSION >= { 2, 10 } then
+if PANDOC_VERSION < { 2, 10 } then
     return { { Para = link2table } }
 end
