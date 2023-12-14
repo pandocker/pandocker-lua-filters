@@ -143,19 +143,24 @@ end
 
 local function merge_colspecs(colspecs, widths)
     for idx, _ in ipairs(widths) do
-        table.insert(colspecs[idx], widths[idx])
+        if #colspecs[idx] == 1 then
+            table.insert(colspecs[idx], widths[idx])
+        else
+            colspecs[idx][2] = widths[idx]
+        end
     end
-    pretty.dump(table.colspecs)
+    --pretty.dump(colspecs)
     return colspecs
 end
 
-local function table_width(tbl, attr)
+local function table_width(tbl)
     debug(MESSAGE)
-    --pretty.dump(el.attributes["width"])
-    local widths = attr["width"]
-    local noheader = get_tf(attr["noheader"], false)
+    --pretty.dump(tbl.attributes.width)
+    local widths = tbl.attributes.width
+    local noheader = get_tf(tbl.attributes.noheader, false)
     local empty_row = { empty_attr, {} }
 
+    --debug("tbl.attributes." .. tostring(tablex.keys(tbl.attributes)))
     --debug("tbl.head." .. tostring(tablex.keys(tbl.head)))
     --debug("tbl.bodies[1]." .. tostring(tablex.keys(tbl.bodies[1])))
 
@@ -189,12 +194,11 @@ local function table_width(tbl, attr)
             --pretty.dump(headers)
             table.insert(tbl.bodies[1].body, 1, headers[1])
         end
-        tbl.head = { empty_attr, {  } }
+        tbl.head = pandoc.TableHead({  })
     end
     widths = fill_widths(col_max, widths)
     tbl.colspecs = merge_colspecs(tbl.colspecs, widths)
     --pretty.dump(tbl.colspecs)
-
     --pretty.dump(widths)
     return tbl
 end
@@ -202,7 +206,8 @@ end
 local function table_finder(el)
     if el.classes:find("table") then
         if #el.content == 1 and el.content[1].tag == "Table" then
-            table_width(el.content[1], el.attributes)
+            el.content[1].attributes = el.attributes
+            return { table_width(el.content[1]) }
         end
     end
 end
