@@ -216,17 +216,15 @@ local function tabular(el)
 
         local rest = 1 - seq.sum(widths)
         local rest_columns_width = 0
-        if rest <= 1 then
+        if 0 < rest and rest <= 1 then
             rest_columns_width = rest / (col_max - #widths)
+        else
+            debug("[ Lua ] Sum of width exceeds page width")
         end
         --debug(rest_width)
 
         while col_max > #widths do
-            if FORMAT == "docx" then
-                widths:append(0.01)
-            else
-                widths:append(rest_columns_width)
-            end
+            widths:append(rest_columns_width)
         end
         --pretty.dump(alignment)
         debug(string.format(MESSAGE, source_file))

@@ -125,17 +125,15 @@ local function fill_widths(col_max, widths)
 
     local rest = 1 - seq.sum(widths)
     local rest_columns_width = 0
-    if rest <= 1 then
+    if 0 < rest and rest <= 1 then
         rest_columns_width = rest / (col_max - #widths)
+    else
+        debug("[ Lua ] Sum of width exceeds page width")
     end
     --debug(rest_columns_width)
 
     while col_max > #widths do
-        if FORMAT == "docx" then
-            table.insert(widths, 0.01)
-        else
-            table.insert(widths, rest_columns_width)
-        end
+        table.insert(widths, rest_columns_width)
     end
     --pretty.dump(widths)
     return widths
