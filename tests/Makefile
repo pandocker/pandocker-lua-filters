@@ -34,6 +34,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/preprocess.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-unnumberedheadings.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-pagebreak-toc.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table-simple.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/svgbob.lua
@@ -41,6 +42,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-quote.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-colored-span.lua
 #PANFLAGS += --filter=pantable
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width-simple.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-apply-cell-styles.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-custom-span-styles.lua
 #PANFLAGS += --filter=pandocker-blockdiag-filters
