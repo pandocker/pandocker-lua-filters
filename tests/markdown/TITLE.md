@@ -2,15 +2,15 @@
 
 \newpage
 
-text \linebreak \linebreak text
+text<br><br>text
 text
 
 ::: {.table }
 
-| text \linebreak text |    |
-|----------------------|----|
-|                      |    |
-|                      |    |
+| text<br>text |    |
+|--------------|----|
+|              |    |
+|              |    |
 
 :::
 
@@ -34,7 +34,7 @@ Table: table **width** {#tbl:table}
 
 :::
 
-Tiled figures on a table
+Tiled figures<br>on a table
 
 :::
 \
