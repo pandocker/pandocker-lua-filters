@@ -6,10 +6,11 @@ Lua filters for pandoc
 
 - installs as a python package for ease of use
     - `pip install pandocker-lua-filters`
-- lua filters should be installed under `<sys.prefix>/share/lua/5.3/pandocker` where
-  `<sys.prefix>` can be confirmed by `python -c "import sys; print(sys.prefix)"`.
-  This `<sys.prefix>/share/lua/5.3` should be added to `package.path` which can be confirmed
-  by `lua -e "print(package.path)"`
+- Lua filters should be installed under `<sys.prefix>/share/lua/{5.3|5.4}/pandocker` where
+  `<sys.prefix>` can be confirmed by `python -c "import sys; print(sys.prefix)"`. It install **both** 5.3 and 5.4
+  directories no matter of actual lua versions in system.
+  This `<sys.prefix>/share/lua/{5.3|5.4}` should be added to `package.path` which can be confirmed
+  by `lua -e "print(package.path)"`.
 
 ## General use
 
@@ -22,8 +23,10 @@ Lua filters for pandoc
 #### Convert CSV into table
 
 - requires `csv` and `penlight` luarocks packages
+- Pandoc below 2.10 applies "simple" filters
 
-[**`csv2table.lua`**](lua/csv2table.lua)
+[**`csv2table.lua`**](lua/csv2table.lua)<br>
+[**`csv2table-simple.lua`**](lua/csv2table-simple.lua)
 
 #### Replace `title` `subtitle` `date` `author` metadata
 
@@ -56,8 +59,10 @@ Lua filters for pandoc
 #### Applies table attributes to a table
 
 - requires `penlight` luarocks package
+- Pandoc below 2.10 applies "simple" filters
 
-[**`table-width.lua`**](lua/table-width.lua)
+[**`table-width.lua`**](lua/table-width.lua)<br>
+[**`table-width-simple.lua`**](lua/table-width-simple.lua)
 
 #### Wavedrom / Bit-Field
 
