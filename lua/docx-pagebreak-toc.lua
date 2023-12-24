@@ -1,7 +1,7 @@
 --[[
 # docx-pagebreak-toc.lua
 
-Finds commands to insert TOC or a page break
+Finds commands to insert TOC, sub section TOC, line break or a page break
 Only works for `docx` format
 TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrides this setting.
 
@@ -14,6 +14,12 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 <!--Pagebreak-->
 \newpage
 
+<!--Linebreak-->
+<br>
+
+<!--Sub section TOC of a Header-->
+# Level1 header {.subsectoc}
+
 ```
 ]]
 
@@ -22,13 +28,13 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 local debug = require("pandocker.utils").debug
 local strip = require("pl.stringx").strip
 
-local RAW_TOC = [[
+local RAW_TOC_TEMPLATE = [[
 <w:sdt>
     <w:sdtContent xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
         <w:p>
             <w:r>
                 <w:fldChar w:fldCharType="begin" w:dirty="true" />
-                <w:instrText xml:space="preserve">TOC \o "1-3" \h \z \u</w:instrText>
+                <w:instrText xml:space="preserve">%s</w:instrText>
                 <w:fldChar w:fldCharType="separate" />
                 <w:fldChar w:fldCharType="end" />
             </w:r>
@@ -57,7 +63,7 @@ local function toc(el)
     if el.text == "\\toc" then
         if FORMAT == "docx" then
             debug("[ lua ] insert Table of Contents")
-            el.text = RAW_TOC
+            el.text = string.format(RAW_TOC_TEMPLATE, [[TOC \o "1-3" \h \z \u]])
             el.format = "openxml"
             local para = pandoc.Para(meta)
             local div = pandoc.Div({ para, el })
@@ -84,7 +90,7 @@ end
 local function linebreak(el)
 
     local text = strip(el.text)
-    debug('"' .. el.text .. '", "' .. text .. '"')
+    --debug('"' .. el.text .. '", "' .. text .. '"')
     if text == "<br>" then
         if FORMAT == "docx" then
             debug("[ lua ] insert a LineBreak")
@@ -94,4 +100,16 @@ local function linebreak(el)
     end
 end
 
-return { { Meta = get_vars }, { RawBlock = toc }, { RawInline = linebreak } }
+local function subsection_toc(el)
+    if FORMAT == "docx" then
+        if el.classes:find("subsectoc") then
+            local id = el.identifier
+            debug("[ lua ] insert subsection TOC for #" .. id)
+            local subsectoc = string.format(RAW_TOC_TEMPLATE, [[TOC \o "2-2" \h \b ”]] .. id .. [[” \u]])
+            return { el, pandoc.RawBlock("openxml", subsectoc) }
+        end
+    end
+
+end
+
+return { { Meta = get_vars }, { RawBlock = toc }, { RawInline = linebreak }, { Header = subsection_toc } }
