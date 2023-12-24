@@ -17,13 +17,14 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 <!--Linebreak-->
 <br>
 
-<!--Sub section TOC of a Header-->
-# Level1 header {.subsectoc}
+<!--Sub section TOC of a numbered Header-->
+# Level1 header {.subsection-toc}
 
 ```
 ]]
 
 --local stringify = require("pandoc.utils").stringify
+--local pretty = require("pl.pretty")
 
 local debug = require("pandocker.utils").debug
 local strip = require("pl.stringx").strip
@@ -102,11 +103,13 @@ end
 
 local function subsection_toc(el)
     if FORMAT == "docx" then
-        if el.classes:find("subsectoc") then
-            local id = el.identifier
-            debug("[ lua ] insert subsection TOC for #" .. id)
-            local subsectoc = string.format(RAW_TOC_TEMPLATE, [[TOC \o "2-2" \h \b ”]] .. id .. [[” \u]])
-            return { el, pandoc.RawBlock("openxml", subsectoc) }
+        if el.level == 1 then
+            if el.classes:find("subsection-toc") then
+                local id = el.identifier
+                debug("[ lua ] insert subsection TOC for #" .. id)
+                local subsectoc = string.format(RAW_TOC_TEMPLATE, [[TOC \o "2-2" \h \b ”]] .. id .. [[” \u]])
+                return { el, pandoc.RawBlock("openxml", subsectoc) }
+            end
         end
     end
 
