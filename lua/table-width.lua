@@ -201,15 +201,21 @@ local function table_width(tbl)
     return tbl
 end
 
-local function table_finder(el)
+local function give_attribute_to_table(el)
     if el.classes:find("table") then
         if #el.content == 1 and el.content[1].tag == "Table" then
-            el.content[1].attributes = el.attributes
-            return { table_width(el.content[1]) }
+            el.content[1].attr = el.attr
+            return { el.content[1] }
         end
     end
 end
 
+local function table_finder(el)
+    if el.classes:find("table") then
+        return { table_width(el) }
+    end
+end
+
 if PANDOC_VERSION >= { 2, 10 } then
-    return { { Div = table_finder } }
+    return { { Div = give_attribute_to_table }, { Table = table_finder } }
 end

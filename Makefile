@@ -1,26 +1,21 @@
-PIPBASE= $(shell get-pip-base)
-
 all: html
 
 initdir:
 	cd tests; \
 	make initdir
 
-html: copy
+html:
 	cd tests; \
 	make html
 
 install:
-	pip3 install -U .
+	pip3 install --break-system-packages -U .
 
 uninstall:
-	pip3 uninstall -y pandocker-lua-filters
+	pip3 uninstall --break-system-packages -y pandocker-lua-filters
 
 reinstall: uninstall install
 #	pip3 install .
-
-copy:
-	cp lua/* $(PIPBASE)/share/lua/5.3/pandocker/
 
 clean:
 	rm -rf dist
@@ -29,15 +24,15 @@ clean:
 	cd tests; \
 	make clean
 
-tex: copy
+tex:
 	cd tests; \
 	make tex
 
-docx: copy
+docx:
 	cd tests; \
 	make docx
 
-pdf: copy
+pdf:
 	cd tests; \
 	make pdf
 

@@ -37,9 +37,6 @@ Table: table **width** {#tbl:table}
 Tiled figures<br>on a table
 
 :::
-\
-
-[**Tiled figures on a table**]{.colored color="FF0000"}
 
 # #include "rest.rst"
 
@@ -64,6 +61,8 @@ Tiled figures<br>on a table
 ## Level2
 
 # Level1 unnumbered {-}
+
+# Level1 {.subsection-toc}
 
 ## Level2 unnumbered {-}
 
