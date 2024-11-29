@@ -21,7 +21,7 @@ local List = require("pandoc").List
 local debug = require("pandocker.utils").debug
 local KEY = "comment"
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
     local function replace(el)
         if not List({ nil, "" }):includes(el.attributes[KEY]) then
             -- 'comment' attribute value is not blank nor nil

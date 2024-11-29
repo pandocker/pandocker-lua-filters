@@ -62,7 +62,7 @@ end
 
 local function toc(el)
     if el.text == "\\toc" then
-        if FORMAT == "docx" then
+        if FORMAT == "docx" or FORMAT == "native" then
             debug("[ lua ] insert Table of Contents")
             el.text = string.format(RAW_TOC_TEMPLATE, [[TOC \o "1-3" \h \z \u]])
             el.format = "openxml"
@@ -75,7 +75,7 @@ local function toc(el)
             return {}
         end
     elseif el.text == "\\newpage" then
-        if FORMAT == "docx" then
+        if FORMAT == "docx" or FORMAT == "native" then
             debug("[ lua ] insert a Pagebreak")
             el.text = RAW_PAGEBREAK
             el.format = "openxml"
@@ -93,7 +93,7 @@ local function linebreak(el)
     local text = strip(el.text)
     --debug('"' .. el.text .. '", "' .. text .. '"')
     if text == "<br>" then
-        if FORMAT == "docx" then
+        if FORMAT == "docx" or FORMAT == "native" then
             debug("[ lua ] insert a LineBreak")
             el = pandoc.LineBreak()
             return el
@@ -102,7 +102,7 @@ local function linebreak(el)
 end
 
 local function subsection_toc(el)
-    if FORMAT == "docx" then
+    if FORMAT == "docx" or FORMAT == "native" then
         if el.level == 1 then
             if el.classes:find("subsection-toc") then
                 local id = el.identifier

@@ -17,7 +17,7 @@ local tablex = require("pl.tablex")
 
 MESSAGE = "[ lua ] Apply table cell styles"
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
 
     local function get_meta(mt)
         meta = util_get_meta(mt, default_meta, meta_key)

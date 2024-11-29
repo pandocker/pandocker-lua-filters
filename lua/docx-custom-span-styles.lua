@@ -24,7 +24,7 @@ local meta = {}
 local APPLY_DEFAULT = "[ lua ] metadata '%s' was not found in source, applying default %s."
 local APPLY = "[ lua ] '%s' class Span found and applied '%s' custom character style"
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
     local function get_vars(mt)
         meta = util_get_meta(mt, default_meta, META_KEY)
     end

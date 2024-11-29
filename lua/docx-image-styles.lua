@@ -17,7 +17,7 @@ local NOT_FOUND = "[ lua ] metadata '%s' was not found in source, applying defau
 
 local default_meta = require("pandocker.default_loader")["figure-styles"]
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
     local function get_vars (mt)
         meta = mt["figure-styles"]
         if meta ~= nil then

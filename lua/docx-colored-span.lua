@@ -63,7 +63,7 @@ local BG_TABLE = List({
 `</w:r>`{=openxml}
 ]]
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
     local function replace(el)
         if el.classes:includes(KEY) then
             local foreground = pandoc.Span({})

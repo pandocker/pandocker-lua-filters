@@ -13,7 +13,7 @@ local debug = require("pandocker.utils").debug
 
 local MESSAGE = "[ lua ] metadata '%s' has found and removed"
 
-if FORMAT == "latex" or FORMAT == "docx" then
+if FORMAT == "latex" or FORMAT == "docx" or FORMAT == "native" then
     local function get_vars (mt)
         local meta = {
             author = "author-meta",

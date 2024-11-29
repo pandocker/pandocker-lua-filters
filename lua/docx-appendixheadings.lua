@@ -32,7 +32,7 @@ local APPLY_DEFAULT = "[ lua ] metadata '%s' was not found in source, applying d
 local TOO_DEEP_LEVEL = "[ lua ] unnumbered heading greater than level %d is found and ignored"
 local MAX_HEADING_LEVEL = 5
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
     local function get_vars (mt)
         meta = mt[META_KEY]
         if meta ~= nil then

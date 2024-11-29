@@ -49,7 +49,7 @@ local TOO_DEEP = "[ lua ] Listed item found at too deep level. Promote to level-
 local default_meta = require("pandocker.default_loader")[META_KEY]
 assert(default_meta)
 
-if FORMAT == "docx" then
+if FORMAT == "docx" or FORMAT == "native" then
 
     local function get_meta(mt)
         meta = util_get_meta(mt, default_meta, META_KEY)
