@@ -1,12 +1,12 @@
 name: Build python wheel package
-on: [push, create]
+on: [ push, create ]
 jobs:
   make-wavedrom:
     name: Compile svgbob
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install dependencies
