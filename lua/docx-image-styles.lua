@@ -51,9 +51,18 @@ if FORMAT == "docx" or FORMAT == "native" then
                 image.title = ""
             end
             image_div.content = { pandoc.Para(image) }
-            return { image_div, caption_div }
+
+            if PANDOC_VERSION < (3) then
+                return { image_div, caption_div }
+            else
+                return { image_div }--, caption_div
+            end
         end
     end
 
-    return { { Meta = get_vars }, { Para = para } }
+    if PANDOC_VERSION < (3) then
+        return { { Meta = get_vars }, { Para = para } }
+    else
+        return { { Meta = get_vars }, { Plain = para } }
+    end
 end
