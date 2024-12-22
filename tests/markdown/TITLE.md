@@ -48,6 +48,8 @@ Tiled figures<br>on a table
 
 [Set widths](data/table.csv){.table width=[0.2,0.3,0.2,0.3]}
 
+[CSV file with caption2](data/io_plan.csv){.table delimiter=";"}
+
 ##### Auto caption
 
 [](data/table.csv){.table width=[0.5]}
