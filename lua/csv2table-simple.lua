@@ -149,6 +149,8 @@ local function tabular(el)
         local delimiter = el.attributes.delimiter
         if el.attributes.delimiter == nil then
             delimiter = ","
+        else
+            debug("[ Lua ] apply different CSV delimiter for parse")
         end
 
         if file_exists(source_file) then
