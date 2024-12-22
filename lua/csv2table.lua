@@ -21,6 +21,7 @@ where,
 if not given padded by d
 - subset_from : (row,col) pair to specify coordinate to cut FROM
 - subset_to : (row,col) pair to specify coordinate to cut TO
+- delimiter : separator character such as ";". default is ","
 
 ### Equivalent output
 
@@ -32,7 +33,7 @@ if not given padded by d
 
 ]]
 
---local pretty = require("pl.pretty")
+local pretty = require("pl.pretty")
 require("pl.stringx").import()
 local List = require("pl.List")
 local tablex = require("pl.tablex")
@@ -149,9 +150,13 @@ local function tabular(el)
         local caption = ""
         local alignment = List()
         local widths = List()
+        local delimiter = el.attributes.delimiter
+        if el.attributes.delimiter == nil then
+            delimiter = ","
+        end
 
         if file_exists(source_file) then
-            tab = csv.open(source_file)
+            tab = csv.open(source_file, { separator = delimiter })
             --pretty.dump(tab)
         else
             debug(string.format(FILE_NOT_FOUND, source_file))
