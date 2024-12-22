@@ -36,6 +36,10 @@ pdf:
 	cd tests; \
 	make pdf
 
+native:
+	cd tests; \
+	make native
+
 #wavedrom:
 #	@echo "wavedrom"
 #	docker run --rm -v $(PWD):/root -w /tmp node:10 /root/scripts/wavedrom.sh

@@ -54,7 +54,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-extract-bullet-lists.lua
 #PANFLAGS += --filter=pandoc-docx-extract-bullet-list
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-remove-sout.lua
 PANFLAGS += --filter=pandoc-crossref
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-image-styles.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-image-styles.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-rowcolors-reset.lua
 PANFLAGS += --listings
 PANFLAGS += --top-level-division=chapter
@@ -66,3 +66,8 @@ PANFLAGS += -M envversion=$(ENV_VERSION)
 #PANFLAGS = $(PFLAGS)
 
 include $(MISC_SYS)/Makefile
+
+native:  $(TARGETDIR)/$(TARGET)-native.txt
+$(TARGETDIR)/$(TARGET)-native.txt: $(MDDIR)/$(INPUT)
+	$(PANDOC) $(PANFLAGS) -M linkReferences=true \
+	$(MDDIR)/$(INPUT) -t native -o $(TARGETDIR)/$(TARGET)-native.txt
