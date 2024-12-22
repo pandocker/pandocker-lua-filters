@@ -18,7 +18,7 @@ jobs:
       - name: Build wheel
         run: make wheel
       - name: Upload artifact wheel (at a push)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: wheel package
           path: dist
