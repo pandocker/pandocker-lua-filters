@@ -29,6 +29,7 @@ local file_exists = require("pandocker.utils").file_exists
 --local search_paths = {}
 --local META_NOT_FOUND = "metadata '%s' was not found in source, applying default %s."
 local FILE_NOT_FOUND = "[ lua ] %s: file not found in search paths"
+local INCLUDED = "[ lua ] include and merge source file %s"
 
 local function dump(tt, mm)
     if mm == nil then
@@ -64,6 +65,7 @@ local function replace(el)
             for _, v in ipairs(PANDOC_STATE.resource_path) do
                 local included = "./" .. stringify(v) .. "/" .. stringify(rep[3].content)
                 if file_exists(included) then
+                    debug(string.format(INCLUDED, included))
                     data = io.open(included, "r"):read("*a")
                     sub = pandoc.read(data)
                     --dump(sub.blocks)
