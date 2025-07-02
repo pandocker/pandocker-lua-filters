@@ -35,6 +35,7 @@ local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local get_tf = require("pandocker.utils").get_tf
+local new_structure_from = "3.3"
 
 local function listingtable(el)
     --[[
@@ -50,7 +51,11 @@ local function listingtable(el)
             return
         end
         if stringify(el.content) == "" then
-            el.content = el.target
+            if PANDOC_VERSION >= new_structure_from then
+                el.content = { pandoc.Str(stringify(el.target)) }
+            else
+                el.content = el.target
+            end
         end
         local listing_file = stringify(el.target)
         local lines = {}
@@ -111,7 +116,11 @@ local function listingtable(el)
 
         local para = { raw_code }
         if not nocaption then
-            table.insert(para, 1, pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }))
+            if PANDOC_VERSION >= new_structure_from then
+                table.insert(para, 1, pandoc.Para(pandoc.Inlines({ pandoc.Str("Listing:"), pandoc.Space() }):extend(el.content)))
+            else
+                table.insert(para, 1, pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }))
+            end
         end
         --debug(stringify(para))
         return para
