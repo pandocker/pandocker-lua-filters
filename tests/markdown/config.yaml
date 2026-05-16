@@ -72,10 +72,10 @@ docx_coreprop:
   read-only-recommended: true
   disable-table-autofit: false # setting 'true' requires explicit column widths setting
   table:
-  #    "Normal Table": "Centered"
+    "Normal Table": "No Grid Left"
   paragraph:
     "Image Caption": "Figure Caption"
-  #    "Normal": "Body Text"
-  #    "First Paragraph": "Body Text"
+    "Normal": "Body Text"
+    "First Paragraph": "Body Text"
   character:
 ...
