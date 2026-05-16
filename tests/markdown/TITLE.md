@@ -2,17 +2,43 @@
 
 \newpage
 
+# Section {.subsection-toc}
+
 text<br><br>text
 text
 
-::: {.table }
+## Table header contains linebreak
 
-| text<br>text |    |
-|--------------|----|
-|              |    |
-|              |    |
+[Title](markdown/config.yaml){.listingtable type=yaml numbers=true numbers=true from=2 to=15 #lst:lst-1}
+
+\newpage
+
+::: {.table width=[0.05,1.0] custom-style="No Grid Left"}
+
++--------------------------------------:+---------------------------------------+
+|<div custom-style="Image Caption">     |<div id="lst:code" class="listing">    |
+|&nbsp;                                 |Listing caption                        |
+|</div>                                 |```                       {.haskell}   |
+|```{.plain}                            |main :: IO ()                          |
+|1                                      |main = putStrLn "Hello World!"         |
+|2                                      |```                                    |
+|```                                    |</div>                                 |
++---------------------------------------+---------------------------------------+
 
 :::
+
++-------------------------------+
+|<div class="listing">          |
+|```{.haskell}                  |
+|main :: IO ()                  |
+|main = putStrLn "Hello World!" |
+|```                            |
+|</div>                         |
++-------------------------------+
+
+## Autoset column width
+
+<!--
 
 :::{.table width=[0.5,0.3]}
 Table: table **width** {#tbl:table}
@@ -22,23 +48,13 @@ Table: table **width** {#tbl:table}
 | Cell  |  Cell  | Cell |
 
 :::
+-->
 
-[@fig:wavedrom-2]
-
-::: {#fig:tiled-figures width=[0.5,0.5]}
-::: {.table noheader=true}
-
-| [Wavedrom(BitField)](data/json.json){.wavedrom width=70mm #fig:wavedrom-1} |    [AAFigure](data/aafigure.txt){.aafigure width=70mm #fig:wavedrom-2}     |
-|:--------------------------------------------------------------------------:|:--------------------------------------------------------------------------:|
-|       [svgbob](data/svgbob.bob){.svgbob width=70mm #fig:wavedrom-3}        | [Wavedrom(BitField)](data/json.json){.wavedrom width=70mm #fig:wavedrom-4} |
-
-:::
-
-Tiled figures<br>on a table
-
-:::
+## Tiled figures
 
 # #include "rest.rst"
+
+<!--
 
 [CSV file with caption](data/table.csv){.table}
 
@@ -49,14 +65,20 @@ Tiled figures<br>on a table
 [Set widths](data/table.csv){.table width=[0.2,0.3,0.2,0.3]}
 
 [CSV file with caption2](data/io_plan.csv){.table delimiter=";"}
+-->
 
 ##### Auto caption
 
+<!--
+
 [](data/table.csv){.table width=[0.5]}
+-->
 
 ##### No caption
 
+<!--
 [](data/table.csv){.table nocaption=true}
+-->
 
 [@tbl:table]
 
@@ -109,8 +131,6 @@ Bullet List 2
 
 [Title](markdown/config.yaml){.listingtable from=2 to=5 #lst:lst}
 
-[Wavedrom(BitField)](data/tutorial_0.json){.wavedrom #fig:wavedrom}
-
 \newpage
 
 [](markdown/config.yaml){.listingtable type=yaml from=2 to=10 nocaption=true}
@@ -124,7 +144,7 @@ Bullet List 2
 
 :::
 
-[This failes to list](markdown/config.yaml){.listingtable numbers=right type=yaml from=2 to=5 #lst:list}
+[This _fails_ to `list`](markdown/config.yaml){.listingtable numbers=right type=yaml from=2 to=5 #lst:list}
 
 ![dummy](images/dummy.png)
 
