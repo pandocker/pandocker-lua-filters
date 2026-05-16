@@ -19,6 +19,7 @@ Cuts into subset if corresponding options are set
 - `type`
 - `numbers`
 - `nocaption`
+- `tabular`
 
 ## Note
 
@@ -30,6 +31,9 @@ Cuts into subset if corresponding options are set
 ]]
 
 local tablex = require("pl.tablex")
+local stringx = require("pl.stringx")
+local List = require("pl.List")
+local xrange = require("pl.List").range
 
 local stringify = require("pandoc.utils").stringify
 
@@ -51,6 +55,7 @@ local function listingtable(el)
             return
         end
         if stringify(el.content) == "" then
+            -- [""](<target>){...}
             if PANDOC_VERSION >= new_structure_from then
                 el.content = { pandoc.Str(stringify(el.target)) }
             else
@@ -59,12 +64,14 @@ local function listingtable(el)
         end
         local listing_file = stringify(el.target)
         local lines = {}
+        local line_nums = {}
         -- test if file exists
         if require("pandocker.utils").file_exists(listing_file) then
 
             --convert file contents to list of strings
             for line in io.lines(listing_file) do
-                lines[#lines + 1] = line
+                lines[#lines + 1] = stringx.rstrip(line)
+                line_nums[#lines] = #lines -- {"1", "2", ..., n}
             end
             debug(string.format("[ lua ] listing %s", listing_file))
         else
@@ -74,6 +81,7 @@ local function listingtable(el)
         local caption = pandoc.Str(stringify(el.content))
         local file_type = el.attributes["type"] or "plain"
         local nocaption = get_tf(el.attributes.nocaption, false)
+        local is_tabular = get_tf(el.attributes.tabular, false)
         local linefrom = tonumber(el.attributes["from"]) or 1
         if linefrom < 1 then
             linefrom = 1
@@ -92,8 +100,10 @@ local function listingtable(el)
         attributes["startFrom"] = el.attributes["startFrom"] or linefrom
         attributes["numbers"] = el.attributes["numbers"] or "left"
 
-        local data = table.concat(lines, "\n", linefrom, lineto)
+        local data = table.concat(lines, "\n", linefrom, lineto) -- sliced source code as a big string
+        local ln_data = table.concat(line_nums, "\n", linefrom, lineto) -- line numbers as a big string
         --debug(data)
+        --debug(ln_data)
         local _, basename = require("pandocker.utils").basename(listing_file)
         local idn = el.identifier
         if idn == "" then
@@ -104,6 +114,7 @@ local function listingtable(el)
         el.classes:extend { file_type, "numberLines" }
         local attr = pandoc.Attr(idn, el.classes, attributes)
         local raw_code = pandoc.CodeBlock(data, attr)
+        debug(stringify(raw_code.text))
 
         --[[
                 debug(stringify(caption))
@@ -115,15 +126,21 @@ local function listingtable(el)
         ]]
 
         local para = { raw_code }
+        local div_attr = pandoc.Attr({ idn, { "listing", file_type, "tabular" }, {} })
+        local cbk_div = { pandoc.CodeBlock(data, { "", { file_type }, { from = linefrom, to = lineto } }) }
         if not nocaption then
             if PANDOC_VERSION >= new_structure_from then
                 table.insert(para, 1, pandoc.Para(pandoc.Inlines({ pandoc.Str("Listing:"), pandoc.Space() }):extend(el.content)))
+                table.insert(cbk_div, 1, pandoc.Para(el.content))
             else
                 table.insert(para, 1, pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }))
+                table.insert(cbk_div, 1, pandoc.Para(caption))
             end
         end
+        return pandoc.Div(cbk_div, div_attr)
+
         --debug(stringify(para))
-        return para
+        --return para
     end
 end
 
