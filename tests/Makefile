@@ -55,6 +55,7 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-extract-bullet-lists.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/removable-note.lua
 PANFLAGS += --filter=pandoc-crossref
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-image-styles.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-codeblock-linenumber.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-rowcolors-reset.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-remove-sout.lua
 PANFLAGS += --listings
