@@ -7,7 +7,11 @@
 text<br><br>text
 text
 
-## Table header contains linebreak
+| head [a](b.txt){.class a1=b a2=c} |
+|-----------------------------------|
+| cell                              |
+
+## Table header contains<br>linebreak
 
 [Title](markdown/config.yaml){.listingtable type=yaml numbers=true numbers=true from=2 to=15 #lst:lst-1}
 
@@ -17,24 +21,25 @@ text
 
 +--------------------------------------:+---------------------------------------+
 |<div custom-style="Image Caption">     |<div id="lst:code" class="listing">    |
-|&nbsp;                                 |Listing caption                        |
+|<p>&nbsp;</p>                          |<p>Listing caption</p>                 |
 |</div>                                 |```                       {.haskell}   |
-|```{.plain}                            |main :: IO ()                          |
-|1                                      |main = putStrLn "Hello World!"         |
-|2                                      |```                                    |
+|```                           {.plain} |main :: IO ()                          |
+|1 <.>                                  |main = putStrLn "Hello World!"         |
+|2 <.>                                  |```                                    |
 |```                                    |</div>                                 |
 +---------------------------------------+---------------------------------------+
 
 :::
 
-+-------------------------------+
-|<div class="listing">          |
-|```{.haskell}                  |
-|main :: IO ()                  |
-|main = putStrLn "Hello World!" |
-|```                            |
-|</div>                         |
-+-------------------------------+
++---------------------------------------+
+|:::  {.listing #lst:code1 from=1 to=2} |
+|<p>Code Block Caption</p>              |
+|```{.haskell from=1 to=2}              |
+|main :: IO ()                          |
+|main = putStrLn "Hello World!"         |
+|```                                    |
+|:::                                    |
++---------------------------------------+
 
 ## Autoset column width
 
