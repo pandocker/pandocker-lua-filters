@@ -36,12 +36,12 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/csv2table-simple.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/listingtable.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/aafigure.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
+#PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/wavedrom.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-quote.lua
 #PANFLAGS += --filter=pantable
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width.lua
-PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width-simple.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-apply-cell-styles.lua
+PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/table-width-simple.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-colored-span.lua
 PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-custom-span-styles.lua
 #PANFLAGS += --filter=pandocker-blockdiag-filters
@@ -58,8 +58,9 @@ PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/docx-image-styles.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-rowcolors-reset.lua
 #PANFLAGS += --lua-filter=$(LUA_FILTER_BASE)/tex-remove-sout.lua
 PANFLAGS += --listings
-PANFLAGS += --top-level-division=chapter
-PANFLAGS += --number-sections --highlight-style=kate
+PANFLAGS += --top-level-division=default
+#PANFLAGS += --number-sections
+PANFLAGS += --highlight-style=kate
 PANFLAGS += -M short-hash=$(HASH)
 PANFLAGS += -M tables=true
 PANFLAGS += -M envversion=$(ENV_VERSION)
