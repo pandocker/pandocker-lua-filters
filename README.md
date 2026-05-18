@@ -93,6 +93,10 @@ Lua filters for pandoc
 
 [**`docx-comment.lua`**](lua/docx-comment.lua)
 
+#### Code block numbering
+
+[**`docx-codeblock-linenumber.lua`**](lua/docx-codeblock-linenumber.lua)
+
 #### Apply custom (paragraph) styles for each table cell
 
 [**`docx-apply-cell-styles.lua`**](lua/docx-apply-cell-styles.lua)
