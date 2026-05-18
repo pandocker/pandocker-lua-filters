@@ -5,21 +5,13 @@
 ---
 
 local pretty = require("pl.pretty")
-local tablex = require("pl.tablex")
 local stringx = require("pl.stringx")
-local List = require("pl.List")
 local xrange = require("pl.List").range
 
-local stringify = require("pandoc.utils").stringify
-
 local debug = require("pandocker.utils").debug
-local MESSAGE = "[ lua ] insert a table from %s"
-local FILE_NOT_FOUND = "[ lua ] %s: file not found"
+local MESSAGE = "[ lua ] Numbering code blocks"
 
 local empty_attr = { "", {}, {} }
-local empty_row = function()
-    return { empty_attr, {} }
-end
 
 local table_template = [==[
 |   |   |
@@ -40,12 +32,13 @@ function CodeBlock(el)
     deny_2_15() -- deny 2.15 and return immediately
 
     if FORMAT == "docx" or FORMAT == "native" then
+        debug(MESSAGE)
         local linefrom = tonumber(el.attributes["from"]) or 1
         if linefrom < 1 then
             linefrom = 1
         end
         local lineto = tonumber(el.attributes["to"]) or -1
-        local nrs = pandoc.CodeBlock(stringx.join("\n", List().range(linefrom, lineto)), empty_attr)
+        local nrs = pandoc.CodeBlock(stringx.join("\n", xrange(linefrom, lineto)), empty_attr)
         local table = my_table:clone()
         local nrs_div = pandoc.Div({ nrs }, { "", { "plain" }, {} })
         local cbk_div = pandoc.Div({ el }, el.attr)
