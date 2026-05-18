@@ -32,13 +32,12 @@ Cuts into subset if corresponding options are set
 
 local tablex = require("pl.tablex")
 local stringx = require("pl.stringx")
-local List = require("pl.List")
-local xrange = require("pl.List").range
 
 local stringify = require("pandoc.utils").stringify
 
 local debug = require("pandocker.utils").debug
 local get_tf = require("pandocker.utils").get_tf
+local deny_2_15 = require("pandocker.utils").deny_2_15
 local new_structure_from = "3.3"
 
 local function listingtable(el)
@@ -50,10 +49,8 @@ local function listingtable(el)
     ]]
 
     if el.classes:includes "listingtable" then
-        if tostring(PANDOC_VERSION) == "2.15" then
-            debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
-            return
-        end
+        deny_2_15()
+
         if stringify(el.content) == "" then
             -- [""](<target>){...}
             if PANDOC_VERSION >= new_structure_from then
@@ -81,7 +78,6 @@ local function listingtable(el)
         local caption = pandoc.Str(stringify(el.content))
         local file_type = el.attributes["type"] or "plain"
         local nocaption = get_tf(el.attributes.nocaption, false)
-        local is_tabular = get_tf(el.attributes.tabular, false)
         local linefrom = tonumber(el.attributes["from"]) or 1
         if linefrom < 1 then
             linefrom = 1
@@ -101,9 +97,7 @@ local function listingtable(el)
         attributes["numbers"] = el.attributes["numbers"] or "left"
 
         local data = table.concat(lines, "\n", linefrom, lineto) -- sliced source code as a big string
-        local ln_data = table.concat(line_nums, "\n", linefrom, lineto) -- line numbers as a big string
         --debug(data)
-        --debug(ln_data)
         local _, basename = require("pandocker.utils").basename(listing_file)
         local idn = el.identifier
         if idn == "" then
@@ -112,8 +106,6 @@ local function listingtable(el)
         --debug(idn)
 
         el.classes:extend { file_type, "numberLines" }
-        local attr = pandoc.Attr(idn, el.classes, attributes)
-        local raw_code = pandoc.CodeBlock(data, attr)
 
         --[[
         debug(stringify(raw_code.text))
@@ -125,22 +117,16 @@ local function listingtable(el)
         debug(numbers)
         ]]
 
-        local para = { raw_code }
-        local div_attr = pandoc.Attr({ idn, { "listing", file_type, "tabular" }, {} })
-        local cbk_div = { pandoc.CodeBlock(data, { "", { file_type }, { from = linefrom, to = lineto } }) }
+        local div_attr = pandoc.Attr({ idn, { "listing", file_type }, {} })
+        local div_content = { pandoc.CodeBlock(data, { "", { file_type }, { from = linefrom, to = lineto } }) }
         if not nocaption then
             if PANDOC_VERSION >= new_structure_from then
-                table.insert(para, 1, pandoc.Para(pandoc.Inlines({ pandoc.Str("Listing:"), pandoc.Space() }):extend(el.content)))
-                table.insert(cbk_div, 1, pandoc.Para(el.content))
+                table.insert(div_content, 1, pandoc.Para(el.content))
             else
-                table.insert(para, 1, pandoc.Para({ pandoc.Str("Listing:"), pandoc.Space(), caption }))
-                table.insert(cbk_div, 1, pandoc.Para(caption))
+                table.insert(div_content, 1, pandoc.Para(caption))
             end
         end
-        return pandoc.Div(cbk_div, div_attr)
-
-        --debug(stringify(para))
-        --return para
+        return pandoc.Div(div_content, div_attr)
     end
 end
 
