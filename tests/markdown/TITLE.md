@@ -13,23 +13,18 @@ text
 
 ## Table header contains<br>linebreak
 
-[Title](markdown/config.yaml){.listingtable type=yaml numbers=true numbers=true from=2 to=15 #lst:lst-1}
+```{.haskell}
+main :: IO ()
+main = putStrLn "Hello World!"
+```
+
+[Title](markdown/config.yaml){.listingtable type=yaml numbers=true from=2 to=15 #lst:lst-1}
+
+[Title](markdown/config.yaml){.listingtable type=yaml numbers=true from=2 #lst:lst-2}
+
+[`.python` will be considered as plain](../setup.py){.listingtable type=python numbers=true #lst:lst-3}
 
 \newpage
-
-::: {.table width=[0.05,1.0] custom-style="No Grid Left"}
-
-+--------------------------------------:+---------------------------------------+
-|<div custom-style="Image Caption">     |<div id="lst:code" class="listing">    |
-|<p>&nbsp;</p>                          |<p>Listing caption</p>                 |
-|</div>                                 |```                       {.haskell}   |
-|```                           {.plain} |main :: IO ()                          |
-|1 <.>                                  |main = putStrLn "Hello World!"         |
-|2 <.>                                  |```                                    |
-|```                                    |</div>                                 |
-+---------------------------------------+---------------------------------------+
-
-:::
 
 +---------------------------------------+
 |:::  {.listing #lst:code1 from=1 to=2} |
