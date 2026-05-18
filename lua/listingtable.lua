@@ -105,7 +105,14 @@ local function listingtable(el)
         end
         --debug(idn)
 
-        el.classes:extend { file_type, "numberLines" }
+        el.classes:extend { file_type, "listing", "numberLines" }
+        debug(stringify(el.classes))
+        for i = #el.classes, 1, -1 do
+            if el.classes[i] == "listingtable" then
+                table.remove(el.classes, i)
+            end
+        end
+        debug(stringify(el.classes))
 
         --[[
         debug(stringify(raw_code.text))
@@ -117,8 +124,8 @@ local function listingtable(el)
         debug(numbers)
         ]]
 
-        local div_attr = pandoc.Attr({ idn, { "listing", file_type }, {} })
-        local div_content = { pandoc.CodeBlock(data, { "", { file_type }, { from = linefrom, to = lineto } }) }
+        local div_attr = pandoc.Attr({ idn, el.classes, {} })
+        local div_content = { pandoc.CodeBlock(data, { "", el.classes, { from = linefrom, to = lineto } }) }
         if not nocaption then
             if PANDOC_VERSION >= new_structure_from then
                 table.insert(div_content, 1, pandoc.Para(el.content))
