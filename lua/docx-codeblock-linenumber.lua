@@ -8,7 +8,10 @@ local pretty = require("pl.pretty")
 local stringx = require("pl.stringx")
 local xrange = require("pl.List").range
 
+local stringify = require("pandoc.utils").stringify
+
 local debug = require("pandocker.utils").debug
+local deny_2_15 = require("pandocker.utils").deny_2_15
 local MESSAGE = "[ lua ] Numbering code blocks"
 
 local empty_attr = { "", {}, {} }
@@ -21,13 +24,6 @@ local table_template = [==[
 
 local my_table = pandoc.read(table_template, "markdown").blocks[1]
 
-function deny_2_15()
-    if tostring(PANDOC_VERSION) == "2.15" then
-        debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
-        return
-    end
-end
-
 function CodeBlock(el)
     deny_2_15() -- deny 2.15 and return immediately
 
@@ -37,15 +33,15 @@ function CodeBlock(el)
         if linefrom < 1 then
             linefrom = 1
         end
-        local lineto = tonumber(el.attributes["to"]) or -1
+        local lineto = tonumber(el.attributes["to"]) or stringx.count(el.text, "\n") + 1
         local nrs = pandoc.CodeBlock(stringx.join("\n", xrange(linefrom, lineto)), empty_attr)
         local table = my_table:clone()
         local nrs_div = pandoc.Div({ nrs }, { "", { "plain" }, {} })
-        local cbk_div = pandoc.Div({ el }, el.attr)
+        local cbk_div = pandoc.Div({ el })
         cbk_div["attributes"]["custom-style"] = "Source Code"
         nrs_div["attributes"]["custom-style"] = "Source Code"
 
-        table.colspecs = { { pandoc.AlignRight, 0.05 }, { pandoc.AlignLeft, 1.0 } }
+        table.colspecs = { { pandoc.AlignRight, 0.07 }, { pandoc.AlignLeft, 1.0 } }
         table.head = pandoc.TableHead {}
         table.bodies[1].body[1].cells[1].contents = { nrs_div }
         table.bodies[1].body[1].cells[2].contents = { cbk_div }
