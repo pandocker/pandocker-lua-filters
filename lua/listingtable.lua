@@ -114,15 +114,15 @@ local function listingtable(el)
         el.classes:extend { file_type, "numberLines" }
         local attr = pandoc.Attr(idn, el.classes, attributes)
         local raw_code = pandoc.CodeBlock(data, attr)
-        debug(stringify(raw_code.text))
 
         --[[
-                debug(stringify(caption))
-                debug(file_type)
-                debug(linefrom)
-                debug(lineto)
-                debug(startFrom)
-                debug(numbers)
+        debug(stringify(raw_code.text))
+        debug(stringify(caption))
+        debug(file_type)
+        debug(linefrom)
+        debug(lineto)
+        debug(startFrom)
+        debug(numbers)
         ]]
 
         local para = { raw_code }
