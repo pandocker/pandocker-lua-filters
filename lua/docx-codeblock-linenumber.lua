@@ -47,14 +47,16 @@ function CodeBlock(el)
         local lineto = tonumber(el.attributes["to"]) or -1
         local nrs = pandoc.CodeBlock(stringx.join("\n", List().range(linefrom, lineto)), empty_attr)
         local table = my_table:clone()
-        local cbk_div = pandoc.Div({ el }, { "", { "plain" }, {} })
+        local nrs_div = pandoc.Div({ nrs }, { "", { "plain" }, {} })
+        local cbk_div = pandoc.Div({ el }, el.attr)
         cbk_div["attributes"]["custom-style"] = "Source Code"
+        nrs_div["attributes"]["custom-style"] = "Source Code"
 
         table.colspecs = { { pandoc.AlignRight, 0.05 }, { pandoc.AlignLeft, 1.0 } }
         table.head = pandoc.TableHead {}
-        table.bodies[1].body[1].cells[1].contents = { nrs }
+        table.bodies[1].body[1].cells[1].contents = { nrs_div }
         table.bodies[1].body[1].cells[2].contents = { cbk_div }
-        pretty.dump(table.bodies[1].body[1].cells[1].contents)
+        --pretty.dump(table.bodies[1].body[1].cells[1].contents)
         --pretty.dump(table.bodies)
         --[[
         debug(linefrom)
