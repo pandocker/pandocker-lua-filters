@@ -107,9 +107,17 @@ local function package_base_path()
     return base
 end
 
+local function deny_2_15()
+    if tostring(PANDOC_VERSION) == "2.15" then
+        debug("[ Lua ] " .. PANDOC_SCRIPT_FILE .. ": Pandoc version 2.15 is not supported. Bypassing.")
+        return
+    end
+end
+
 return {
     basename = basename,
     debug = debug,
+    deny_2_15 = deny_2_15,
     file_exists = file_exists,
     get_os = getos,
     get_tf = get_tf,
