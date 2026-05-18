@@ -106,13 +106,11 @@ local function listingtable(el)
         --debug(idn)
 
         el.classes:extend { file_type, "listing", "numberLines" }
-        debug(stringify(el.classes))
         for i = #el.classes, 1, -1 do
             if el.classes[i] == "listingtable" then
                 table.remove(el.classes, i)
             end
         end
-        debug(stringify(el.classes))
 
         --[[
         debug(stringify(raw_code.text))
