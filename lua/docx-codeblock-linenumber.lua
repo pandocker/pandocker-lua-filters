@@ -28,31 +28,33 @@ function CodeBlock(el)
     deny_2_15() -- deny 2.15 and return immediately
 
     if FORMAT == "docx" or FORMAT == "native" then
-        debug(MESSAGE)
-        local linefrom = tonumber(el.attributes["from"]) or 1
-        if linefrom < 1 then
-            linefrom = 1
-        end
-        local lineto = tonumber(el.attributes["to"]) or stringx.count(el.text, "\n") + 1
-        local nrs = pandoc.CodeBlock(stringx.join("\n", xrange(linefrom, lineto)), empty_attr)
-        local table = my_table:clone()
-        local nrs_div = pandoc.Div({ nrs }, { "", { "plain" }, {} })
-        local cbk_div = pandoc.Div({ el })
-        cbk_div["attributes"]["custom-style"] = "Source Code"
-        nrs_div["attributes"]["custom-style"] = "Source Code"
+        if not el.classes:includes "unnumbered" then
+            debug(MESSAGE)
+            local linefrom = tonumber(el.attributes["from"]) or 1
+            if linefrom < 1 then
+                linefrom = 1
+            end
+            local lineto = tonumber(el.attributes["to"]) or stringx.count(el.text, "\n") + 1
+            local nrs = pandoc.CodeBlock(stringx.join("\n", xrange(linefrom, lineto)), empty_attr)
+            local table = my_table:clone()
+            local nrs_div = pandoc.Div({ nrs }, { "", { "plain" }, {} })
+            local cbk_div = pandoc.Div({ el })
+            cbk_div["attributes"]["custom-style"] = "Source Code"
+            nrs_div["attributes"]["custom-style"] = "Source Code"
 
-        table.colspecs = { { pandoc.AlignRight, 0.07 }, { pandoc.AlignLeft, 1.0 } }
-        table.head = pandoc.TableHead {}
-        table.bodies[1].body[1].cells[1].contents = { nrs_div }
-        table.bodies[1].body[1].cells[2].contents = { cbk_div }
-        --pretty.dump(table.bodies[1].body[1].cells[1].contents)
-        --pretty.dump(table.bodies)
-        --[[
-        debug(linefrom)
-        debug(lineto)
-        debug(stringx.join(",", List().range(linefrom, lineto)))
-        ]]
-        return table
+            table.colspecs = { { pandoc.AlignRight, 0.07 }, { pandoc.AlignLeft, 1.0 } }
+            table.head = pandoc.TableHead {}
+            table.bodies[1].body[1].cells[1].contents = { nrs_div }
+            table.bodies[1].body[1].cells[2].contents = { cbk_div }
+            --pretty.dump(table.bodies[1].body[1].cells[1].contents)
+            --pretty.dump(table.bodies)
+            --[[
+            debug(linefrom)
+            debug(lineto)
+            debug(stringx.join(",", List().range(linefrom, lineto)))
+            ]]
+            return table
+        end
     end
 end
 
