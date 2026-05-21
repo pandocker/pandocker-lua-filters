@@ -18,7 +18,7 @@ main :: IO ()
 main = putStrLn "Hello World!"
 ```
 
-[Title](markdown/config.yaml){.listingtable type=yaml numbers=true from=2 to=15 #lst:lst-1}
+[Title](markdown/config.yaml){.listingtable .unnumbered type=yaml numbers=true from=2 to=15 #lst:lste1}
 
 [Title](markdown/config.yaml){.listingtable type=yaml numbers=true from=2 #lst:lst-2}
 
@@ -28,7 +28,7 @@ main = putStrLn "Hello World!"
 
 +---------------------------------------+
 |:::  {.listing #lst:code1 from=1 to=2} |
-|<p>Code Block Caption</p>              |
+|Code Block Caption |
 |```{.haskell from=1 to=2}              |
 |main :: IO ()                          |
 |main = putStrLn "Hello World!"         |
