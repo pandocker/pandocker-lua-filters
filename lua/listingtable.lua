@@ -131,7 +131,7 @@ local function listingtable(el)
                 table.insert(div_content, 1, pandoc.Para(caption))
             end
         end
-        return pandoc.Div(div_content, div_attr)
+        return pandoc.Div(div_content, pandoc.Attr({ idn, { "listing" }, {} }))
     end
 end
 
