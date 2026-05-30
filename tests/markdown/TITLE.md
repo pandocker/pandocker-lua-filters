@@ -7,9 +7,11 @@
 text<br><br>text
 text
 
-| head [a](b.txt){.class a1=b a2=c} |
-|-----------------------------------|
-| cell                              |
+| head [a](b.txt){.class a1=b a2=c}                             |
+|---------------------------------------------------------------|
+| ![an SVG file](images/bitfield.svg){#fig:svg-file width=30mm} |
+
+![another SVG file](images/bitfield.svg){#fig:another-svg-file width=100mm}
 
 ## Table header contains<br>linebreak
 
@@ -54,10 +56,9 @@ Table: table **width** {#tbl:table}
 
 # #include "rest.rst"
 
-<!--
-
 [CSV file with caption](data/table.csv){.table}
 
+<!--
 [Alignment = DLCR](data/table.csv){.table alignment=DLCR width=[0.5]}
 
 [Subset table](data/table.csv){.table subset_from=(1,2)}
