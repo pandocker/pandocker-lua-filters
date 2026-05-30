@@ -26,13 +26,17 @@ local get_ext = {
     ["html"] = "svg",
     ["html5"] = "svg",
     ["latex"] = "pdf",
-    ["docx"] = "png",
 }
 
 function convert_from_svg(el)
     --for k, v in pairs(el) do
     --    print(stringify(k), stringify(v))
     --end
+    if PANDOC_VERSION < { 3, 1, 10 } then
+        get_ext["docx"] = "png" -- docx writer has native svg support since 3.1.10
+    else
+        get_ext["docx"] = "svg"
+    end
     local ext = get_ext[FORMAT] or "png"
     local source_file = stringify(el.src)
     --debug(source_file)
