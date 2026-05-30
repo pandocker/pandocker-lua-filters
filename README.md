@@ -96,6 +96,8 @@ Lua filters for pandoc
 
 #### Code block numbering
 
+- Soft wrap will collapse layout. Set up `Source Code` paragraph style properly.
+
 [**`docx-codeblock-linenumber.lua`**](lua/docx-codeblock-linenumber.lua)
 
 #### Apply custom (paragraph) styles for each table cell
