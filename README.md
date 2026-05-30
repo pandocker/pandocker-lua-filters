@@ -53,6 +53,7 @@ Lua filters for pandoc
 #### Convert SVG images to other formats
 
 - requires `rsvg-convert` in `$PATH`
+- pandoc docx writer >= 3.1.10 will apply native feature
 
 [**`svgconvert.lua`**](lua/svgconvert.lua)
 
