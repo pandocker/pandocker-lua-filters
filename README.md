@@ -186,11 +186,22 @@ TOC title is set to "Table of Contents" by default. Metadata `toc-title` overrid
 |   5   | Heading 5 | Heading Unnumbered 5 |
 |   6   | Heading 6 |                      |
 
+#### Tabularize figures *WIP*
+
+[**`docx-tabularize-figures.lua`**](lua/docx-tabularize-figures.lua)
+
+- Finds `figurediv` class Div
+- Gets `col` attribute
+- Tabularize images in the Div into a table size of `col` cols
+- Adds `figurediv` class for each images to avoid further process by `docx-image-styles.lua`
+- Compatible with pandoc-crossref
+    - This filter must be applied _before_ pandoc-crossref
+
 #### Figure styles
 
 [**`docx-image-styles.lua`**](lua/docx-image-styles.lua)
 
-- Processes only paragraph having single image link
+- Processes only paragraph having single image link _except_ `figurediv` class
     - Blank lines required before and after image link
 - Requires `Graphic Anchor` and `Figure Caption` paragraph styles in template
   otherwise these styles inherit `Body` style
