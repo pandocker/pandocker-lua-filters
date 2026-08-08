@@ -89,7 +89,7 @@ if FORMAT == "docx" or FORMAT == "native" or FORMAT == "gfm" then
         if not el.classes:includes "figurediv" then
             return
         end
-        debug(MESSAGE)
+
         local cols = tonumber(el.attributes["col"]) or 1
         local rows = 1
         local ratio = 1 / cols
@@ -97,7 +97,8 @@ if FORMAT == "docx" or FORMAT == "native" or FORMAT == "gfm" then
         local table = my_table:clone()
 
         el.content[#el.content] = {}
-        el:walk({ Figure = figure, Image = tagging })
+        el = el:walk({ Figure = figure })
+        el = el:walk({ Image = tagging })
         --debug(#image_list)
 
         if #image_list % cols ~= 0 then
@@ -110,25 +111,27 @@ if FORMAT == "docx" or FORMAT == "native" or FORMAT == "gfm" then
         rows = #image_list // cols
 
         --debug(#image_list .. ", " .. cols .. ", " .. rows)
+        debug(MESSAGE .. cols .. " columns, " .. rows .. " rows")
 
         local cnt = 1
         local raw_cells = nil
         local row = nil
-        local body1 = table.bodies[1]
-        body1.body = pandoc.List()
+        local body = table.bodies[1]
+        body.body = pandoc.List()
         table.head = pandoc.TableHead({})
         table.colspecs = pandoc.List()
         table.caption = {}
+
         for i = 1, rows do
-            raw_cells = pList(image_list):slice(cnt, cnt + cols)
+            raw_cells = pList(image_list):slice(cnt, cnt + cols - 1)
             row = get_row(raw_cells)
-            body1.body:insert(row)
+            body.body:insert(row)
             --pretty.dump(row)
             cnt = cnt + cols
         end
 
         for i = 1, cols do
-            table.colspecs:insert({ ALIGN.D, ratio })
+            table.colspecs:insert({ pandoc.AlignDefault, ratio })
         end
 
         el.content = { table, title }
