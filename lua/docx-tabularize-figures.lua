@@ -78,7 +78,7 @@ if FORMAT == "docx" or FORMAT == "native" or FORMAT == "gfm" then
             --debug(im.identifier)
             return im
         end
-        fig:walk({ Image = f2i })
+        fig = fig:walk({ Image = f2i })
         --debug(tostring(fig.identifier))
         --pretty.dump(fig.content)
         return fig
