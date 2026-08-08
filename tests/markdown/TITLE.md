@@ -4,6 +4,20 @@
 
 # Section {.subsection-toc}
 
+:::{#fig:svg .figurediv}
+
+![another SVG file1](images/bitfield.svg){#fig:svg-1 width=70mm}
+![another SVG file2](images/bitfield.svg){#fig:svg-2 width=70mm}
+
+![another SVG file3](images/bitfield.svg){#fig:svg-3 width=70mm}
+![another SVG file4](images/bitfield.svg){#fig:svg-4 width=70mm}
+
+![another SVG file7](images/bitfield.svg){#fig:svg-7 width=70mm}
+![another SVG file5](images/bitfield.svg){#fig:svg-5 width=70mm}
+
+SVG
+:::
+
 text<br><br>text
 text
 
