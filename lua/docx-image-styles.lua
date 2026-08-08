@@ -37,11 +37,11 @@ if FORMAT == "docx" or FORMAT == "native" then
 
     local function para(elem)
         if #elem.content == 1 and elem.content[1].tag == "Image" then
+            local image = elem.content[1]
             if image.classes:includes "figurediv" then
                 return
             end
             debug(MESSAGE)
-            local image = elem.content[1]
             --debug(stringify(image.src))
             local caption_div = pandoc.Div({})
             local image_div = pandoc.Div({})
