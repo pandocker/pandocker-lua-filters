@@ -25,8 +25,7 @@ See also pandoc-crossref help page for subfigures: https://lierdakil.github.io/p
 
 ]]
 
-local pretty = require("pl.pretty")
-local tablex = require("pl.tablex")
+--local pretty = require("pl.pretty")
 local pList = require("pl.List")
 
 local stringify = require("pandoc.utils").stringify
