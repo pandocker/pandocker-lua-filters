@@ -46,12 +46,6 @@ local my_table = pandoc.read(table_template, "markdown").blocks[1]
 
 local empty_attr = { "", {}, {} }
 
-local ALIGN = { ["D"] = pandoc.AlignDefault,
-                ["L"] = pandoc.AlignLeft,
-                ["C"] = pandoc.AlignCenter,
-                ["R"] = pandoc.AlignRight
-}
-
 local function get_cell(c)
     return { attr = empty_attr,
              alignment = pandoc.AlignDefault,
