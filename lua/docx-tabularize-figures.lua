@@ -51,7 +51,7 @@ local function get_cell(c)
              alignment = pandoc.AlignDefault,
              row_span = 1,
              col_span = 1,
-             contents = pandoc.List({ c }) } -- Cell
+             contents = pandoc.List({ pandoc.Para({ c }) }) } -- Cell
 end
 
 local function get_row(t)
