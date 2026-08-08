@@ -31,7 +31,7 @@ local pList = require("pl.List")
 local stringify = require("pandoc.utils").stringify
 local debug = require("pandocker.utils").debug
 local deny_2_15 = require("pandocker.utils").deny_2_15
-local MESSAGE = "[ lua ] Tabularize figures"
+local MESSAGE = "[ lua ] Tabularize figures: "
 
 local padding_space = pandoc.Space()
 local table_template = [==[
