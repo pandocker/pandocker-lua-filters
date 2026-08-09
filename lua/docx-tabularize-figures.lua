@@ -95,6 +95,7 @@ if FORMAT == "docx" or FORMAT == "native" or FORMAT == "gfm" then
         local ratio = 1 / cols
         local title = el.content[#el.content]
         local table = my_table:clone()
+        image_list = pandoc.List({})
 
         el.content[#el.content] = {}
         el = el:walk({ Figure = figure })
